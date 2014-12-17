@@ -1,4 +1,4 @@
-# AWS SDK for Unity 
+# AWS Mobile SDK for Unity 
 The [AWS Mobile SDK for Unity](http://aws.amazon.com/mobile/sdk/) contains a set of .NET classes that enables games written with Unity to utilize AWS services. Supported AWS services currently include: Amazon Cognito, Amazon S3, and Amazon DynamoDB. The AWS Unity SDK also contains sample code that illustrate how to call AWS services from a Unity Game. 
 
 ## Requirements
