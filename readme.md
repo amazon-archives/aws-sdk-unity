@@ -9,7 +9,7 @@ The [AWS Mobile SDK for Unity](http://aws.amazon.com/mobile/sdk/) contains a set
 
 * **Amazon Cognito** – Amazon Cognito is a service that makes it easy to save user data, such as app preferences or game state, in the AWS Cloud without writing any backend code or managing any infrastructure. You can save data locally on users’ devices allowing your applications to work even when the devices are offline. You can also synchronize data across a user’s devices so that their app experience will be consistent regardless of the device they use.
 * **Amazon DynamoDB** – Amazon DynamoDB is a fast and flexible NoSQL database service for all applications that need consistent, single-digit millisecond latency at any scale. It is a fully managed database and supports both document and key-value data models. Its flexible data model and reliable performance make it a great fit for mobile, web, gaming, ad-tech, IoT, and many other applications.
-* **Amazon S3 ** – Amazon Simple Storage Service (Amazon S3), provides developers with secure, durable, highly-scalable object storage. The AWS Mobile SDK for Unity currently supports the following operations:
+* **Amazon S3** – Amazon Simple Storage Service (Amazon S3), provides developers with secure, durable, highly-scalable object storage. The AWS Mobile SDK for Unity currently supports the following operations:
   * `PostObject`
   * `GetObject`
   * `ListObjects`
