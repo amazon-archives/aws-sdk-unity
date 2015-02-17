@@ -18,7 +18,7 @@ using Amazon.Runtime.Internal.Auth;
 using Amazon.Runtime.Internal.Transform;
 using Amazon.Util;
 using Amazon.Runtime.Internal.Util;
-using Amazon.Unity;
+using Amazon.Unity3D;
 using System.Collections;
 using UnityEngine;
 using Amazon.CognitoIdentity;
@@ -88,43 +88,6 @@ namespace Amazon.Runtime
             //return result;
         }
 
-		[Obsolete]
-        protected void Invoke<T, R, A>(R request, Action<A> callback, IMarshaller<T, R> marshaller, ResponseUnmarshaller unmarshaller, AbstractAWSSigner signer)
-            where T : IRequest
-            where R : AmazonWebServiceRequest
-            where A : class
-        {
-            /*
-            AsyncResult result = null;
-            try
-            {
-
-                ProcessPreRequestHandlers(request);
-
-                IRequest irequest = marshaller.Marshall(request);
-                result = new AsyncResult(irequest, signer, unmarshaller);
-                result.VoidCallback = delegate
-                {
-                    if (callback != null)
-                        callback(result.FinalResponse as A);
-                };
-                result.FinalResponseType = typeof(A);
-                Invoke(result);
-            }
-            catch (Exception e)
-            {
-                AmazonLogging.LogError(AmazonLogging.AmazonLoggingLevel.Errors, "Runtime", e.Message);
-                if (result.Exception == null)
-                {
-                    result.Exception = e;
-                }
-                result.IsCompleted = true;
-
-                endAsync(result);
-            }
-            */
-        }
-
         private void Invoke(AsyncResult asyncResult)
         {
             asyncResult.Metrics.StartEvent(Metric.ClientExecuteTime);
@@ -155,7 +118,7 @@ namespace Amazon.Runtime
                 if (Credentials is CognitoAWSCredentials)
                 {
                     var cred = Credentials as CognitoAWSCredentials;
-                    // very hacky solution
+                    //FIXME: very hacky solution
                     cred.GetCredentialsAsync(delegate(AmazonServiceResult voidResult)
                     {
                         if (voidResult.Exception != null)
@@ -276,7 +239,6 @@ namespace Amazon.Runtime
                 }
 
                 asyncResult.RequestData = requestData;
-
                 // setting up callback for response handling 
                 asyncResult.WaitCallback = this.ProcessHttpResponse;
 
@@ -306,6 +268,8 @@ namespace Amazon.Runtime
             try
             {
                 asyncResult = state as AsyncResult;
+                asyncResult.ServiceResult.HttpResponseData = asyncResult.ResponseData;
+                
                 AmazonWebServiceResponse response = null;
                 UnmarshallerContext context = null;
 

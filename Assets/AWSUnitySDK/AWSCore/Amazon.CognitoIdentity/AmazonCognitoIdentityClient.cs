@@ -8,6 +8,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  *
  */
+
+
 using System;
 using System.Threading;
 
@@ -17,7 +19,7 @@ using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
 using Amazon.Runtime.Internal.Transform;
-using Amazon.Unity;
+using Amazon.Unity3D;
 
 namespace Amazon.CognitoIdentity
 {
@@ -47,12 +49,24 @@ namespace Amazon.CognitoIdentity
     /// </para>
     ///  
     /// <para>
-    /// Next, make an unsigned call to <a>GetOpenIdToken</a>, which returns the OpenID token
-    /// necessary to call STS and retrieve AWS credentials. This call expects the same <code>Logins</code>
-    /// map as the <code>GetId</code> call, as well as the <code>IdentityID</code> originally
-    /// returned by <code>GetId</code>. The token returned by <code>GetOpenIdToken</code>
-    /// can be passed to the STS operation <a href="http://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoleWithWebIdentity.html">AssumeRoleWithWebIdentity</a>
+    /// Next, make an unsigned call to <a>GetCredentialsForIdentity</a>. This call expects
+    /// the same <code>Logins</code> map as the <code>GetId</code> call, as well as the <code>IdentityID</code>
+    /// originally returned by <code>GetId</code>. Assuming your identity pool has been configured
+    /// via the <a>SetIdentityPoolRoles</a> operation, <code>GetCredentialsForIdentity</code>
+    /// will return AWS credentials for your use. If your pool has not been configured with
+    /// <code>SetIdentityPoolRoles</code>, or if you want to follow legacy flow, make an unsigned
+    /// call to <a>GetOpenIdToken</a>, which returns the OpenID token necessary to call STS
+    /// and retrieve AWS credentials. This call expects the same <code>Logins</code> map as
+    /// the <code>GetId</code> call, as well as the <code>IdentityID</code> originally returned
+    /// by <code>GetId</code>. The token returned by <code>GetOpenIdToken</code> can be passed
+    /// to the STS operation <a href="http://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoleWithWebIdentity.html">AssumeRoleWithWebIdentity</a>
     /// to retrieve AWS credentials.
+    /// </para>
+    ///  
+    /// <para>
+    /// If you want to use Amazon Cognito in an Android, iOS, or Unity application, you will
+    /// probably want to make API calls via the AWS Mobile SDK. To learn more, see the <a
+    /// href="http://docs.aws.amazon.com/mobile/index.html">AWS Mobile SDK Developer Guide</a>.
     /// </para>
     /// </summary>
     public partial class AmazonCognitoIdentityClient : AmazonWebServiceClient, IAmazonCognitoIdentity
@@ -71,66 +85,27 @@ namespace Amazon.CognitoIdentity
         #region Constructors
 
         /// <summary>
-        /// Constructs AmazonCognitoIdentityClient with the credentials loaded from the application's
-        /// default configuration, and if unsuccessful from the Instance Profile service on an EC2 instance.
-        /// 
-        /// Example App.config with credentials set. 
-        /// <code>
-        /// &lt;?xml version="1.0" encoding="utf-8" ?&gt;
-        /// &lt;configuration&gt;
-        ///     &lt;appSettings&gt;
-        ///         &lt;add key="AWSProfileName" value="AWS Default"/&gt;
-        ///     &lt;/appSettings&gt;
-        /// &lt;/configuration&gt;
-        /// </code>
-        ///
+        /// Constructs AmazonCognitoIdentityClient with the CachingCognitoAWSCredentials loaded 
+        /// from the AWSPrefab Editor variables along with the default RegionEndpoint(if any) of CognitoIdentity 
         /// </summary>
         public AmazonCognitoIdentityClient()
-            : base(FallbackCredentialsFactory.GetCredentials(), new AmazonCognitoIdentityConfig(), AuthenticationTypes.User | AuthenticationTypes.Session)
-        {
-        }
+            : base(FallbackCredentialsFactory.GetCredentials(), new AmazonCognitoIdentityConfig(), AuthenticationTypes.User | AuthenticationTypes.Session) { }
 
         /// <summary>
-        /// Constructs AmazonCognitoIdentityClient with the credentials loaded from the application's
-        /// default configuration, and if unsuccessful from the Instance Profile service on an EC2 instance.
-        /// 
-        /// Example App.config with credentials set. 
-        /// <code>
-        /// &lt;?xml version="1.0" encoding="utf-8" ?&gt;
-        /// &lt;configuration&gt;
-        ///     &lt;appSettings&gt;
-        ///         &lt;add key="AWSProfileName" value="AWS Default"/&gt;
-        ///     &lt;/appSettings&gt;
-        /// &lt;/configuration&gt;
-        /// </code>
-        ///
+        /// Constructs AmazonCognitoIdentityClient with the CachingCognitoAWSCredentials loaded 
+        /// from the AWSPrefab Editor variables
         /// </summary>
         /// <param name="region">The region to connect.</param>
         public AmazonCognitoIdentityClient(RegionEndpoint region)
-            : base(FallbackCredentialsFactory.GetCredentials(), new AmazonCognitoIdentityConfig { RegionEndpoint = region }, AuthenticationTypes.User | AuthenticationTypes.Session)
-        {
-        }
+            : base(FallbackCredentialsFactory.GetCredentials(), new AmazonCognitoIdentityConfig{RegionEndpoint = region}, AuthenticationTypes.User | AuthenticationTypes.Session) { }
 
         /// <summary>
-        /// Constructs AmazonCognitoIdentityClient with the credentials loaded from the application's
-        /// default configuration, and if unsuccessful from the Instance Profile service on an EC2 instance.
-        /// 
-        /// Example App.config with credentials set. 
-        /// <code>
-        /// &lt;?xml version="1.0" encoding="utf-8" ?&gt;
-        /// &lt;configuration&gt;
-        ///     &lt;appSettings&gt;
-        ///         &lt;add key="AWSProfileName" value="AWS Default"/&gt;
-        ///     &lt;/appSettings&gt;
-        /// &lt;/configuration&gt;
-        /// </code>
-        ///
+        /// Constructs AmazonCognitoIdentityClient with the CachingCognitoAWSCredentials loaded 
+        /// from the AWSPrefab Editor variables
         /// </summary>
         /// <param name="config">The AmazonCognitoIdentityClient Configuration Object</param>
         public AmazonCognitoIdentityClient(AmazonCognitoIdentityConfig config)
-            : base(FallbackCredentialsFactory.GetCredentials(), config, AuthenticationTypes.User | AuthenticationTypes.Session)
-        {
-        }
+            : base(FallbackCredentialsFactory.GetCredentials(), config, AuthenticationTypes.User | AuthenticationTypes.Session) { }
 
         /// <summary>
         /// Constructs AmazonCognitoIdentityClient with AWS Credentials
@@ -147,8 +122,9 @@ namespace Amazon.CognitoIdentity
         /// <param name="credentials">AWS Credentials</param>
         /// <param name="region">The region to connect.</param>
         public AmazonCognitoIdentityClient(AWSCredentials credentials, RegionEndpoint region)
-            : this(credentials, new AmazonCognitoIdentityConfig { RegionEndpoint = region })
+            : this(credentials, new AmazonCognitoIdentityConfig{RegionEndpoint = region})
         {
+
         }
 
         /// <summary>
@@ -179,7 +155,7 @@ namespace Amazon.CognitoIdentity
         /// <param name="awsSecretAccessKey">AWS Secret Access Key</param>
         /// <param name="region">The region to connect.</param>
         public AmazonCognitoIdentityClient(string awsAccessKeyId, string awsSecretAccessKey, RegionEndpoint region)
-            : this(awsAccessKeyId, awsSecretAccessKey, new AmazonCognitoIdentityConfig() { RegionEndpoint = region })
+            : this(awsAccessKeyId, awsSecretAccessKey, new AmazonCognitoIdentityConfig() {RegionEndpoint=region})
         {
         }
 
@@ -214,7 +190,7 @@ namespace Amazon.CognitoIdentity
         /// <param name="awsSessionToken">AWS Session Token</param>
         /// <param name="region">The region to connect.</param>
         public AmazonCognitoIdentityClient(string awsAccessKeyId, string awsSecretAccessKey, string awsSessionToken, RegionEndpoint region)
-            : this(awsAccessKeyId, awsSecretAccessKey, awsSessionToken, new AmazonCognitoIdentityConfig { RegionEndpoint = region })
+            : this(awsAccessKeyId, awsSecretAccessKey, awsSessionToken, new AmazonCognitoIdentityConfig{RegionEndpoint = region})
         {
         }
 
@@ -233,10 +209,10 @@ namespace Amazon.CognitoIdentity
 
         #endregion
 
-#if CONTROLPANEL_API_SUPPORT
-        #region  CreateIdentityPool
         
-        /// NOT SUPPORTED - Since it is Control Panel API
+        #region  CreateIdentityPool
+
+
         /// <summary>
         /// Initiates the asynchronous execution of the CreateIdentityPool operation.
         /// <seealso cref="Amazon.CognitoIdentity.IAmazonCognitoIdentity"/>
@@ -250,22 +226,22 @@ namespace Amazon.CognitoIdentity
         {
             if (!AmazonInitializer.IsInitialized)
                 throw new Exception("AWSPrefab is not added to the scene");
-            
+
             ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
-                                                          {
+            {
                 var marshaller = new CreateIdentityPoolRequestMarshaller();
                 var unmarshaller = CreateIdentityPoolResponseUnmarshaller.Instance;
                 Invoke(request, callback, state, marshaller, unmarshaller, signer);
             }));
             return;
         }
-        
-        
+
+
         #endregion
         
         #region  DeleteIdentityPool
-        
-        /// NOT SUPPORTED - Since it is Control Panel API
+
+
         /// <summary>
         /// Initiates the asynchronous execution of the DeleteIdentityPool operation.
         /// <seealso cref="Amazon.CognitoIdentity.IAmazonCognitoIdentity"/>
@@ -279,22 +255,51 @@ namespace Amazon.CognitoIdentity
         {
             if (!AmazonInitializer.IsInitialized)
                 throw new Exception("AWSPrefab is not added to the scene");
-            
+
             ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
-                                                          {
+            {
                 var marshaller = new DeleteIdentityPoolRequestMarshaller();
                 var unmarshaller = DeleteIdentityPoolResponseUnmarshaller.Instance;
                 Invoke(request, callback, state, marshaller, unmarshaller, signer);
             }));
             return;
         }
+
+
+        #endregion
         
-        
+        #region  DescribeIdentity
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the DescribeIdentity operation.
+        /// <seealso cref="Amazon.CognitoIdentity.IAmazonCognitoIdentity"/>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the DescribeIdentity operation.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <returns>void</returns>
+        public void DescribeIdentityAsync(DescribeIdentityRequest request, AmazonServiceCallback callback, object state)
+        {
+            if (!AmazonInitializer.IsInitialized)
+                throw new Exception("AWSPrefab is not added to the scene");
+
+            ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
+            {
+                var marshaller = new DescribeIdentityRequestMarshaller();
+                var unmarshaller = DescribeIdentityResponseUnmarshaller.Instance;
+                Invoke(request, callback, state, marshaller, unmarshaller, signer);
+            }));
+            return;
+        }
+
+
         #endregion
         
         #region  DescribeIdentityPool
-        
-        /// NOT SUPPORTED - Since it is Control Panel API
+
+
         /// <summary>
         /// Initiates the asynchronous execution of the DescribeIdentityPool operation.
         /// <seealso cref="Amazon.CognitoIdentity.IAmazonCognitoIdentity"/>
@@ -308,20 +313,48 @@ namespace Amazon.CognitoIdentity
         {
             if (!AmazonInitializer.IsInitialized)
                 throw new Exception("AWSPrefab is not added to the scene");
-            
+
             ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
-                                                          {
+            {
                 var marshaller = new DescribeIdentityPoolRequestMarshaller();
                 var unmarshaller = DescribeIdentityPoolResponseUnmarshaller.Instance;
                 Invoke(request, callback, state, marshaller, unmarshaller, signer);
             }));
             return;
         }
-        
-        
-        #endregion
-#endif
 
+
+        #endregion
+        
+        #region  GetCredentialsForIdentity
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetCredentialsForIdentity operation.
+        /// <seealso cref="Amazon.CognitoIdentity.IAmazonCognitoIdentity"/>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetCredentialsForIdentity operation.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <returns>void</returns>
+        public void GetCredentialsForIdentityAsync(GetCredentialsForIdentityRequest request, AmazonServiceCallback callback, object state)
+        {
+            if (!AmazonInitializer.IsInitialized)
+                throw new Exception("AWSPrefab is not added to the scene");
+
+            ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
+            {
+                var marshaller = new GetCredentialsForIdentityRequestMarshaller();
+                var unmarshaller = GetCredentialsForIdentityResponseUnmarshaller.Instance;
+                Invoke(request, callback, state, marshaller, unmarshaller, signer);
+            }));
+            return;
+        }
+
+
+        #endregion
+        
         #region  GetId
 
 
@@ -350,7 +383,36 @@ namespace Amazon.CognitoIdentity
 
 
         #endregion
+        
+        #region  GetIdentityPoolRoles
 
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetIdentityPoolRoles operation.
+        /// <seealso cref="Amazon.CognitoIdentity.IAmazonCognitoIdentity"/>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the GetIdentityPoolRoles operation.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <returns>void</returns>
+        public void GetIdentityPoolRolesAsync(GetIdentityPoolRolesRequest request, AmazonServiceCallback callback, object state)
+        {
+            if (!AmazonInitializer.IsInitialized)
+                throw new Exception("AWSPrefab is not added to the scene");
+
+            ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
+            {
+                var marshaller = new GetIdentityPoolRolesRequestMarshaller();
+                var unmarshaller = GetIdentityPoolRolesResponseUnmarshaller.Instance;
+                Invoke(request, callback, state, marshaller, unmarshaller, signer);
+            }));
+            return;
+        }
+
+
+        #endregion
+        
         #region  GetOpenIdToken
 
 
@@ -379,11 +441,10 @@ namespace Amazon.CognitoIdentity
 
 
         #endregion
-
-#if CONTROLPANEL_API_SUPPORT
+        
         #region  GetOpenIdTokenForDeveloperIdentity
-        
-        
+
+
         /// <summary>
         /// Initiates the asynchronous execution of the GetOpenIdTokenForDeveloperIdentity operation.
         /// <seealso cref="Amazon.CognitoIdentity.IAmazonCognitoIdentity"/>
@@ -393,26 +454,26 @@ namespace Amazon.CognitoIdentity
         /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
         ///          procedure using the AsyncState property.</param>
         /// <returns>void</returns>
-        public void GetOpenIdTokenForDeveloperIdentityAsync (GetOpenIdTokenForDeveloperIdentityRequest request, AmazonServiceCallback callback, object state)
+        public void GetOpenIdTokenForDeveloperIdentityAsync(GetOpenIdTokenForDeveloperIdentityRequest request, AmazonServiceCallback callback, object state)
         {
             if (!AmazonInitializer.IsInitialized)
-                throw new Exception ("AWSPrefab is not added to the scene");
-            
-            ThreadPool.QueueUserWorkItem (new WaitCallback (delegate
+                throw new Exception("AWSPrefab is not added to the scene");
+
+            ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
             {
-                var marshaller = new GetOpenIdTokenForDeveloperIdentityRequestMarshaller ();
+                var marshaller = new GetOpenIdTokenForDeveloperIdentityRequestMarshaller();
                 var unmarshaller = GetOpenIdTokenForDeveloperIdentityResponseUnmarshaller.Instance;
-                Invoke (request, callback, state, marshaller, unmarshaller, signer);
+                Invoke(request, callback, state, marshaller, unmarshaller, signer);
             }));
             return;
         }
-        
-        
-        #endregion
 
-        #region  ListIdentities
+
+        #endregion
         
-        /// NOT SUPPORTED - Since it is Control Panel API
+        #region  ListIdentities
+
+
         /// <summary>
         /// Initiates the asynchronous execution of the ListIdentities operation.
         /// <seealso cref="Amazon.CognitoIdentity.IAmazonCognitoIdentity"/>
@@ -426,22 +487,22 @@ namespace Amazon.CognitoIdentity
         {
             if (!AmazonInitializer.IsInitialized)
                 throw new Exception("AWSPrefab is not added to the scene");
-            
+
             ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
-                                                          {
+            {
                 var marshaller = new ListIdentitiesRequestMarshaller();
                 var unmarshaller = ListIdentitiesResponseUnmarshaller.Instance;
                 Invoke(request, callback, state, marshaller, unmarshaller, signer);
             }));
             return;
         }
-        
-        
+
+
         #endregion
         
         #region  ListIdentityPools
-        
-        /// NOT SUPPORTED - Since it is Control Panel API
+
+
         /// <summary>
         /// Initiates the asynchronous execution of the ListIdentityPools operation.
         /// <seealso cref="Amazon.CognitoIdentity.IAmazonCognitoIdentity"/>
@@ -455,22 +516,22 @@ namespace Amazon.CognitoIdentity
         {
             if (!AmazonInitializer.IsInitialized)
                 throw new Exception("AWSPrefab is not added to the scene");
-            
+
             ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
-                                                          {
+            {
                 var marshaller = new ListIdentityPoolsRequestMarshaller();
                 var unmarshaller = ListIdentityPoolsResponseUnmarshaller.Instance;
                 Invoke(request, callback, state, marshaller, unmarshaller, signer);
             }));
             return;
         }
-        
-        
+
+
         #endregion
         
         #region  LookupDeveloperIdentity
-        
-        /// NOT SUPPORTED - Since it is Control Panel API
+
+
         /// <summary>
         /// Initiates the asynchronous execution of the LookupDeveloperIdentity operation.
         /// <seealso cref="Amazon.CognitoIdentity.IAmazonCognitoIdentity"/>
@@ -484,22 +545,22 @@ namespace Amazon.CognitoIdentity
         {
             if (!AmazonInitializer.IsInitialized)
                 throw new Exception("AWSPrefab is not added to the scene");
-            
+
             ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
-                                                          {
+            {
                 var marshaller = new LookupDeveloperIdentityRequestMarshaller();
                 var unmarshaller = LookupDeveloperIdentityResponseUnmarshaller.Instance;
                 Invoke(request, callback, state, marshaller, unmarshaller, signer);
             }));
             return;
         }
-        
-        
+
+
         #endregion
         
         #region  MergeDeveloperIdentities
-        
-        /// NOT SUPPORTED - Since it is Control Panel API
+
+
         /// <summary>
         /// Initiates the asynchronous execution of the MergeDeveloperIdentities operation.
         /// <seealso cref="Amazon.CognitoIdentity.IAmazonCognitoIdentity"/>
@@ -513,20 +574,50 @@ namespace Amazon.CognitoIdentity
         {
             if (!AmazonInitializer.IsInitialized)
                 throw new Exception("AWSPrefab is not added to the scene");
-            
+
             ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
-                                                          {
+            {
                 var marshaller = new MergeDeveloperIdentitiesRequestMarshaller();
                 var unmarshaller = MergeDeveloperIdentitiesResponseUnmarshaller.Instance;
                 Invoke(request, callback, state, marshaller, unmarshaller, signer);
             }));
             return;
         }
-        
-        
-        #endregion
 
+
+        #endregion
+        
+        #region  SetIdentityPoolRoles
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the SetIdentityPoolRoles operation.
+        /// <seealso cref="Amazon.CognitoIdentity.IAmazonCognitoIdentity"/>
+        /// </summary>
+        /// <param name="request">Container for the necessary parameters to execute the SetIdentityPoolRoles operation.</param>
+        /// <param name="callback">An AsyncCallback delegate that is invoked when the operation completes</param>
+        /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        /// <returns>void</returns>
+        public void SetIdentityPoolRolesAsync(SetIdentityPoolRolesRequest request, AmazonServiceCallback callback, object state)
+        {
+            if (!AmazonInitializer.IsInitialized)
+                throw new Exception("AWSPrefab is not added to the scene");
+
+            ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
+            {
+                var marshaller = new SetIdentityPoolRolesRequestMarshaller();
+                var unmarshaller = SetIdentityPoolRolesResponseUnmarshaller.Instance;
+                Invoke(request, callback, state, marshaller, unmarshaller, signer);
+            }));
+            return;
+        }
+
+
+        #endregion
+        
         #region  UnlinkDeveloperIdentity
+
 
         /// <summary>
         /// Initiates the asynchronous execution of the UnlinkDeveloperIdentity operation.
@@ -537,23 +628,23 @@ namespace Amazon.CognitoIdentity
         /// <param name="state">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
         ///          procedure using the AsyncState property.</param>
         /// <returns>void</returns>
-        public void UnlinkDeveloperIdentityAsync (UnlinkDeveloperIdentityRequest request, AmazonServiceCallback callback, object state)
+        public void UnlinkDeveloperIdentityAsync(UnlinkDeveloperIdentityRequest request, AmazonServiceCallback callback, object state)
         {
             if (!AmazonInitializer.IsInitialized)
-                throw new Exception ("AWSPrefab is not added to the scene");
-            
-            ThreadPool.QueueUserWorkItem (new WaitCallback (delegate
+                throw new Exception("AWSPrefab is not added to the scene");
+
+            ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
             {
-                var marshaller = new UnlinkDeveloperIdentityRequestMarshaller ();
+                var marshaller = new UnlinkDeveloperIdentityRequestMarshaller();
                 var unmarshaller = UnlinkDeveloperIdentityResponseUnmarshaller.Instance;
-                Invoke (request, callback, state, marshaller, unmarshaller, signer);
+                Invoke(request, callback, state, marshaller, unmarshaller, signer);
             }));
             return;
         }
-        
-        
+
+
         #endregion
-#endif
+        
         #region  UnlinkIdentity
 
 
@@ -582,11 +673,10 @@ namespace Amazon.CognitoIdentity
 
 
         #endregion
-
-#if CONTROLPANEL_API_SUPPORT
-        #region  UpdateIdentityPool
         
-        /// NOT SUPPORTED - Since it is Control Panel API
+        #region  UpdateIdentityPool
+
+
         /// <summary>
         /// Initiates the asynchronous execution of the UpdateIdentityPool operation.
         /// <seealso cref="Amazon.CognitoIdentity.IAmazonCognitoIdentity"/>
@@ -600,18 +690,18 @@ namespace Amazon.CognitoIdentity
         {
             if (!AmazonInitializer.IsInitialized)
                 throw new Exception("AWSPrefab is not added to the scene");
-            
+
             ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
-                                                          {
+            {
                 var marshaller = new UpdateIdentityPoolRequestMarshaller();
                 var unmarshaller = UpdateIdentityPoolResponseUnmarshaller.Instance;
                 Invoke(request, callback, state, marshaller, unmarshaller, signer);
             }));
             return;
         }
-        
-        
+
+
         #endregion
-#endif
+        
     }
 }

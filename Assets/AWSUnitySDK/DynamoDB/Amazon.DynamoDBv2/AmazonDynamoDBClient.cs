@@ -19,7 +19,7 @@ using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
 using Amazon.Runtime.Internal.Transform;
-using Amazon.Unity;
+using Amazon.Unity3D;
 
 namespace Amazon.DynamoDBv2
 {
@@ -200,14 +200,14 @@ namespace Amazon.DynamoDBv2
         #region Constructors
 
         /// <summary>
-        /// Constructs AmazonDynamoDBClient with the CachingCognitoAWSCredentials loaded 
+        /// Constructs AmazonDynamoDBClient with the CognitoAWSCredentials loaded 
         /// from the AWSPrefab Editor variables along with the default RegionEndpoint(if any) of DynamoDB 
         /// </summary>
         public AmazonDynamoDBClient()
             : base(FallbackCredentialsFactory.GetCredentials(), new AmazonDynamoDBConfig(), AuthenticationTypes.User | AuthenticationTypes.Session) { }
 
         /// <summary>
-        /// Constructs AmazonDynamoDBClient with the CachingCognitoAWSCredentials loaded 
+        /// Constructs AmazonDynamoDBClient with the CognitoAWSCredentials loaded 
         /// from the AWSPrefab Editor variables
         /// </summary>
         /// <param name="region">The region to connect.</param>
@@ -215,7 +215,7 @@ namespace Amazon.DynamoDBv2
             : base(FallbackCredentialsFactory.GetCredentials(), new AmazonDynamoDBConfig{RegionEndpoint = region}, AuthenticationTypes.User | AuthenticationTypes.Session) { }
 
         /// <summary>
-        /// Constructs AmazonDynamoDBClient with the CachingCognitoAWSCredentials loaded 
+        /// Constructs AmazonDynamoDBClient with the CognitoAWSCredentials loaded 
         /// from the AWSPrefab Editor variables
         /// </summary>
         /// <param name="config">The AmazonDynamoDBClient Configuration Object</param>

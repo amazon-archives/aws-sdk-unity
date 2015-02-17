@@ -18,6 +18,12 @@
               "Hostname": "cognito-identity.us-east-1.amazonaws.com"
             },
             {
+              "ServiceName": "mobileanalytics",
+              "Http": "false",
+              "Https": "true",
+              "Hostname": "mobileanalytics.us-east-1.amazonaws.com"
+            },
+            {
               "ServiceName": "cloudformation",
               "Http": "false",
               "Https": "true",

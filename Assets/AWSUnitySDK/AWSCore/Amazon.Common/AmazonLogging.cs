@@ -79,16 +79,16 @@ namespace Amazon.Common
             {
                 switch (reportLevel)
                 {
-                    case AmazonLoggingLevel.ErrorsAsExceptions:
-                        throw new System.Exception(serviceAndMessage);
-                    case AmazonLoggingLevel.Critical:
-                    case AmazonLoggingLevel.Errors:
-                    case AmazonLoggingLevel.Warnings:
-                    case AmazonLoggingLevel.Verbose:
-                        Debug.LogError(serviceAndMessage);
-                        break;
-                    default:
-                        break;
+					case AmazonLoggingLevel.ErrorsAsExceptions:
+						throw new System.Exception(serviceAndMessage);
+					case AmazonLoggingLevel.Critical:
+					case AmazonLoggingLevel.Errors:
+					case AmazonLoggingLevel.Warnings:
+					case AmazonLoggingLevel.Verbose:
+						Debug.LogError(serviceAndMessage);
+						break;
+					default:
+						break;
                 }
             }
 

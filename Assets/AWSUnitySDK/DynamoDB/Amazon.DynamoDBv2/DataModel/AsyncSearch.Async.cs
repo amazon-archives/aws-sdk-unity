@@ -13,7 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Amazon.DynamoDBv2;
-using Amazon.Unity;
+using Amazon.Unity3D;
 using System.Threading;
 using Amazon.DynamoDBv2.Model;
 

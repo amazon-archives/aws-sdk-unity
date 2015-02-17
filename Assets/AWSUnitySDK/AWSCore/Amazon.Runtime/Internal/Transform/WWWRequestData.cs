@@ -43,7 +43,7 @@ namespace Amazon.Runtime.Internal.Transform
         public WWW FireRequest()
         {
             // checking for main thread
-            if (!Amazon.Unity.AmazonMainThreadDispatcher.IsMainThread)
+            if (!Amazon.Unity3D.AmazonMainThreadDispatcher.IsMainThread)
             {
                 throw new InvalidOperationException("Supported only on main(game) thread");
             }
@@ -106,7 +106,7 @@ namespace Amazon.Runtime.Internal.Transform
         public WWWResponseData GetResponseData()
         {
             // checking for main thread
-            if (!Amazon.Unity.AmazonMainThreadDispatcher.IsMainThread)
+            if (!Amazon.Unity3D.AmazonMainThreadDispatcher.IsMainThread)
             {
                 throw new InvalidOperationException("Supported only on main(game) thread");
             }

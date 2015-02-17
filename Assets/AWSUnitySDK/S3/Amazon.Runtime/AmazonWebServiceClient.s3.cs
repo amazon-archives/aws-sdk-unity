@@ -18,7 +18,7 @@ using Amazon.Runtime.Internal.Auth;
 using Amazon.Runtime.Internal.Transform;
 using Amazon.Util;
 using Amazon.Runtime.Internal.Util;
-using Amazon.Unity;
+using Amazon.Unity3D;
 using System.Collections;
 using UnityEngine;
 using Amazon.S3.Util;
@@ -189,6 +189,8 @@ namespace Amazon.Runtime
             try
             {
                 asyncResult = state as AsyncResult;
+                asyncResult.ServiceResult.HttpResponseData = asyncResult.ResponseData;
+                
                 S3PostUploadResponse response = new S3PostUploadResponse();
 
                 WWWResponseData responseData = asyncResult.ResponseData;

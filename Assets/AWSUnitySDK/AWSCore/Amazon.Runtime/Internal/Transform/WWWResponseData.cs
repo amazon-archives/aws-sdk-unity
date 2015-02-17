@@ -25,19 +25,19 @@ namespace Amazon.Runtime.Internal.Transform
     /// </summary>
     internal class WWWResponseData : IWebResponseData
     {
-        private Dictionary<string, string> _responseHeaders;
         private byte[] _bytes;
-
-        public string Error { get; set; }
-
         private Stream _response = null;
 
+        public Dictionary<string, string> ResponseHeaders {get;set;}
+        public string Error { get; set; }
+        
         public WWWResponseData(WWW request)
         {
-            if (!Amazon.Unity.AmazonMainThreadDispatcher.IsMainThread)
+            if (!Amazon.Unity3D.AmazonMainThreadDispatcher.IsMainThread)
                 throw new InvalidOperationException("Supported only on main(game) thread");
 
-            this._responseHeaders = request.responseHeaders;
+            this.ResponseHeaders = request.responseHeaders;
+
             this.Error = request.error;
 
             if (request.error == null)
@@ -46,7 +46,7 @@ namespace Amazon.Runtime.Internal.Transform
 
         public string ContentType
         {
-            get { return this._responseHeaders.ContainsKey("CONTENT-TYPE") ? this._responseHeaders["CONTENT-TYPE"] : null; }
+            get { return this.ResponseHeaders.ContainsKey("CONTENT-TYPE") ? this.ResponseHeaders["CONTENT-TYPE"] : null; }
         }
 
         public byte[] GetBytes()
@@ -69,7 +69,7 @@ namespace Amazon.Runtime.Internal.Transform
             get
             {
                 return (HttpStatusCode)Enum.Parse(typeof(HttpStatusCode),
-                                         _responseHeaders["STATUS"].Substring(13).Replace(" ", ""));
+                                         ResponseHeaders["STATUS"].Substring(13).Replace(" ", ""));
 
             }
         }
@@ -79,12 +79,12 @@ namespace Amazon.Runtime.Internal.Transform
             get
             {
                 int statusCode = 0;
-                // Error is of the form : "400 Bad Request"
+                // Error is of the form : "400 Bad Request" or "403: Forbidden"
                 if (string.IsNullOrEmpty(this.Error))
                     throw new Exception("WWW error is null, cannot parse error code");
                 else if (Int32.TryParse(this.Error.Substring(0,3), out statusCode))
                     return (HttpStatusCode)Enum.Parse(typeof(HttpStatusCode),
-                                                  this.Error.Substring(3).Replace(" ", ""));
+                                                  this.Error.Substring(3).Replace(" ", "").Replace(":","").Trim(),true);//ignored case
                 else
                     return 0;
 
@@ -94,18 +94,18 @@ namespace Amazon.Runtime.Internal.Transform
         public bool IsHeaderPresent(string headerName)
         {
 
-            return _responseHeaders.ContainsKey(headerName);
+            return ResponseHeaders.ContainsKey(headerName);
         }
 
         public string[] GetHeaderNames()
         {
-            return _responseHeaders.Keys.ToArray();
+            return ResponseHeaders.Keys.ToArray();
         }
 
         public string GetHeaderValue(string name)
         {
-            if (this._responseHeaders.ContainsKey(name))
-                return this._responseHeaders[name];
+            if (this.ResponseHeaders.ContainsKey(name))
+                return this.ResponseHeaders[name];
             else
                 return null;
         }

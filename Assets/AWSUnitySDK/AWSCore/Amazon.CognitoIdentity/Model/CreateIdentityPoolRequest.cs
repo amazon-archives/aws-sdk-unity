@@ -99,7 +99,10 @@ namespace Amazon.CognitoIdentity.Model
 
 
         /// <summary>
-        /// Gets and sets the property OpenIdConnectProviderARNs.
+        /// Gets and sets the property OpenIdConnectProviderARNs. 
+        /// <para>
+        /// A list of OpendID Connect provider ARNs.
+        /// </para>
         /// </summary>
         public List<string> OpenIdConnectProviderARNs
         {

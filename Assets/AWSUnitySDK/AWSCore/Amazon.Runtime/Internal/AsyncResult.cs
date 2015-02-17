@@ -16,7 +16,7 @@ using System.Threading;
 using Amazon.Runtime.Internal.Auth;
 using Amazon.Runtime.Internal.Transform;
 using Amazon.Runtime.Internal.Util;
-using Amazon.Unity;
+using Amazon.Unity3D;
 
 #if (WIN_RT || WINDOWS_PHONE)
 using Amazon.MissingTypes;

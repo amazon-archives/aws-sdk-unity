@@ -19,7 +19,7 @@ using Amazon.Runtime.Internal.Auth;
 using Amazon.Runtime.Internal.Transform;
 using System.Collections.Generic;
 using Amazon.S3.Util;
-using Amazon.Unity;
+using Amazon.Unity3D;
 using UnityEngine;
 using System.Globalization;
 using System.Collections;

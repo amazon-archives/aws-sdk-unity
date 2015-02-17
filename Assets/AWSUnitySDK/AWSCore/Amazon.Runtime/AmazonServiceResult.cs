@@ -9,6 +9,7 @@
  *
  */
 using System;
+using Amazon.Runtime.Internal.Transform;
 
 namespace Amazon.Runtime
 {
@@ -33,6 +34,8 @@ namespace Amazon.Runtime
         public Exception Exception { get; internal set; }
         
         public object State { get; internal set; }
+
+        internal WWWResponseData HttpResponseData { get;set;}
         
         internal AmazonServiceResult (AmazonWebServiceRequest request, object state)
         {

@@ -16,7 +16,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Amazon;
-using Amazon.Unity;
+using Amazon.Unity3D;
 using Amazon.Runtime;
 using Amazon.CognitoIdentity.Model;
 
@@ -46,7 +46,7 @@ namespace Amazon.CognitoIdentity
         protected string _identityId;
         protected string _token;
 
-        protected IAmazonCognitoIdentity cib;
+        public IAmazonCognitoIdentity cib;
 
         protected bool IsIdentitySet { get { return !string.IsNullOrEmpty(_identityId); } }
 
@@ -54,7 +54,7 @@ namespace Amazon.CognitoIdentity
         public void UpdateIdentity(string newIdentityId)
         {
             // No-op if new IdentityId is same as old
-            if (string.Equals(_identityId, newIdentityId, StringComparison.Ordinal))
+            if (_identityId == newIdentityId) 
                 return;
 
             // Swap in new identity
@@ -74,8 +74,6 @@ namespace Amazon.CognitoIdentity
 
         public AbstractCognitoIdentityProvider(string accountId, string identityPoolId)
         {
-            if (string.IsNullOrEmpty(accountId))
-                throw new ArgumentNullException("accountId");
             if (string.IsNullOrEmpty(identityPoolId))
                 throw new ArgumentNullException("identityPoolId");
             this.AccountId = accountId;
@@ -107,11 +105,9 @@ namespace Amazon.CognitoIdentity
         public void Clear()
         {
             _identityId = null;
-            // ClearCredentials();
+			Logins.Clear();
         }
-
-
-
+   
         /// <summary>
         /// The list of current providers that are used for authenticated credentials.
         /// </summary>
@@ -124,10 +120,10 @@ namespace Amazon.CognitoIdentity
         /// Removes a provider from the collection of logins.
         /// </summary>
         /// <param name="providerName">The provider name for the login (i.e. graph.facebook.com)</param>
+      [Obsolete("Use AWSCredentials.RemoveLogin")]
         public void RemoveLogin(string providerName)
         {
             this.Logins.Remove(providerName);
-            this.Clear();
         }
 
         /// <summary>
@@ -135,12 +131,11 @@ namespace Amazon.CognitoIdentity
         /// </summary>
         /// <param name="providerName">The provider name for the login (i.e. graph.facebook.com)</param>
         /// <param name="token">The token provided by the identity provider.</param>
+      [Obsolete("Use AWSCredentials.AddLogin")]
         public void AddLogin(string providerName, string token)
         {
             Logins[providerName] = token;
-            this.Clear();
         }
-
 
         /// <summary>
         /// Gets the Identity Id corresponding to the credentials retrieved from Cognito.
@@ -151,7 +146,6 @@ namespace Amazon.CognitoIdentity
         {
             return _identityId;
         }
-
 
         /// <summary>
         /// Event for identity change notifications.

@@ -16,9 +16,6 @@ using System.Net;
 using System.Runtime.InteropServices;
 using System.Security;
 using Amazon.CognitoIdentity;
-#if BCL
-using System.Configuration;
-#endif
 
 using ThirdParty.Json.LitJson;
 using Amazon.Runtime.Internal.Util;
@@ -212,296 +209,7 @@ namespace Amazon.Runtime
 
     }
 
-#if BCL
-
-    /// <summary>
-    /// Credentials that are retrieved using the stored profile. The SDK Store is searched which is the credentials store shared with the SDK, PowerShell CLI and Toolkit. 
-    /// To manage the SDK Store with the SDK use Amazon.Util.ProfileManager. If the profile is not found in the SDK Store then credentials file shared with other AWS SDKs 
-    /// is searched. The credentials file is stored in the .aws directory in the current user's home directory.
-    /// <para>
-    /// The profile name can be specified in the App.config using the AWSProfileName setting.
-    /// </para>
-    /// <para>
-    /// The location to search for credentials can be overridden in the App.config using the AWSProfilesLocation setting.
-    /// </para>
-    /// </summary>
-    public class StoredProfileAWSCredentials : AWSCredentials
-    {
-    #region Private members
-
-        private const string DEFAULT_PROFILE_NAME = "default";
-
-        private static readonly Logger LOGGER = Logger.GetLogger(typeof(AWSCredentials));
-
-        private ImmutableCredentials _wrappedCredentials;
-
-        #endregion
-
-    #region Public constructors
-
-        /// <summary>
-        /// Constructs an instance of StoredProfileAWSCredentials. This constructor searches for credentials using the 
-        /// account name specified in the App.config. If no account is specified then the default credentials are used.
-        /// </summary>
-        public StoredProfileAWSCredentials()
-            : this(AWSConfigs.AWSProfileName)
-        {
-
-        }
-
-        /// <summary>
-        /// Constructs an instance of StoredProfileAWSCredentials. Credentials will be searched for using the profileName parameter.
-        /// </summary>
-        /// <param name="profileName">The profile name to search for credentials for</param>
-        public StoredProfileAWSCredentials(string profileName)
-            : this(profileName, AWSConfigs.AWSProfilesLocation)
-        {
-
-        }
-
-        /// <summary>
-        /// Constructs an instance of StoredProfileAWSCredentials. Credentials will be searched for using the profileName parameter.
-        /// </summary>
-        /// <param name="profileName">The profile name to search for credentials for</param>
-        /// <param name="profilesLocation">Overrides the location to search for credentials</param>
-        public StoredProfileAWSCredentials(string profileName, string profilesLocation)
-        {
-            NameValueCollection appConfig = ConfigurationManager.AppSettings;
-
-            var lookupName = string.IsNullOrEmpty(profileName) ? DEFAULT_PROFILE_NAME : profileName;
-            ProfileName = lookupName;
-            ProfilesLocation = null;
-
-            // If not overriding the credentials lookup location check the SDK Store for credentials. If an override is being used then
-            // assume the intent is to use the credentials file.
-            if (string.IsNullOrEmpty(profilesLocation))
-            {
-                AWSCredentials credentials;
-                if (Amazon.Util.ProfileManager.TryGetAWSCredentials(lookupName, out credentials))
-                {
-                    this._wrappedCredentials = credentials.GetCredentials();
-                    LOGGER.InfoFormat("Credentials found using account name {0} and looking in SDK account store.", lookupName);
-                }
-            }
-
-            // If credentials weren't found in the SDK store then search the shared credentials file.
-            if (this._wrappedCredentials == null)
-            {
-                var credentialsFilePath = DetermineCredentialsFilePath(profilesLocation);
-                if (File.Exists(credentialsFilePath))
-                {                    
-                    string accessKeyId, secretKey;
-                    SearchCredentialsFile(credentialsFilePath, lookupName, out accessKeyId, out secretKey);
-
-                    if (accessKeyId != null && secretKey != null)
-                    {
-                        this._wrappedCredentials = new ImmutableCredentials(accessKeyId, secretKey, null);
-                        LOGGER.InfoFormat("Credentials found using account name {0} and looking in {1}.", lookupName, credentialsFilePath);
-                    }
-
-                    ProfilesLocation = credentialsFilePath;
-                }
-            }
-
-            // No credentials found so error out.
-            if (this._wrappedCredentials == null)
-            {
-                throw new ArgumentException("App.config does not contain credentials information. Either add the AWSAccessKey and AWSSecretKey or AWSProfileName.");
-            }
-        }
-
-        #endregion
-
-    #region Public properties
-
-        /// <summary>
-        /// Name of the profile being used.
-        /// </summary>
-        public string ProfileName { get; private set; }
-
-        /// <summary>
-        /// Location of the profiles, if used.
-        /// </summary>
-        public string ProfilesLocation { get; private set; }
-
-        #endregion
-
-        /// <summary>
-        /// Parse the credentials file for access and secret key
-        /// </summary>
-        /// <param name="credentialsFilePath">The path to the credentials file to parse</param>
-        /// <param name="profileName">The profile name to search for</param>
-        /// <param name="accessKeyId">The access key returned to the caller</param>
-        /// <param name="secretKey">The secret key returned to the caller</param>
-        private static void SearchCredentialsFile(string credentialsFilePath, string profileName, out string accessKeyId, out string secretKey)
-        {
-            accessKeyId = secretKey = null;
-
-            // Add extra newline to make the logic simpler in case there is no newline after the last field in the CLI
-            string text = File.ReadAllText(credentialsFilePath) + "\n";
-            int sectionStart = text.IndexOf(string.Format(CultureInfo.InvariantCulture, "[{0}]", profileName), StringComparison.Ordinal);
-            if (sectionStart == -1)
-                return;
-
-            Func<string, string> findValue = ((fieldName) =>
-            {
-                int startPos = text.IndexOf(fieldName, sectionStart, StringComparison.Ordinal);
-                if (startPos == -1)
-                    return null;
-
-                int endPos = text.IndexOf('\n', startPos);
-                string line = text.Substring(startPos, endPos - startPos);
-                string[] tokens = line.Split('=');
-                if (tokens.Length != 2)
-                    return null;
-
-                return tokens[1].Trim();
-            });
-
-            accessKeyId = findValue("aws_access_key_id");
-            secretKey = findValue("aws_secret_access_key");
-        }
-
-        /// <summary>
-        /// Determine the location of the shared credentials file.
-        /// </summary>
-        /// <param name="profilesLocation">If accountsLocation is null then the shared credentials file stored .aws directory under the home directory.</param>
-        /// <returns>The file path to the credentials file to be used.</returns>
-        private static string DetermineCredentialsFilePath(string profilesLocation)
-        {
-            if (!string.IsNullOrEmpty(profilesLocation))
-            {
-                if (Directory.Exists(profilesLocation))
-                    return Path.Combine(profilesLocation, "credentials");
-                else
-                    return profilesLocation;
-            }
-            else
-            {
-                return Path.Combine(
-                    Directory.GetParent(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal)).FullName,
-                    ".aws/credentials");
-            }
-        }
-
-    #region Abstract class overrides
-
-        /// <summary>
-        /// Returns an instance of ImmutableCredentials for this instance
-        /// </summary>
-        /// <returns></returns>
-        public override ImmutableCredentials GetCredentials()
-        {
-            return this._wrappedCredentials.Copy();
-        }
-
-        #endregion
-    }
-
-    /// <summary>
-    /// Uses aws credentials stored in environment variables to construct the credentials object.
-    /// AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY are used for the access key id and secret key. If the variable AWS_SESSION_TOKEN exists
-    /// then it will be used to create temporary session credentials.
-    /// </summary>
-    public class EnvironmentVariablesAWSCredentials : AWSCredentials
-    {
-        private const string ENVIRONMENT_VARIABLE_ACCESSKEY = "AWS_ACCESS_KEY_ID";
-        private const string ENVIRONMENT_VARIABLE_SECRETKEY = "AWS_SECRET_ACCESS_KEY";
-        private const string ENVIRONMENT_VARIABLE_SESSION_TOKEN = "AWS_SESSION_TOKEN";
-
-        private static readonly Logger LOGGER = Logger.GetLogger(typeof(AWSCredentials));
-        private ImmutableCredentials _wrappedCredentials;
-
-    #region Public constructors
-
-        /// <summary>
-        /// Constructs an instance of EnvironmentVariablesAWSCredentials. If no credentials are found in the environment variables 
-        /// then an InvalidOperationException.
-        /// </summary>
-        public EnvironmentVariablesAWSCredentials()
-        {
-            string accessKeyId = Environment.GetEnvironmentVariable(ENVIRONMENT_VARIABLE_ACCESSKEY);
-            string secretKey = Environment.GetEnvironmentVariable(ENVIRONMENT_VARIABLE_SECRETKEY);
-            if (string.IsNullOrEmpty(accessKeyId) || string.IsNullOrEmpty(secretKey))
-            {
-                throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture,
-                    "The environment variables {0} and {1} were not set with AWS credentials.", ENVIRONMENT_VARIABLE_ACCESSKEY, ENVIRONMENT_VARIABLE_SECRETKEY));
-            }
-
-            string sessionToken = Environment.GetEnvironmentVariable(ENVIRONMENT_VARIABLE_SESSION_TOKEN);
-
-            this._wrappedCredentials = new ImmutableCredentials(accessKeyId, secretKey, sessionToken);
-            LOGGER.InfoFormat("Credentials found using environment variables.");
-        }
-
-        #endregion
-
-        /// <summary>
-        /// Returns an instance of ImmutableCredentials for this instance
-        /// </summary>
-        /// <returns></returns>
-        public override ImmutableCredentials GetCredentials()
-        {
-            return this._wrappedCredentials.Copy();
-        }
-    }
-
-    /// <summary>
-    /// Credentials that are retrieved from ConfigurationManager.AppSettings
-    /// </summary>
-    public class EnvironmentAWSCredentials : AWSCredentials
-    {
-        private const string ACCESSKEY = "AWSAccessKey";
-        private const string SECRETKEY = "AWSSecretKey";
-
-        private ImmutableCredentials _wrappedCredentials;
-        private static readonly Logger LOGGER = Logger.GetLogger(typeof(AWSCredentials));
-
-    #region Public constructors
-
-        /// <summary>
-        /// Constructs an instance of EnvironmentAWSCredentials and attempts
-        /// to load AccessKey and SecretKey from ConfigurationManager.AppSettings
-        /// </summary>
-        public EnvironmentAWSCredentials()
-        {
-            NameValueCollection appConfig = ConfigurationManager.AppSettings;
-
-            // Use hardcoded credentials
-            if (!string.IsNullOrEmpty(appConfig[ACCESSKEY]) && !string.IsNullOrEmpty(appConfig[SECRETKEY]))
-            {
-                var accessKey = appConfig[ACCESSKEY];
-                var secretKey = appConfig[SECRETKEY];
-                this._wrappedCredentials = new ImmutableCredentials(accessKey, secretKey, null);
-                LOGGER.InfoFormat("Credentials found with {0} and {1} app settings", ACCESSKEY, SECRETKEY);
-            }
-            // Fallback to the StoredProfileAWSCredentials provider
-            else
-            {
-                this._wrappedCredentials = new StoredProfileAWSCredentials().GetCredentials();
-            }
-        }
-
-        #endregion
-
-
-    #region Abstract class overrides
-
-        /// <summary>
-        /// Returns an instance of ImmutableCredentials for this instance
-        /// </summary>
-        /// <returns></returns>
-        public override ImmutableCredentials GetCredentials()
-        {
-            return this._wrappedCredentials.Copy();
-        }
-
-        #endregion
-    }
-
-#endif
-
-    /// <summary>
+	/// <summary>
     /// Abstract class for automatically refreshing AWS credentials
     /// </summary>
     public abstract class RefreshingAWSCredentials : AWSCredentials
@@ -519,7 +227,7 @@ namespace Amazon.Runtime
         }
 
 
-        protected CredentialsRefreshState _currentState = null;
+        protected CredentialsRefreshState _sessionCredentials = null;
         protected object _refreshLock = new object();
 
         #endregion
@@ -562,7 +270,7 @@ namespace Amazon.Runtime
                 // If credentials are expired, update
                 if (ShouldUpdate)
                 {
-                    _currentState = GenerateNewCredentials();
+                    _sessionCredentials = GenerateNewCredentials();
 
                     // Check if the new credentials are already expired
                     if (ShouldUpdate)
@@ -571,7 +279,7 @@ namespace Amazon.Runtime
                     }
 
                     // Offset the Expiration by PreemptExpiryTime
-                    _currentState.Expiration -= PreemptExpiryTime;
+                    _sessionCredentials.Expiration -= PreemptExpiryTime;
 
                     if (ShouldUpdate)
                     {
@@ -580,12 +288,12 @@ namespace Amazon.Runtime
                         _logger.InfoFormat(
                             "The preempt expiry time is set too high: Current time = {0}, Credentials expiry time = {1}, Preempt expiry time = {2}.",
                             DateTime.Now,
-                            _currentState.Expiration,
+                            _sessionCredentials.Expiration,
                             PreemptExpiryTime);
                     }
                 }
 
-                return _currentState.Credentials.Copy();
+                return _sessionCredentials.Credentials.Copy();
             }
         }
 
@@ -601,8 +309,8 @@ namespace Amazon.Runtime
             {
                 return
                     (                                                   // should update if:
-                        _currentState == null ||                        //  credentials have not been loaded yet
-                        DateTime.Now >= this._currentState.Expiration   //  past the expiration time
+                        _sessionCredentials == null ||                        //  credentials have not been loaded yet
+                        DateTime.UtcNow >= this._sessionCredentials.Expiration   //  past the expiration time
                     );
             }
         }
@@ -758,7 +466,7 @@ namespace Amazon.Runtime
         private CredentialsRefreshState GetEarlyRefreshState(CredentialsRefreshState state)
         {
             // New expiry time = Now + _refreshAttemptPeriod + PreemptExpiryTime
-            var newExpiryTime = DateTime.Now + _refreshAttemptPeriod + PreemptExpiryTime;
+            var newExpiryTime = DateTime.UtcNow + _refreshAttemptPeriod + PreemptExpiryTime;
             // Use this only if the time is earlier than the default expiration time
             if (newExpiryTime > state.Expiration)
                 newExpiryTime = state.Expiration;
@@ -994,13 +702,6 @@ namespace Amazon.Runtime
             cachedCredentials = null;
             CredentialsGenerators = new List<CredentialsGenerator>
             {
-#if BCL
-                () => new EnvironmentAWSCredentials(),
-                () => new StoredProfileAWSCredentials(),
-                () => new EnvironmentVariablesAWSCredentials(),
-                () => new InstanceProfileAWSCredentials()
-#endif
-				() => new CachingCognitoAWSCredentials()
             };
         }
 

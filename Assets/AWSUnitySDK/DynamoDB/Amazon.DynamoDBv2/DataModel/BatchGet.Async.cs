@@ -16,7 +16,7 @@ using System.Reflection;
 using Amazon.DynamoDBv2.Model;
 using Amazon.DynamoDBv2.DocumentModel;
 using System.Threading;
-using Amazon.Unity;
+using Amazon.Unity3D;
 
 namespace Amazon.DynamoDBv2.DataModel
 {

@@ -1,0 +1,14 @@
+Version 1.0.1
+Fixes:
+- Fixed Cognito Credential Provider bug that cannot refresh credential when it's expired.
+- Always use UTC instead of local time, which fixes inconsistencies in the dataset metadata timestamps.
+- Address issue that could clear cached Cognito identityId.
+Improvements:
+- Enabled CORS, so Amazon Cognito Identity and Sync can now be used inside Unity Web Player.
+- Name-spaced cache to support multiple Cognito identity pools.
+- Change Cognito Credential Provider Constructor. User now needs to provide only Cognito Identity Pool Id. 
+- Relaxed access modifiers, allowing developers to extend some of our classes.
+
+
+Version 1.0.0
+- Initial release

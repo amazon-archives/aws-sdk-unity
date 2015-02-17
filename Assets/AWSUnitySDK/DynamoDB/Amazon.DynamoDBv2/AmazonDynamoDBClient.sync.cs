@@ -24,7 +24,7 @@ using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
 using Amazon.Runtime.Internal.Transform;
 using System.Threading;
-using Amazon.Unity;
+using Amazon.Unity3D;
 
 namespace Amazon.DynamoDBv2
 {

@@ -15,7 +15,7 @@ using Amazon.DynamoDBv2.Model;
 using Amazon.Runtime;
 using Amazon.Util;
 using System.Threading;
-using Amazon.Unity;
+using Amazon.Unity3D;
 using Amazon.Common;
 
 namespace Amazon.DynamoDBv2
