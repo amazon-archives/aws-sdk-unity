@@ -10,7 +10,6 @@
  */
 using System;
 using Amazon.Unity3D;
-using Amazon.Common;
 
 namespace Amazon.Unity3D.Storage
 {
@@ -124,7 +123,7 @@ namespace Amazon.Unity3D.Storage
                     }
                     else
                     {
-                        AmazonLogging.LogError(AmazonLogging.AmazonLoggingLevel.Errors, "SQLiteKVStore", "Save failed");
+                        AmazonLogging.LogError("SQLiteKVStore", "Save failed");
                         throw new Exception("Save failed");
                     }
                 }

@@ -1,3 +1,10 @@
+Version 1.0.2
+New Feature:
+- Added Amazon Mobile Analytics.
+Improvements:
+- Improved Unity SDK Logging.
+
+
 Version 1.0.1
 Fixes:
 - Fixed Cognito Credential Provider bug that cannot refresh credential when it's expired.

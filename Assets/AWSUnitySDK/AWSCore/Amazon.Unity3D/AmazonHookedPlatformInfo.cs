@@ -13,10 +13,15 @@ using System.Collections;
 using System.Threading;
 using System.Globalization;
 using System.Runtime.InteropServices;
-using Amazon.Common;
+using Amazon.Unity3D;
 
 namespace Amazon.Unity3D
 {
+    
+    /// <summary>
+    /// This class can access hooked platform (iOS, Android etc.) information.
+    /// For example, locale, make, application version and title.
+    /// </summary>
     internal class AmazonHookedPlatformInfo
     {
         private const string IPHONE_OS = "iPhone OS";
@@ -297,15 +302,15 @@ namespace Amazon.Unity3D
             Model = SystemInfo.deviceModel;
             Make = "";
 #endif
-            AmazonLogging.Log(AmazonLogging.AmazonLoggingLevel.Verbose,"PlatformInfo","make = " + Make);
-            AmazonLogging.Log(AmazonLogging.AmazonLoggingLevel.Verbose,"PlatformInfo","model = " + Model);  
-            AmazonLogging.Log(AmazonLogging.AmazonLoggingLevel.Verbose,"PlatformInfo","platform version = " + PlatformVersion);
-            AmazonLogging.Log(AmazonLogging.AmazonLoggingLevel.Verbose,"PlatformInfo","locale = " + Locale);
+            AmazonLogging.LogDebug("PlatformInfo","make = " + Make);
+            AmazonLogging.LogDebug("PlatformInfo","model = " + Model);  
+            AmazonLogging.LogDebug("PlatformInfo","platform version = " + PlatformVersion);
+            AmazonLogging.LogDebug("PlatformInfo","locale = " + Locale);
 
-            AmazonLogging.Log(AmazonLogging.AmazonLoggingLevel.Verbose,"ApplicationInfo","Title = " + Title);
-            AmazonLogging.Log(AmazonLogging.AmazonLoggingLevel.Verbose,"ApplicationInfo","Version Code = " + VersionCode);
-            AmazonLogging.Log(AmazonLogging.AmazonLoggingLevel.Verbose,"ApplicationInfo","Version Name = " +  VersionName);
-            AmazonLogging.Log(AmazonLogging.AmazonLoggingLevel.Verbose,"ApplicationInfo","Package Name = " + PackageName);
+            AmazonLogging.LogDebug("ApplicationInfo","Title = " + Title);
+            AmazonLogging.LogDebug("ApplicationInfo","Version Code = " + VersionCode);
+            AmazonLogging.LogDebug("ApplicationInfo","Version Name = " +  VersionName);
+            AmazonLogging.LogDebug("ApplicationInfo","Package Name = " + PackageName);
 
         }
         

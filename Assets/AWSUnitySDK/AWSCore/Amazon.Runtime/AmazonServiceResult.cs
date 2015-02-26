@@ -33,6 +33,8 @@ namespace Amazon.Runtime
         
         public Exception Exception { get; internal set; }
         
+        public bool IsCognitoError {get;set;}
+        
         public object State { get; internal set; }
 
         internal WWWResponseData HttpResponseData { get;set;}

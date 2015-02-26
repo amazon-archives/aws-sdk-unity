@@ -24,7 +24,6 @@ using UnityEngine;
 using Amazon.S3.Util;
 using System.Text;
 using System.Xml;
-using Amazon.Common;
 using Amazon.CognitoIdentity;
 
 namespace Amazon.Runtime
@@ -63,7 +62,7 @@ namespace Amazon.Runtime
             }
             catch (Exception e)
             {
-                AmazonLogging.LogException(AmazonLogging.AmazonLoggingLevel.Errors, "S3", e);
+                AmazonLogging.LogException("S3", e);
                 asyncResult.IsCompleted = true;
                 asyncResult.HandleException(e);
                 return;
@@ -104,7 +103,7 @@ namespace Amazon.Runtime
                         if (voidResult.Exception != null)
                         {
                             asyncResult.IsCompleted = true;
-                            AmazonLogging.LogError(AmazonLogging.AmazonLoggingLevel.Errors, "CognitoAWSCredentials", voidResult.Exception.Message);
+                            AmazonLogging.LogError("CognitoAWSCredentials", voidResult.Exception.Message);
                             asyncResult.HandleException(voidResult.Exception);
                             return;
                         }
@@ -162,11 +161,11 @@ namespace Amazon.Runtime
                     byte[] endBoundaryBytes = Encoding.UTF8.GetBytes(string.Format(CultureInfo.InvariantCulture, "\r\n--{0}--", boundary));
 
                     reqStream.Write(endBoundaryBytes, 0, endBoundaryBytes.Length);
-                    AmazonLogging.Log(AmazonLogging.AmazonLoggingLevel.Verbose, "S3", requestData.Url);
+                    AmazonLogging.LogDebug("S3", requestData.Url);
 
                     requestData.Data = reqStream.ToArray();
                 }
-                AmazonLogging.Log(AmazonLogging.AmazonLoggingLevel.Verbose, "S3", Encoding.Default.GetString(requestData.Data));
+                AmazonLogging.LogDebug("S3", Encoding.Default.GetString(requestData.Data));
 
                 asyncResult.RequestData = requestData;
                 asyncResult.WaitCallback = ProcessS3PostResponse;
@@ -176,7 +175,7 @@ namespace Amazon.Runtime
             }
             catch (Exception e)
             {
-                AmazonLogging.LogError(AmazonLogging.AmazonLoggingLevel.Errors, "S3", e.Message);
+                AmazonLogging.LogError("S3", e.Message);
                 asyncResult.IsCompleted = true;
                 asyncResult.HandleException(e);
                 return;
@@ -198,10 +197,10 @@ namespace Amazon.Runtime
                 if (!String.IsNullOrEmpty(responseData.Error) || !String.IsNullOrEmpty(System.Text.Encoding.UTF8.GetString(responseData.GetBytes())))
                 {
 
-                    AmazonLogging.LogError(AmazonLogging.AmazonLoggingLevel.Critical, "S3", responseData.Error);
+                    AmazonLogging.LogError("S3", responseData.Error);
                     foreach (string key in responseData.GetHeaderNames())
                     {
-                        AmazonLogging.Log(AmazonLogging.AmazonLoggingLevel.Verbose, "S3", key + " : " + responseData.GetHeaderValue(key));
+                        AmazonLogging.LogDebug("S3", key + " : " + responseData.GetHeaderValue(key));
                     }
 
                     if (asyncResult.Exception == null)
@@ -212,7 +211,7 @@ namespace Amazon.Runtime
                     asyncResult.IsCompleted = true;
                     response.StatusCode = HttpStatusCode.BadRequest;
                     asyncResult.ServiceResult.Response = response;
-                    AmazonLogging.LogError(AmazonLogging.AmazonLoggingLevel.Warnings, "S3", "RetriesAttempt exceeded");
+                    AmazonLogging.LogError("S3", "RetriesAttempt exceeded");
                     asyncResult.HandleException(asyncResult.Exception);
 
                     return;

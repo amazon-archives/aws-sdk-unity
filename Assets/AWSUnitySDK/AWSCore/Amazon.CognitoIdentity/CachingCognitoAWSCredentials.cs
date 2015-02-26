@@ -13,7 +13,6 @@ using Amazon.CognitoIdentity.Model;
 using Amazon;
 using Amazon.Runtime;
 using Amazon.Unity3D;
-using Amazon.Common;
 using System;
 
 namespace Amazon.CognitoIdentity

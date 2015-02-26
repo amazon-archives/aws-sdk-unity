@@ -21,7 +21,6 @@ using Amazon.Runtime;
 using Amazon.SecurityToken;
 using Amazon.SecurityToken.Model;
 using Amazon.Unity3D;
-using Amazon.Common;
 using Amazon.Unity3D.Storage;
 
 using UnityEngine;
@@ -144,7 +143,7 @@ namespace Amazon.CognitoIdentity
 			IdentityProvider.IdentityChangedEvent += delegate(object sender, IdentityChangedArgs e)
 			{
 				saveCredentials();
-				AmazonLogging.Log(AmazonLogging.AmazonLoggingLevel.Verbose, "CognitoAWSCredentials", "Saved identityID to LocalStorage");
+				AmazonLogging.LogInfo("CognitoAWSCredentials", "Saved identityID to LocalStorage");
 			};
 
         }
@@ -159,7 +158,7 @@ namespace Amazon.CognitoIdentity
             // make sure we have valid data in prefs
             if (AK == null || SK == null || ST == null)
 			{
-                AmazonLogging.Log(AmazonLogging.AmazonLoggingLevel.Verbose, "CognitoAWSCredentials", "No valid credentials found in LocalStorage");
+                AmazonLogging.LogInfo("CognitoAWSCredentials", "No valid credentials found in LocalStorage");
                 _sessionCredentials = null;
                 return;
             }
@@ -171,7 +170,7 @@ namespace Amazon.CognitoIdentity
                 Credentials = new ImmutableCredentials(AK, SK, ST),
                 Expiration = new DateTime(ticks)
             };
-            AmazonLogging.Log(AmazonLogging.AmazonLoggingLevel.Verbose, "CognitoAWSCredentials", "Loaded credentials from LocalStorage");
+            AmazonLogging.LogInfo("CognitoAWSCredentials", "Loaded credentials from LocalStorage");
         }
 
         private void saveCredentials()
@@ -184,7 +183,7 @@ namespace Amazon.CognitoIdentity
 				_persistentStore.Put(namespacedKey(ST_KEY), _sessionCredentials.Credentials.Token);
 				_persistentStore.Put(namespacedKey(EXP_KEY), _sessionCredentials.Expiration.Ticks.ToString());
 				_persistentStore.Put(namespacedKey(ID_KEY), IdentityProvider.GetCurrentIdentityId());
-                AmazonLogging.Log(AmazonLogging.AmazonLoggingLevel.Verbose, "CognitoAWSCredentials", "Saved credentials to LocalStorage");
+                AmazonLogging.LogInfo("CognitoAWSCredentials", "Saved credentials to LocalStorage");
             }
         }
 
@@ -210,7 +209,7 @@ namespace Amazon.CognitoIdentity
                 {
                     if (voidResult.Exception != null)
                     {
-                        AmazonLogging.LogError(AmazonLogging.AmazonLoggingLevel.Errors, "Cognito", "Error occured during GetCredentialsAsync");
+                        AmazonLogging.LogError("Cognito", "Error occured during GetCredentialsAsync");
                         AmazonMainThreadDispatcher.ExecCallback(callback, new AmazonServiceResult(null, null, voidResult.Exception, state));
                         return;
                     }
@@ -259,7 +258,7 @@ namespace Amazon.CognitoIdentity
        		_persistentStore.Clear(namespacedKey(SK_KEY));
        		_persistentStore.Clear(namespacedKey(ST_KEY));
 			_persistentStore.Clear(namespacedKey(EXP_KEY));
-			AmazonLogging.Log(AmazonLogging.AmazonLoggingLevel.Verbose, "CognitoAWSCredentials", "Clear Credentials");
+			AmazonLogging.LogInfo("CognitoAWSCredentials", "Clear Credentials");
 		}
 
 		protected void GenerateNewCredentialsAsync(AmazonServiceCallback callback)

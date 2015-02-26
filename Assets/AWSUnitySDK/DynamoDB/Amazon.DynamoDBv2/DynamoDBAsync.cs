@@ -16,7 +16,6 @@ using Amazon.Runtime;
 using Amazon.Util;
 using System.Threading;
 using Amazon.Unity3D;
-using Amazon.Common;
 
 namespace Amazon.DynamoDBv2
 {
@@ -157,7 +156,7 @@ namespace Amazon.DynamoDBv2
             }
             catch (Exception ex)
             {
-                AmazonLogging.LogException(AmazonLogging.AmazonLoggingLevel.Errors, result.Operation, ex);
+                AmazonLogging.LogException("DynamoDB " + result.Operation, ex);
                 AmazonMainThreadDispatcher.ExecCallback<T>(result.Callback, new AmazonDynamoResult<T>(default(T), ex, result.State));
                 return;
             }

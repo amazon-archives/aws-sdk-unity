@@ -20,7 +20,7 @@ using ThirdParty.Json.LitJson;
 using Amazon.Runtime;
 using System.Globalization;
 using Amazon.Runtime.Internal.Util;
-using Amazon.Common;
+using Amazon.Unity3D;
 using UnityEngine;
 
 namespace Amazon
@@ -152,8 +152,7 @@ namespace Amazon
             }
             catch (System.Exception exception)
             {
-                AmazonLogging.LogError(AmazonLogging.AmazonLoggingLevel.ErrorsAsExceptions, "LoadEndpointDefinitions",
-                                       "cannot load service endpoint file : " + exception.Message);
+                AmazonLogging.LogError("LoadEndpointDefinitions","cannot load service endpoint file : " + exception.Message);
             }
         }
 

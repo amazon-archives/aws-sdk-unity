@@ -15,7 +15,7 @@ using System.Threading;
 
 using UnityEngine;
 
-using Amazon.Common;
+using Amazon.Unity3D;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime;
 
@@ -101,11 +101,11 @@ namespace Amazon.Unity3D
         {
             get 
             { 
-                lock(_instance) { return _requestPending; }
+                return _requestPending;
             }
             set 
             {
-                lock(_instance) { _requestPending = value; }
+                _requestPending = value;
             }
         }
         
@@ -153,14 +153,12 @@ namespace Amazon.Unity3D
             // this check is probably not needed since Dequeue operation is supposed to invoked only from the Unity MainThread
             if (result != null)
             {
-                AmazonLogging.Log (AmazonLogging.AmazonLoggingLevel.Verbose, result.Request.ServiceName,
-                                   "Making WWW request");
+                AmazonLogging.LogInfo (result.Request.ServiceName,"Making WWW request");
                 
                 // making WWW request call
                 yield return result.RequestData.FireRequest ();
                 
-                AmazonLogging.Log (AmazonLogging.AmazonLoggingLevel.Verbose, result.Request.ServiceName,
-                                   "Completing WWW request");
+                AmazonLogging.LogInfo (result.Request.ServiceName,"Completing WWW request");
                 result.ResponseData = result.RequestData.GetResponseData ();
                 // switching to background thread
                 ThreadPool.QueueUserWorkItem (result.WaitCallback, (object)result);

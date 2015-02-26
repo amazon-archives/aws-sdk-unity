@@ -1,0 +1,11 @@
+{
+  "XML":{
+    "Properties":{
+        "SESSION_DELTA":"5",
+        "MAX_DB_SIZE":"5242880",
+        "DB_WARNING_THRESHOLD":"0.9",
+        "MAX_REQUEST_SIZE":"102400",
+        "ALLOW_USE_DATA_NETWORK":"false"
+    }
+  }
+}

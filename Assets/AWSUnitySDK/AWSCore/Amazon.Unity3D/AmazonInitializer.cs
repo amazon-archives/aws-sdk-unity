@@ -12,6 +12,9 @@ using System;
 using System.Threading;
 
 using UnityEngine;
+#if UNITY_EDITOR  
+using UnityEditor;
+#endif
 
 namespace Amazon.Unity3D
 {
@@ -20,14 +23,13 @@ namespace Amazon.Unity3D
         
         private static AmazonInitializer _instance = null;
         private static bool _initialized = false;
-        private static object _lock = new object();
 
         #region Inspector variables
         public int MaxConnectionPoolSize = 10;
         #endregion
         
 
-        #region Internal statics
+
         /// <summary>
         /// Determines if its initialized & running.
         /// </summary>
@@ -39,50 +41,70 @@ namespace Amazon.Unity3D
                 return _initialized;
             }
         }
-
-        #endregion
+        
+        
+        
+        
+#if UNITY_EDITOR        
+        internal static bool IsEditorPlaying
+        {
+            get;set;
+        }
+        
+        internal static bool IsEditorPaused
+        {
+            get;set;
+        }
+        
+        private void HandleEditorPlayModeChange()
+        {
+            IsEditorPlaying = EditorApplication.isPlaying;
+            IsEditorPaused = EditorApplication.isPaused;
+        }
+#endif
         
         public void Awake ()
         {
-            lock (_lock)
+            if (_instance == null)
             {
-                if (_instance == null)
-                {
-                    // singleton instance
-                    _instance = this;
-                    
-                    // preventing the instance from getting destroyed between scenes
-                    DontDestroyOnLoad (this);
-                    
-                    // load service endpoints from config file
-                    Amazon.RegionEndpoint.LoadEndpointDefinitions ();
-                    
-                    // add other scripts
-                    _instance.gameObject.AddComponent<AmazonMainThreadDispatcher>();
-                    _instance.gameObject.AddComponent<AmazonNetworkStatusInfo>();
-                    
-                    // init done 
-                    _initialized = true;
-                }
-                else
-                {
-                    if (this != _instance)
-                    {
-                        #if UNITY_EDITOR
-                            DestroyImmediate(this.gameObject);
-                        #else
-                            Destroy (this.gameObject);
-                        #endif
-                    }
-                }
+                // singleton instance
+                _instance = this;
                 
+                // preventing the instance from getting destroyed between scenes
+                DontDestroyOnLoad (this);
+                
+                // load service endpoints from config file
+                Amazon.RegionEndpoint.LoadEndpointDefinitions ();
+                
+                // add other scripts
+                _instance.gameObject.AddComponent<AmazonMainThreadDispatcher>();
+                _instance.gameObject.AddComponent<AmazonNetworkStatusInfo>();
+                
+                // add callback for Editor Mode change
+                #if UNITY_EDITOR
+                IsEditorPlaying = EditorApplication.isPlaying;
+                EditorApplication.playmodeStateChanged += this.HandleEditorPlayModeChange;
+                #endif
+                
+                // init done 
+                _initialized = true;
+            }
+            else
+            {
+                if (this != _instance)
+                {
+                    #if UNITY_EDITOR
+                        DestroyImmediate(this.gameObject);
+                    #else
+                        Destroy (this.gameObject);
+                    #endif
+                }
             }
         }
               
         private AmazonInitializer ()
         {
         }
-
     }
 }
 

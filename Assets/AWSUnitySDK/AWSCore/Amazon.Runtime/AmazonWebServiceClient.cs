@@ -24,7 +24,6 @@ using UnityEngine;
 using Amazon.CognitoIdentity;
 using System.Text;
 using System.Xml;
-using Amazon.Common;
 
 namespace Amazon.Runtime
 {
@@ -81,7 +80,7 @@ namespace Amazon.Runtime
             }
             catch (Exception e)
             {
-                AmazonLogging.LogError(AmazonLogging.AmazonLoggingLevel.Errors, "Runtime", e.Message);
+                AmazonLogging.LogException("Runtime", e);
                 result.HandleException(e);
                 result.IsCompleted = true;
             }
@@ -118,17 +117,19 @@ namespace Amazon.Runtime
                 if (Credentials is CognitoAWSCredentials)
                 {
                     var cred = Credentials as CognitoAWSCredentials;
-                    //FIXME: very hacky solution
+
                     cred.GetCredentialsAsync(delegate(AmazonServiceResult voidResult)
                     {
                         if (voidResult.Exception != null)
                         {
 
                             asyncResult.IsCompleted = true;
-                            AmazonLogging.LogError(AmazonLogging.AmazonLoggingLevel.Errors, "CognitoAWSCredentials", voidResult.Exception.Message);
+                            asyncResult.ServiceResult.IsCognitoError = true;
+                            AmazonLogging.LogError("CognitoAWSCredentials", voidResult.Exception.Message);
                             asyncResult.HandleException(voidResult.Exception);
                             return;
                         }
+                        asyncResult.ServiceResult.IsCognitoError = false;
                         ProcessHttpRequest(asyncResult);
                     }, null);
                     return;
@@ -248,7 +249,7 @@ namespace Amazon.Runtime
             }
             catch (Exception e)
             {
-                AmazonLogging.LogException(AmazonLogging.AmazonLoggingLevel.Errors, asyncResult.Request.ServiceName, e);
+                AmazonLogging.LogException(asyncResult.Request.ServiceName, e);
 
                 asyncResult.IsCompleted = true;
                 asyncResult.HandleException(e);
@@ -277,8 +278,7 @@ namespace Amazon.Runtime
 
                 if (!String.IsNullOrEmpty(responseData.Error))
                 {
-                    AmazonLogging.LogError(AmazonLogging.AmazonLoggingLevel.Critical,
-                                           asyncResult.Request.ServiceName, responseData.Error);
+                    AmazonLogging.LogError(asyncResult.Request.ServiceName, responseData.Error);
 
                     if (HandleWWWErrorResponse(asyncResult))
                     {
@@ -290,8 +290,7 @@ namespace Amazon.Runtime
                             }
                             // maxretries
                             asyncResult.IsCompleted = true;
-                            AmazonLogging.LogException(AmazonLogging.AmazonLoggingLevel.Errors,
-                                                   asyncResult.Request.ServiceName, asyncResult.Exception);
+                            AmazonLogging.LogException(asyncResult.Request.ServiceName, asyncResult.Exception);
                             asyncResult.HandleException(asyncResult.Exception);
                             return;
                         }
@@ -345,7 +344,7 @@ namespace Amazon.Runtime
                         }
                         else
                         {
-                            AmazonLogging.Log(AmazonLogging.AmazonLoggingLevel.Warnings, asyncResult.Request.ServiceName, "cannot find CONTENT-LENGTH header");
+                            AmazonLogging.LogWarn(asyncResult.Request.ServiceName, "cannot find CONTENT-LENGTH header");
                         }
 
                         asyncResult.ServiceResult.Response = response;
@@ -359,7 +358,7 @@ namespace Amazon.Runtime
             }
             catch (Exception e)
             {
-                AmazonLogging.LogException(AmazonLogging.AmazonLoggingLevel.Errors, asyncResult.Request.ServiceName, e);
+                AmazonLogging.LogException(asyncResult.Request.ServiceName, e);
                 asyncResult.HandleException(e);
             }
 
@@ -426,7 +425,7 @@ namespace Amazon.Runtime
             catch (Exception e)
             {
                 // Parsing exception
-                AmazonLogging.LogException(AmazonLogging.AmazonLoggingLevel.Errors, asyncResult.Request.RequestName, e);
+                AmazonLogging.LogException(asyncResult.Request.RequestName, e);
             }
             
             string curl = "curl " + (asyncResult.Request.HttpMethod == "GET" && 
