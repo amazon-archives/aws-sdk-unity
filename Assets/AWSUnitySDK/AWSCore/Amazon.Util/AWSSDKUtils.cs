@@ -442,6 +442,7 @@ namespace Amazon.Util
         internal static void InvokeInBackground<T>(EventHandler<T> handler, T args, object sender) where T : EventArgs
         {
             if (handler == null) return;
+            if (dispatcher == null) dispatcher = new BackgroundInvoker();
 
             var list = handler.GetInvocationList();
             foreach (var call in list)
@@ -454,7 +455,7 @@ namespace Amazon.Util
             }
         }
 
-        private static BackgroundInvoker dispatcher = new BackgroundInvoker();
+        private static BackgroundInvoker dispatcher = null;
 
         /// <summary>
         /// Parses a query string of a URL and returns the parameters as a string-to-string dictionary.

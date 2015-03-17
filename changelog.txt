@@ -1,3 +1,13 @@
+﻿Version 1.0.3
+New Feature:
+- Added developer-authenticated Cognito identity providers and a stub class to use as example.
+Improvements:
+- Fixed crash in WWWRequestData.cs for iOS 64-bit.
+- Fixed AWS SigV4 signer for iOS 64-bit.
+- Updated S3 signature to support SigV4 
+- Fixed bug which caused the Unity Editor to force close while debugging.
+
+
 Version 1.0.2
 New Feature:
 - Added Amazon Mobile Analytics.

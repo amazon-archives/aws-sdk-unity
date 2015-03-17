@@ -48,44 +48,21 @@ namespace Amazon.Runtime.Internal.Transform
                 throw new InvalidOperationException("Supported only on main(game) thread");
             }
 
-            // Unity 4.3 or later use Dictionary<string, string> for string whereas
-            //  the older versions use Hashtables. Instead of maintaining of list of 
-            //  supported/unsupported versions, reflection is used 
-            Type[] constructorType = new Type[3]
-            {
-                typeof (string),
-                typeof (byte[]),
-                typeof (Dictionary<string, string>)
-            };
-            ConstructorInfo constructor = typeof(WWW).GetConstructor(constructorType);
-            if (constructor != null)
-            {
-                _request = (WWW) constructor.Invoke(new object[3]
-                {
-                    (object) Url,
-                    (object) Data,
-                    (object) Headers
-                });
-            }
-            else
-            {
-                Hashtable headerTable = new Hashtable();
-                foreach(string headerkey in Headers.Keys)
-                    headerTable.Add(headerkey, Headers[headerkey]);
-                
-                constructorType = new Type[3]
-                {
-                    typeof (string),
-                    typeof (byte[]),
-                    typeof (Hashtable)
-                };
-                _request = (WWW) typeof(WWW).GetConstructor(constructorType).Invoke(new object[3]
-                {
-                    (object) Url,
-                    (object) Data,
-                    (object) headerTable
-                });
-            }
+            #if UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2 
+            // Versions before Unity 4.3 use a WWW constructor
+            // where the headers parameter is a HashTable.
+            
+            var headerTable = new Hashtable();
+            foreach (string headerkey in request.Headers.Keys)
+                    headerTable.Add(headerkey, request.Headers[headerkey]);
+            
+            // Fire the request            
+            _request = new WWW(Url,Data,headerTable);
+            #else
+            // Fire the request            
+            _request = new WWW(Url,Data,Headers);
+            #endif
+            
             return _request;
         }
 
@@ -112,7 +89,7 @@ namespace Amazon.Runtime.Internal.Transform
             }
             if (!_request.isDone)
                 throw new InvalidOperationException("Check IsDone() before calling GetResponseData()");
-
+            
             return new WWWResponseData(_request);
         }
     }

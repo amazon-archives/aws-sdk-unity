@@ -39,9 +39,11 @@ namespace Amazon.Runtime.Internal.Transform
             this.ResponseHeaders = request.responseHeaders;
 
             this.Error = request.error;
-
+                
             if (request.error == null)
+            {
                 this._bytes = request.bytes;
+            }
         }
 
         public string ContentType

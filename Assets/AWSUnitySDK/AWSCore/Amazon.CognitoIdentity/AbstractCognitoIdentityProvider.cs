@@ -38,10 +38,14 @@ namespace Amazon.CognitoIdentity
             NewIdentityId = newIdentityId;
         }
     }
+
+	/// <summary>
+	/// Base class for AmazonCognitoIdentityProvider and AmazonCognitoEnhancedIdentityProvider.
+	/// If you want to use developer-authenticated identities, you should derive your own custom
+	/// identity provider from this class. (See ExampleCustomIdentityProvider.cs in the samples)
+	/// </summary>
     public abstract class AbstractCognitoIdentityProvider : IAmazonIdentityProvider
     {
-
-        #region Private members
 
         protected string _identityId;
         protected string _token;
@@ -49,6 +53,21 @@ namespace Amazon.CognitoIdentity
         public IAmazonCognitoIdentity cib;
 
         protected bool IsIdentitySet { get { return !string.IsNullOrEmpty(_identityId); } }
+
+        public AbstractCognitoIdentityProvider(string identityPoolId, RegionEndpoint region)
+            : this(null, identityPoolId, region)
+        {
+        }
+
+        public AbstractCognitoIdentityProvider(string accountId, string identityPoolId, RegionEndpoint region)
+        {
+            if (string.IsNullOrEmpty(identityPoolId))
+                throw new ArgumentNullException("identityPoolId");
+            this.AccountId = accountId;
+            this.IdentityPoolId = identityPoolId;
+            this.Logins = new Dictionary<string, string>(StringComparer.Ordinal);
+            this.cib = new AmazonCognitoIdentityClient(new AnonymousAWSCredentials(), region);
+        }
 
         // Updates IdentityId to new value and fires IdentityChangedEvent
         public void UpdateIdentity(string newIdentityId)
@@ -69,18 +88,6 @@ namespace Amazon.CognitoIdentity
                 handler(this, args);
             }
         }
-
-        #endregion
-
-        public AbstractCognitoIdentityProvider(string accountId, string identityPoolId)
-        {
-            if (string.IsNullOrEmpty(identityPoolId))
-                throw new ArgumentNullException("identityPoolId");
-            this.AccountId = accountId;
-            this.IdentityPoolId = identityPoolId;
-        }
-
-        #region Public properties, methods, classes, and events
 
         /// <summary>
         /// The AWS accountId for the account with Amazon Cognito
@@ -105,7 +112,7 @@ namespace Amazon.CognitoIdentity
         public void Clear()
         {
             _identityId = null;
-			Logins.Clear();
+            Logins.Clear();
         }
    
         /// <summary>
@@ -120,7 +127,7 @@ namespace Amazon.CognitoIdentity
         /// Removes a provider from the collection of logins.
         /// </summary>
         /// <param name="providerName">The provider name for the login (i.e. graph.facebook.com)</param>
-      [Obsolete("Use AWSCredentials.RemoveLogin")]
+        [Obsolete("Use AWSCredentials.RemoveLogin")]
         public void RemoveLogin(string providerName)
         {
             this.Logins.Remove(providerName);
@@ -131,7 +138,7 @@ namespace Amazon.CognitoIdentity
         /// </summary>
         /// <param name="providerName">The provider name for the login (i.e. graph.facebook.com)</param>
         /// <param name="token">The token provided by the identity provider.</param>
-      [Obsolete("Use AWSCredentials.AddLogin")]
+        [Obsolete("Use AWSCredentials.AddLogin")]
         public void AddLogin(string providerName, string token)
         {
             Logins[providerName] = token;
@@ -157,7 +164,6 @@ namespace Amazon.CognitoIdentity
         {
             return _token;
         }
-        #endregion
 
         public abstract string getProviderName();
 

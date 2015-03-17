@@ -28,11 +28,9 @@ namespace Amazon.CognitoIdentity
         private AnonymousAWSCredentials anonymousAWSCredentials;
         private RegionEndpoint region;
 
-        public AmazonCognitoIdentityProvider(string accountId, string identityPoolId, AWSCredentials awsCredentials, RegionEndpoint region)
-            : base(accountId, identityPoolId)
+        public AmazonCognitoIdentityProvider(string accountId, string identityPoolId, RegionEndpoint region)
+            : base(accountId, identityPoolId, region)
         {
-            base.cib = new AmazonCognitoIdentityClient(awsCredentials, region);
-            Logins = new Dictionary<string, string>(StringComparer.Ordinal);
         }
 
         public override string getProviderName()

@@ -495,7 +495,6 @@ namespace Amazon.Runtime.Internal.Auth
                 if (sortedHeaders.TryGetValue(HeaderKeys.XAmzContentSha256Header, out contentHash))
                     canonicalRequest.Append(contentHash);
             }
-
             return canonicalRequest.ToString();
         }
 
@@ -535,6 +534,7 @@ namespace Amazon.Runtime.Internal.Auth
             {
                 sortedHeaders.Add(header.Key, header.Value);
             }
+            
             return sortedHeaders;
         }
 
@@ -550,14 +550,13 @@ namespace Amazon.Runtime.Internal.Auth
                 return string.Empty;
 
             var builder = new StringBuilder();
-            foreach (var entry in sortedHeaders)
+            foreach (var entry in sortedHeaders.OrderBy(t => t.Key.ToLowerInvariant()))
             {
                 builder.Append(entry.Key.ToLower(CultureInfo.InvariantCulture));
                 builder.Append(":");
                 builder.Append(CompressSpaces(entry.Value));
                 builder.Append("\n");
             }
-
             return builder.ToString();
         }
 
@@ -569,7 +568,7 @@ namespace Amazon.Runtime.Internal.Auth
         protected static string CanonicalizeHeaderNames(IEnumerable<KeyValuePair<string, string>> sortedHeaders)
         {
             var builder = new StringBuilder();
-            foreach (var header in sortedHeaders)
+            foreach (var header in sortedHeaders.OrderBy(t => t.Key.ToLowerInvariant()))
             {
                 if (builder.Length > 0)
                     builder.Append(";");

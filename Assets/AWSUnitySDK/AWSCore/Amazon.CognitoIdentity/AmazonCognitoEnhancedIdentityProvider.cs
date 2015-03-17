@@ -23,16 +23,14 @@ using Amazon.CognitoIdentity.Model;
 
 namespace Amazon.CognitoIdentity
 {
-	public class AmazonCognitoEnhancedIdentityProvider : AbstractCognitoIdentityProvider
+    public class AmazonCognitoEnhancedIdentityProvider : AbstractCognitoIdentityProvider
     {
         private AnonymousAWSCredentials anonymousAWSCredentials;
         private RegionEndpoint region;
 
-		public AmazonCognitoEnhancedIdentityProvider( string identityPoolId, AWSCredentials awsCredentials, RegionEndpoint region)
-			: base(null, identityPoolId)
+        public AmazonCognitoEnhancedIdentityProvider( string identityPoolId, RegionEndpoint region)
+            : base(null, identityPoolId, region)
         {
-            base.cib = new AmazonCognitoIdentityClient(awsCredentials, region);
-            Logins = new Dictionary<string, string>(StringComparer.Ordinal);
         }
 
         public override string getProviderName()
@@ -42,7 +40,7 @@ namespace Amazon.CognitoIdentity
 
         public override void RefreshAsync(AmazonServiceCallback callback, object state)
         {
-			//_token = null;
+            //_token = null;
             AmazonServiceResult voidResult = new AmazonServiceResult(null, state);
             if (!IsIdentitySet)
             {
@@ -57,17 +55,17 @@ namespace Amazon.CognitoIdentity
                                     if (result.Exception != null)
                                     {
                                         voidResult.Exception = result.Exception;
-										AmazonMainThreadDispatcher.ExecCallback(callback, voidResult);
+                                        AmazonMainThreadDispatcher.ExecCallback(callback, voidResult);
                                         return;
                                     }
                                     var getIdResponse = result.Response as GetIdResponse;
                                     UpdateIdentity(getIdResponse.IdentityId);
-									AmazonMainThreadDispatcher.ExecCallback(callback, voidResult);
+                                    AmazonMainThreadDispatcher.ExecCallback(callback, voidResult);
 
                                 }, null);
             } else {
-				AmazonMainThreadDispatcher.ExecCallback(callback, voidResult);
-			}
+                AmazonMainThreadDispatcher.ExecCallback(callback, voidResult);
+            }
 
 
         }
