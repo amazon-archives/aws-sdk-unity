@@ -113,7 +113,7 @@
       <Endpoint>
         <ServiceName>s3</ServiceName>
         <Http>true</Http>
-        <Https>false</Https>
+        <Https>true</Https>
         <Hostname>s3.amazonaws.com</Hostname>
       </Endpoint>
       <Endpoint>

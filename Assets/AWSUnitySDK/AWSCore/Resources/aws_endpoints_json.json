@@ -122,7 +122,7 @@
             {
               "ServiceName": "s3",
               "Http": "true",
-              "Https": "false",
+              "Https": "true",
               "Hostname": "s3.amazonaws.com"
             },
             {

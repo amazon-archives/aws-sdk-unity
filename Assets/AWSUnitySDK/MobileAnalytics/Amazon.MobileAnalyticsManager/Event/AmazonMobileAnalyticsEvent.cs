@@ -161,7 +161,7 @@ namespace Amazon.MobileAnalyticsManager.Event
                 throw new ArgumentException("length of attributeName " + attributeName+" is more than " + MAX_KEY_SIZE);
             }
             
-            if(string.IsNullOrEmpty(attributeValue))
+            if(attributeValue == null)
             {
                 throw new ArgumentNullException("attributeValue");
             }
@@ -335,7 +335,7 @@ namespace Amazon.MobileAnalyticsManager.Event
                 throw new ArgumentNullException("attributeName");
             }
             
-            if(string.IsNullOrEmpty(attributeValue))
+            if(attributeValue == null)
             {
                 throw new ArgumentNullException("attributeValue");
             }
@@ -380,7 +380,7 @@ namespace Amazon.MobileAnalyticsManager.Event
                 throw new ArgumentNullException("attributeName");
             }
             
-            if(string.IsNullOrEmpty(attributeValue))
+            if(attributeValue == null)
             {
                 throw new ArgumentNullException("attributeValue");
             }

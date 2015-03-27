@@ -199,9 +199,10 @@ namespace Amazon.CognitoIdentity
         public override ImmutableCredentials GetCredentials()
         {
             //TODO: This should also check expiration, etc., like GetCredentialsAsync does
-            if (this._sessionCredentials == null || _sessionCredentials.Credentials == null)
+            if (this._sessionCredentials == null || _sessionCredentials.Credentials == null) {
                 loadCachedCredentials();
-            return _sessionCredentials.Credentials;
+            }
+            return (_sessionCredentials.Credentials != null)? _sessionCredentials.Credentials : null;
         }
 
         // fetching/persisting new credentials in LocalStorage 

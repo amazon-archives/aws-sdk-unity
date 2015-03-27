@@ -35,12 +35,25 @@ namespace Amazon.MobileAnalyticsManager.ClientContext
         /// <see cref="Amazon.MobileAnalyticsManager.ClientContext.AmazonMobileAnalyticsClientContextConfig"/> class.
         /// </summary>
         /// <param name="appId">App identifier -  AWS Mobile Analytics App ID corresponding to your App</param>
-        public AmazonMobileAnalyticsClientContextConfig(string appId):this(AmazonHookedPlatformInfo.Instance.Title,
+        public AmazonMobileAnalyticsClientContextConfig(string appId):this(appId,null)
+        {
+
+        }
+        
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="Amazon.MobileAnalyticsManager.ClientContext.AmazonMobileAnalyticsClientContextConfig"/> class.
+        /// </summary>
+        /// <param name="appId">App identifier -  AWS Mobile Analytics App ID corresponding to your App</param>
+        /// <param name="clientId">Client Identifier - A unique identifier representing this installation instance of your app. If clientId is null or empty string, Mobile Ananlytics client would generate a random unique identifier for user.</param>
+        public AmazonMobileAnalyticsClientContextConfig(string appId,string clientId):this(AmazonHookedPlatformInfo.Instance.Title,
                                                                            AmazonHookedPlatformInfo.Instance.VersionName,
                                                                            AmazonHookedPlatformInfo.Instance.VersionCode,
-                                                                           AmazonHookedPlatformInfo.Instance.PackageName,appId)
+                                                                           AmazonHookedPlatformInfo.Instance.PackageName,
+                                                                           appId,
+                                                                           clientId)
         {
-            
+
         }
         
         
@@ -53,7 +66,8 @@ namespace Amazon.MobileAnalyticsManager.ClientContext
         /// <param name="appVersionCode">App version code - The version code for your app. For example, 3.</param>
         /// <param name="appPackageName">App package name - The name of your package. For example, com.example.my_app.</param>
         /// <param name="appId">App identifier -  AWS Mobile Analytics App ID corresponding to your App</param>
-        public AmazonMobileAnalyticsClientContextConfig(string appTitle, string appVersionName,string appVersionCode, string appPackageName, string appId)
+        /// <param name="clientId">Client Identifier - A unique identifier representing this installation instance of your app. If clientId is null or empty string, Mobile Ananlytics client would generate a random unique identifier for user.</param>
+        public AmazonMobileAnalyticsClientContextConfig(string appTitle, string appVersionName,string appVersionCode, string appPackageName, string appId,string clientId)
         {
             if(string.IsNullOrEmpty(appTitle))
             {
@@ -79,13 +93,20 @@ namespace Amazon.MobileAnalyticsManager.ClientContext
             {
                 throw new ArgumentNullException("appVersionCode");
             }
-
+            
+            
             this._appTitle = appTitle;
             this._appVersionName = appVersionName;
             this._appVersionCode = appVersionCode;
             this._appPackageName = appPackageName;
             this._appId = appId;
-            _kvStore = new SQLiteKVStore();
+            this._kvStore = new SQLiteKVStore();
+            if(!string.IsNullOrEmpty(clientId))
+            {
+                this._clientId = clientId;
+                this._kvStore.Put(APP_CLIENT_ID_KEY,_clientId);
+            }
+
         }
         
         /// <summary>

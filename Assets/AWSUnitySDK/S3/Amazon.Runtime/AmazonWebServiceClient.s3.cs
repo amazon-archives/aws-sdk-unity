@@ -126,9 +126,9 @@ namespace Amazon.Runtime
                 string subdomain = request.Region.Equals(RegionEndpoint.USEast1) ? "s3" : "s3-" + request.Region.SystemName;
 
                 if (request.Bucket.IndexOf('.') > -1)
-                    requestData.Url = string.Format(CultureInfo.InvariantCulture, "http://{0}.amazonaws.com/{1}/", subdomain, request.Bucket);
+                    requestData.Url = string.Format(CultureInfo.InvariantCulture, "https://{0}.amazonaws.com/{1}/", subdomain, request.Bucket);
                 else
-                    requestData.Url = string.Format(CultureInfo.InvariantCulture, "http://{0}.{1}.amazonaws.com", request.Bucket, subdomain);
+                    requestData.Url = string.Format(CultureInfo.InvariantCulture, "https://{0}.{1}.amazonaws.com", request.Bucket, subdomain);
 
 
                 // prepare WWW          

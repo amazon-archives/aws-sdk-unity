@@ -47,7 +47,7 @@ namespace Amazon.CognitoIdentity
     public abstract class AbstractCognitoIdentityProvider : IAmazonIdentityProvider
     {
 
-        protected string _identityId;
+        private string _identityId; //Use UpdateIdentityId and GetCurrentIdentityId to update it.
         protected string _token;
 
         public IAmazonCognitoIdentity cib;

@@ -77,7 +77,7 @@ namespace Amazon.Unity3D.Storage
         [DllImport("sqlite3", EntryPoint = "sqlite3_prepare_v2")]
         public static extern Result sqlite3_prepare_v2(IntPtr db, string zSql, int nByte, out IntPtr ppStmpt, IntPtr pzTail);
 
-        [DllImport("sqlite3.dll", EntryPoint = "sqlite3_exec")]
+        [DllImport("sqlite3", EntryPoint = "sqlite3_exec")]
         public static extern Result exec(IntPtr hDb, string sql, IntPtr callback, IntPtr args, out IntPtr errorMessage);
 
         [DllImport("sqlite3", EntryPoint = "sqlite3_step")]
@@ -98,7 +98,7 @@ namespace Amazon.Unity3D.Storage
         [DllImport("sqlite3", EntryPoint = "sqlite3_column_type")]
         public static extern DataType sqlite3_column_type(IntPtr hStmt, int iCol);
 
-        [DllImport("sqlite3.dll", EntryPoint = "sqlite3_column_int64")]
+        [DllImport("sqlite3", EntryPoint = "sqlite3_column_int64")]
         public static extern long sqlite3_column_int64(IntPtr hStmt, int nCol);
 
         [DllImport("sqlite3", EntryPoint = "sqlite3_column_text")]
@@ -110,22 +110,22 @@ namespace Amazon.Unity3D.Storage
         [DllImport("sqlite3", EntryPoint = "sqlite3_column_bytes")]
         public static extern Result sqlite3_column_bytes(IntPtr hStmt, int iCol);
 
-        [DllImport("sqlite3.dll", EntryPoint = "sqlite3_bind_int64")]
+        [DllImport("sqlite3", EntryPoint = "sqlite3_bind_int64")]
         public static extern Result sqlite3_bind_int64(IntPtr hStmt, int n, long value);
 
-        [DllImport("sqlite3.dll", EntryPoint = "sqlite3_bind_null")]
+        [DllImport("sqlite3", EntryPoint = "sqlite3_bind_null")]
         public static extern Result sqlite3_bind_null(IntPtr hStmt, int n);
 
-        [DllImport("sqlite3.dll", EntryPoint = "sqlite3_bind_text")]
+        [DllImport("sqlite3", EntryPoint = "sqlite3_bind_text")]
         public static extern Result sqlite3_bind_text(IntPtr hStmt, int n, byte[] value, int length, IntPtr freetype);
 
-        [DllImport("sqlite3.dll", EntryPoint = "sqlite3_last_insert_rowid")]
+        [DllImport("sqlite3", EntryPoint = "sqlite3_last_insert_rowid")]
         public static extern long sqlite3_last_insert_rowid(IntPtr hDb);
 
-        [DllImport("sqlite3.dll", EntryPoint = "sqlite3_reset")]
+        [DllImport("sqlite3", EntryPoint = "sqlite3_reset")]
         public static extern Result sqlite3_reset(IntPtr hStmt);
 
-        [DllImport("sqlite3.dll", EntryPoint = "sqlite3_clear_bindings")] //
+        [DllImport("sqlite3", EntryPoint = "sqlite3_clear_bindings")] //
         public static extern Result sqlite3_clear_bindings(IntPtr hStmt);
 
 

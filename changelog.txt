@@ -1,4 +1,13 @@
-﻿Version 1.0.3
+Version 1.0.4
+New Feature:
+- Added feature that allows user to set Client Id in Amazon Mobile Analytics.
+Fixes:
+- Fixed the bug is S3 that disables HTTPS in us-east-1 region and S3 POST operation.
+- Addressed the issue in Mobile Analytics that adding empty attribute value in event would throw exception.
+
+
+
+Version 1.0.3
 New Feature:
 - Added developer-authenticated Cognito identity providers and a stub class to use as example.
 Improvements:

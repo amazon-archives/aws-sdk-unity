@@ -32,7 +32,7 @@ namespace Amazon.MobileAnalyticsManager
     /// </summary>
     public class AmazonMobileAnalyticsManager
     {
-        
+
         private static volatile AmazonMobileAnalyticsManager _instance;
         
         #region instance variables
@@ -85,7 +85,26 @@ namespace Amazon.MobileAnalyticsManager
                                                                          string appId
                                                                          )
         {
-            IAmazonMobileAnalyticsClientContextConfig config = new AmazonMobileAnalyticsClientContextConfig(appId);
+            IAmazonMobileAnalyticsClientContextConfig config = new AmazonMobileAnalyticsClientContextConfig(appId,null);
+            return AmazonMobileAnalyticsManager.GetOrCreateInstance(credential,regionEndpoint,config);
+        }
+        
+        /// <summary>
+        /// Gets the or create instance.
+        /// </summary>
+        /// <returns>The or create instance.</returns>
+        /// <param name="credentials">Credentials.</param>
+        /// <param name="regionEndpoint">Region endpoint.</param>
+        /// <param name="appId">App identifier.</param>
+        /// <param name="clientId">Client identifier. The client id should only contain ASCII alphanumeric characters (0-9, a-z, A-Z and ‘-‘) and is limited to 32 characters in length.
+        /// GUIDs and 128-bit MD5 hashes are commonly favored values for the client id due to their random qualities. The client id would be stored in persist memory and reused in the future. </param>
+        public static AmazonMobileAnalyticsManager GetOrCreateInstance(AWSCredentials credential,
+                                                                       RegionEndpoint regionEndpoint,
+                                                                       string appId,
+                                                                       string clientId
+                                                                       )
+        {
+            IAmazonMobileAnalyticsClientContextConfig config = new AmazonMobileAnalyticsClientContextConfig(appId,clientId);
             return AmazonMobileAnalyticsManager.GetOrCreateInstance(credential,regionEndpoint,config);
         }
         
