@@ -17,6 +17,7 @@ using System.Linq;
 using System.Text;
 
 using Amazon.Runtime.Internal.Util;
+using System.Reflection;
 
 namespace Amazon.Util
 {
@@ -720,6 +721,39 @@ namespace Amazon.Util
 
             return buffer;
         }
+
+        /// <summary>
+        /// Determines if Unity sciprting backend is IL2CPP.
+        /// </summary>
+        /// <returns><c>true</c> if scripting backend is IL2CPP; otherwise, <c>false</c>.</returns>
+        internal static bool IsUnityIL2CPP()
+        {
+            Type type = Type.GetType("Mono.Runtime");
+            if (type != null)
+            {                                          
+                MethodInfo displayName = type.GetMethod("GetDisplayName", BindingFlags.NonPublic | BindingFlags.Static); 
+                if (displayName != null)
+                {
+                    string name = null;
+                    try
+                    {
+                        name = displayName.Invoke(null, null).ToString();
+                    }
+                    catch(Exception e)
+                    {
+                        Amazon.Unity3D.AmazonLogging.LogException("AWSSDKUtils.IsUnityIL2CPP",e);
+                        return false;
+                    }
+                    
+                    if(name != null && name.ToUpper().Contains("IL2CPP"))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
 
         #endregion
     }

@@ -70,7 +70,7 @@ namespace Amazon.Runtime
 #endif
         };
 
-        protected string UNITY_USER_AGENT = "AWS-SDK-UNITY/1.0.3";
+        protected string UNITY_USER_AGENT = "AWS-SDK-UNITY/1.0.5";
         protected const int MAX_BACKOFF_IN_MILLISECONDS = 30 * 1000;
         protected internal ClientConfig Config { get; private set; }
         protected AWSCredentials Credentials { get; private set; }

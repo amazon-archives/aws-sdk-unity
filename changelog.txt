@@ -1,3 +1,8 @@
+Version 1.0.5
+Fixes:
+- Fixed a bug which prevented the AWS4Signer from working in the Unity Mono scripting backend.
+
+
 Version 1.0.4
 New Feature:
 - Added feature that allows user to set Client Id in Amazon Mobile Analytics.
