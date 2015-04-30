@@ -1,3 +1,6 @@
+Preview Release
+- Refer blogpost http://mobile.awsblog.com/post/Tx30Z7HPU42S0IN/Improvements-in-the-AWS-Mobile-SDK-for-Unity for changes
+
 Version 1.0.5
 Fixes:
 - Fixed a bug which prevented the AWS4Signer from working in the Unity Mono scripting backend.
