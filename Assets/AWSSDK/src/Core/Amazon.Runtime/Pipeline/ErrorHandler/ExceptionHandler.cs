@@ -1,0 +1,39 @@
+﻿//
+// Copyright 2014-2015 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+//
+//
+// Licensed under the AWS Mobile SDK for Unity Developer Preview License Agreement (the "License").
+// You may not use this file except in compliance with the License.
+// A copy of the License is located in the "license" file accompanying this file.
+// See the License for the specific language governing permissions and limitations under the License.
+//
+//
+
+using Amazon.Runtime.Internal.Util;
+using System;
+
+namespace Amazon.Runtime.Internal
+{
+    /// <summary>
+    /// The abstract base class for exception handlers.
+    /// </summary>
+    /// <typeparam name="T">The exception type.</typeparam>
+    public abstract class ExceptionHandler<T> : IExceptionHandler<T> where T : Exception
+    {
+        private ILogger _logger;
+
+        protected ILogger Logger { get { return _logger; } }
+
+        protected ExceptionHandler(ILogger logger)
+        {
+            _logger = logger;
+        }
+
+        public bool Handle(IExecutionContext executionContext, Exception exception)
+        {
+            return HandleException(executionContext, exception as T);
+        }
+
+        public abstract bool HandleException(IExecutionContext executionContext, T exception);
+    }
+}

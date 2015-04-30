@@ -1,0 +1,97 @@
+//
+// Copyright 2014-2015 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+//
+//
+// Licensed under the AWS Mobile SDK for Unity Developer Preview License Agreement (the "License").
+// You may not use this file except in compliance with the License.
+// A copy of the License is located in the "license" file accompanying this file.
+// See the License for the specific language governing permissions and limitations under the License.
+//
+//
+
+/*
+ * Do not modify this file. This file is generated from the dynamodb-2012-08-10.normal.json service model.
+ */
+using System;
+using System.Collections.Generic;
+using System.Xml.Serialization;
+using System.Text;
+using System.IO;
+
+using Amazon.Runtime;
+using Amazon.Runtime.Internal;
+
+namespace Amazon.DynamoDBv2.Model
+{
+    /// <summary>
+    /// Represents an operation to perform - either <i>DeleteItem</i> or <i>PutItem</i>. You
+    /// can only request one of these operations, not both, in a single <i>WriteRequest</i>.
+    /// If you do need to perform both of these operations, you will need to provide two separate
+    /// <i>WriteRequest</i> objects.
+    /// </summary>
+    public partial class WriteRequest
+    {
+        private DeleteRequest _deleteRequest;
+        private PutRequest _putRequest;
+
+        /// <summary>
+        /// Empty constructor used to set  properties independently even when a simple constructor is available
+        /// </summary>
+        public WriteRequest() { }
+
+        /// <summary>
+        /// Instantiates WriteRequest with the parameterized properties
+        /// </summary>
+        /// <param name="putRequest">A request to perform a <i>PutItem</i> operation.</param>
+        public WriteRequest(PutRequest putRequest)
+        {
+            _putRequest = putRequest;
+        }
+
+        /// <summary>
+        /// Instantiates WriteRequest with the parameterized properties
+        /// </summary>
+        /// <param name="deleteRequest">A request to perform a <i>DeleteItem</i> operation.</param>
+        public WriteRequest(DeleteRequest deleteRequest)
+        {
+            _deleteRequest = deleteRequest;
+        }
+
+        /// <summary>
+        /// Gets and sets the property DeleteRequest. 
+        /// <para>
+        /// A request to perform a <i>DeleteItem</i> operation.
+        /// </para>
+        /// </summary>
+        public DeleteRequest DeleteRequest
+        {
+            get { return this._deleteRequest; }
+            set { this._deleteRequest = value; }
+        }
+
+        // Check to see if DeleteRequest property is set
+        internal bool IsSetDeleteRequest()
+        {
+            return this._deleteRequest != null;
+        }
+
+        /// <summary>
+        /// Gets and sets the property PutRequest. 
+        /// <para>
+        /// A request to perform a <i>PutItem</i> operation.
+        /// </para>
+        /// </summary>
+        public PutRequest PutRequest
+        {
+            get { return this._putRequest; }
+            set { this._putRequest = value; }
+        }
+
+        // Check to see if PutRequest property is set
+        internal bool IsSetPutRequest()
+        {
+            return this._putRequest != null;
+        }
+
+    }
+}
