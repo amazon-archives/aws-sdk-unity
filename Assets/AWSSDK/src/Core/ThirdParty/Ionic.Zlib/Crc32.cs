@@ -1,20 +1,20 @@
 //
-// Copyright 2014-2015 Amazon.com, 
-// Inc. or its affiliates. All Rights Reserved.
-// 
-// Licensed under the Amazon Software License (the "License"). 
-// You may not use this file except in compliance with the 
-// License. A copy of the License is located at
-// 
-//     http://aws.amazon.com/asl/
-// 
-// or in the "license" file accompanying this file. This file is 
-// distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
-// CONDITIONS OF ANY KIND, express or implied. See the License 
-// for the specific language governing permissions and 
-// limitations under the License.
+// Copyright (c) 2006-2009 Microsoft Corporation.  All rights reserved.
 //
-
+//
+// Implements the CRC algorithm, which is used in zip files.  The zip format calls for
+// the zipfile to contain a CRC for the unencrypted byte stream of each file.
+//
+// It is based on example source code published at
+//    http://www.vbaccelerator.com/home/net/code/libraries/CRC32/Crc32_zip_CRC32_CRC32_cs.asp
+//
+// This implementation adds a tweak of that code for use within zip creation.  While
+// computing the CRC we also compress the byte stream, in the same read loop. This
+// avoids the need to read through the uncompressed stream twice - once to compute CRC
+// and another time to compress.
+//
+// Thu, 30 Mar 2006  13:58
+// 
 using System;
 
 namespace ThirdParty.Ionic.Zlib

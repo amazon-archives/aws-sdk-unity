@@ -1,5 +1,15 @@
+Version 2.0.0.1
+New Features:
+- Added SNS Support
+Improvements:
+- Bubble up exceptions on Cognito Identity
+- Remove unwanted wrapping for Cognito Sync Manager
+- Remove Empty Error Logs
+
+
 Version 2.0.0.0
 For a complete list of New Features and Improvements please visit http://mobile.awsblog.com/post/Tx30Z7HPU42S0IN/Improvements-in-the-AWS-Mobile-SDK-for-Unity
+
 
 Version 1.0.5
 Fixes:

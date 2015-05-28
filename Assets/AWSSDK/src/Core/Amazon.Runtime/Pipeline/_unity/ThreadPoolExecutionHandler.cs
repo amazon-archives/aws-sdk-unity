@@ -62,12 +62,28 @@ namespace Amazon.Runtime.Internal
         {
             // Handle the exception by logging it and setting the exception on the context,
             // so that the exception is visible to the caller
+            this.Logger.Error(exception, "An exception of type {0} was thrown from InvokeAsyncCallback().",
+                    exception.GetType().Name);
+            executionContext.RequestContext.Metrics.AddProperty(Metric.Exception, exception);
+
+            // An unhandled exception occured in the callback implementation.
+            // Capture the exception and end the callback processing by signalling the
+            // wait handle.
+            executionContext.RequestContext.Metrics.StopEvent(Metric.ClientExecuteTime);
+            LogMetrics(ExecutionContext.CreateFromAsyncContext(executionContext));
+
+            executionContext.ResponseContext.AsyncResult =
+                        new RuntimeAsyncResult(executionContext.RequestContext.Callback,
+                            executionContext.RequestContext.State);
+
             executionContext.ResponseContext.AsyncResult.Exception = exception;
-            this.Logger.Error(exception,
-                "An exception was thrown from the runtime pipeline invoked by the thread pool.");
+            executionContext.ResponseContext.AsyncResult.AsyncOptions = executionContext.RequestContext.AsyncOptions;
+            executionContext.ResponseContext.AsyncResult.Action = executionContext.RequestContext.Action;
+            executionContext.ResponseContext.AsyncResult.Request = executionContext.RequestContext.OriginalRequest;
+            executionContext.ResponseContext.AsyncResult.InvokeCallback();
+
         }
+
     }
-
-
 
 }

@@ -20,10 +20,6 @@ using System;
 using System.ComponentModel;
 using System.Globalization;
 
-#if !WIN_RT
-
-#endif
-
 using Amazon.Util;
 using Amazon.Util.Internal;
 

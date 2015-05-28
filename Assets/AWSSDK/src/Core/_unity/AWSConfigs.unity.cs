@@ -59,7 +59,7 @@ namespace Amazon
             T t = new T
             {
                 Logging = GetObject<LoggingSection>(sectionElement, "logging"),
-                Region = (sectionElement.Attribute("region")!=null)?sectionElement.Attribute("region").Value:null,
+                Region = sectionElement.Attribute("region")==null?string.Empty:sectionElement.Attribute("region").Value,
                 CorrectForClockSkew = bool.Parse(sectionElement.Attribute("correctForClockSkew").Value),
                 ServiceSections = GetUnresolvedElements(sectionElement)
             };

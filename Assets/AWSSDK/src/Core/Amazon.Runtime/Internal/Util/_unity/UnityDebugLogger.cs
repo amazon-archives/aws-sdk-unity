@@ -41,7 +41,8 @@ namespace Amazon.Runtime.Internal.Util
                 if (exception != null)
                     UnityEngine.Debug.LogError(exception.Message);
 
-                UnityEngine.Debug.LogError(string.Format(messageFormat, args));
+                if (!string.IsNullOrEmpty(messageFormat))
+                    UnityEngine.Debug.LogError(string.Format(messageFormat, args));
             }
             catch
             {
@@ -56,7 +57,8 @@ namespace Amazon.Runtime.Internal.Util
                 if (exception != null)
                     UnityEngine.Debug.Log(exception.Message);
 
-                UnityEngine.Debug.Log(string.Format(messageFormat, args));
+                if (!string.IsNullOrEmpty(messageFormat))
+                    UnityEngine.Debug.Log(string.Format(messageFormat, args));
             }
             catch
             {
@@ -68,7 +70,8 @@ namespace Amazon.Runtime.Internal.Util
         {
             try
             {
-                UnityEngine.Debug.Log(string.Format(messageFormat, args));
+                if (!string.IsNullOrEmpty(messageFormat))
+                    UnityEngine.Debug.Log(string.Format(messageFormat, args));
             }
             catch
             {
@@ -80,7 +83,8 @@ namespace Amazon.Runtime.Internal.Util
         {
             try
             {
-                UnityEngine.Debug.Log(string.Format(message, arguments));
+                if (!string.IsNullOrEmpty(message))
+                    UnityEngine.Debug.Log(string.Format(message, arguments));
             }
             catch
             {

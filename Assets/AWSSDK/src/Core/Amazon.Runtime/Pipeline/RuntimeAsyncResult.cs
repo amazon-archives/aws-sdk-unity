@@ -16,6 +16,7 @@
 // limitations under the License.
 //
 
+using Amazon.Runtime.Internal.Util;
 using System;
 using System.Threading;
 
@@ -28,6 +29,8 @@ namespace Amazon.Runtime.Internal
         private bool _disposed = false;
         private bool _callbackInvoked = false;
 
+        private Logger _logger;
+
         public RuntimeAsyncResult(AsyncCallback asyncCallback, object asyncState)
         {
             _lockObj = new object();
@@ -37,6 +40,8 @@ namespace Amazon.Runtime.Internal
             this.IsCompleted = false;
             this.AsyncCallback = asyncCallback;
             this.CompletedSynchronously = false;
+
+            this._logger = Logger.GetLogger(this.GetType());
         }
 
         public AsyncCallback AsyncCallback { get; private set; }
@@ -99,33 +104,34 @@ namespace Amazon.Runtime.Internal
         public void InvokeCallback()
         {
             this.SignalWaitHandle();
-            if (!_callbackInvoked )
+            if (!_callbackInvoked)
             {
                 _callbackInvoked = true;
-
+                try {
 #if AWSSDK_UNITY
-
-                if (this.AsyncOptions.ExecuteCallbackOnMainThread)
-                {
-                    // Enqueue the callback so that the Unity main thread dispatcher 
-                    // can invoke the callback on the main thread.
-                    UnityRequestQueue.Instance.EnqueueCallback(this);
-                }
-                else
-                {
-                    // Invoke the callback on current (background) thread
-                    if (this.Action != null)
+                    if (this.AsyncOptions.ExecuteCallbackOnMainThread)
                     {
-                        this.Action(this.Request, this.Response,
-                            this.Exception, this.AsyncOptions);
+                        // Enqueue the callback so that the Unity main thread dispatcher 
+                        // can invoke the callback on the main thread.
+                        UnityRequestQueue.Instance.EnqueueCallback(this);
                     }
-                }
-                
+                    else
+                    {
+                        // Invoke the callback on current (background) thread
+                        if (this.Action != null)
+                        {
+                            this.Action(this.Request, this.Response,
+                                this.Exception, this.AsyncOptions);
+                        }
+                    }
 #else
-                if(this.AsyncCallback != null)
-                    this.AsyncCallback(this);
+                    if(this.AsyncCallback != null)
+                        this.AsyncCallback(this);
 #endif
-
+                } catch (Exception e)
+                {
+                    _logger.Error(e, "Exception in user callback");
+                }
             }
         }
 

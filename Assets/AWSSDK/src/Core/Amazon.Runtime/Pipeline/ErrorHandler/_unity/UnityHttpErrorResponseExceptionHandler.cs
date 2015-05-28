@@ -120,8 +120,7 @@ namespace Amazon.Runtime.Internal
 
         private void LogCurlRequest(UnityWebRequest request)
         {
-			
-			string curl = "curl " + (request.Method == "GET" ? "-G " : "-X POST ");
+            string curl = "curl " + (request.Method == "GET" ? "-G " : "-X POST ");
             foreach (string key in request.Headers.Keys)
             {
                 curl += " -H \"" + key + ": " + request.Headers[key] + "\" ";
