@@ -160,13 +160,15 @@ namespace Amazon.CognitoIdentity
         private Dictionary<string, string> Logins { get; set; }
 
         /// <summary>
-        /// Clears current credentials state. This will reset the IdentityId.
+        /// Clears current credentials state. Caution: This will clear the IdentityId.
+        /// Use ClearCredentials instead if you just want to trigger a credentials refresh.
         /// </summary>
         public void Clear()
         {
             identityId = null;
             ClearCredentials();
             ClearIdentityCache();
+            Logins.Clear();
         }
 
         /// <summary>
@@ -184,7 +186,7 @@ namespace Amazon.CognitoIdentity
         public void RemoveLogin(string providerName)
         {
             this.Logins.Remove(providerName);
-            this.Clear();
+            this.ClearCredentials();
         }
 
         /// <summary>
@@ -195,10 +197,10 @@ namespace Amazon.CognitoIdentity
         public void AddLogin(string providerName, string token)
         {
             Logins[providerName] = token;
-            this.Clear();
+            this.ClearCredentials();
         }
 
-	/// <summary>
+        /// <summary>
         /// Returns count of Login Providers.
         /// </summary>
         /// <returns>The count of the login provider.</returns>
@@ -209,7 +211,6 @@ namespace Amazon.CognitoIdentity
                 return Logins.Count;
             }
         }
-
 
         private IdentityState _identityState;
 
