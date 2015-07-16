@@ -16,6 +16,7 @@
 //
 
 using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Diagnostics;
@@ -110,6 +111,10 @@ namespace Amazon
         /// <returns>true if the thread is the game/main/unity thread, else false</returns>
         public static bool IsMainThread()
         {
+			if(null == _mainThread)
+			{
+				throw new Exception("Main thread has not been set, is the AWSPrefab on the scene?");
+			}
             return Thread.CurrentThread.Equals(_mainThread);
         }
 

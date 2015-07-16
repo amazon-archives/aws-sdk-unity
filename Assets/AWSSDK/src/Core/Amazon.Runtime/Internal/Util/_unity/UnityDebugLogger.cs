@@ -39,7 +39,7 @@ namespace Amazon.Runtime.Internal.Util
             try
             {
                 if (exception != null)
-                    UnityEngine.Debug.LogError(exception.Message);
+                    UnityEngine.Debug.LogException(exception);
 
                 if (!string.IsNullOrEmpty(messageFormat))
                     UnityEngine.Debug.LogError(string.Format(messageFormat, args));
@@ -55,7 +55,7 @@ namespace Amazon.Runtime.Internal.Util
             try
             {
                 if (exception != null)
-                    UnityEngine.Debug.Log(exception.Message);
+                    UnityEngine.Debug.LogException(exception);
 
                 if (!string.IsNullOrEmpty(messageFormat))
                     UnityEngine.Debug.Log(string.Format(messageFormat, args));
