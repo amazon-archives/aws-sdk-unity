@@ -1,3 +1,7 @@
+Version 2.0.0.3
+Bugs:
+- Fix a bug which causes Unity IDE to hang when the AWSPrefab was not present in the scene .
+
 Version 2.0.0.2
 Bugs:
 - Fixed a bug where we would clear the user's identity ID when adding a new login provider.
