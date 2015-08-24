@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using Amazon.Runtime.Internal.Transform;
 using Amazon.Runtime.Internal.Util;
 using Amazon.Util;
@@ -95,7 +94,7 @@ namespace Amazon.Runtime.Internal
             }
             else
             {
-                var baseServiceException = new T();
+                var baseServiceException = new AmazonServiceException(); 
                 baseServiceException.RequestId = errorResponse.RequestId;
                 baseServiceException.ErrorCode = errorResponse.Code;
                 baseServiceException.StatusCode = httpErrorResponse.StatusCode;

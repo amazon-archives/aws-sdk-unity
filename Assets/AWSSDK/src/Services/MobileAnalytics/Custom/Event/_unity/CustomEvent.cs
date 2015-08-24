@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -128,13 +127,13 @@ namespace Amazon.MobileAnalytics.MobileAnalyticsManager
             modelEvent.Session = new Amazon.MobileAnalytics.Model.Session();
             modelEvent.Session.Id = this.SessionId;
             modelEvent.Session.StartTimestamp = this.StartTimestamp;
-            
-            if(this._eventType == Session.SESSION_STOP_EVENT_TYPE)
-            {
-                modelEvent.Session.StopTimestamp = this.StopTimestamp;
-                modelEvent.Session.Duration = this.Duration;
-            }
 
+            if (_eventType == "_session.stop") 
+            { 
+                modelEvent.Session.StopTimestamp = stopTimestamp;
+                modelEvent.Session.Duration = this.Duration;             
+            }
+           
             lock(_globalLock)
             {
                 AddDict(_globalAttributes,modelEvent.Attributes);

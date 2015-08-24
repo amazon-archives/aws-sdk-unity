@@ -28,8 +28,15 @@ using Amazon.Runtime.Internal.Transform;
 
 namespace Amazon.SecurityToken
 {
+    ///<summary>
+    /// Common exception for the SecurityTokenService service.
+    /// </summary>
     public class AmazonSecurityTokenServiceException : AmazonServiceException
-    {    
+    {
+        /// <summary>
+        /// Construct instance of AmazonSecurityTokenServiceException
+        /// </summary>
+        /// <param name="message"></param>
         public AmazonSecurityTokenServiceException() : base(ResponseUnmarshaller.GetDefaultErrorMessage<AmazonSecurityTokenServiceException>())
         {
         }
@@ -39,21 +46,47 @@ namespace Amazon.SecurityToken
         {
         }
 
+        /// <summary>
+        /// Construct instance of AmazonSecurityTokenServiceException
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="innerException"></param>
         public AmazonSecurityTokenServiceException(string message, Exception innerException)
             : base(message, innerException)
         {
         }
 
+        /// <summary>
+        /// Construct instance of AmazonSecurityTokenServiceException
+        /// </summary>
+        /// <param name="innerException"></param>
         public AmazonSecurityTokenServiceException(Exception innerException)
             : base(innerException.Message, innerException)
         {
         }
 
+        /// <summary>
+        /// Construct instance of AmazonSecurityTokenServiceException
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="errorType"></param>
+        /// <param name="errorCode"></param>
+        /// <param name="requestId"></param>
+        /// <param name="statusCode"></param>
         public AmazonSecurityTokenServiceException(string message, ErrorType errorType, string errorCode, string requestId, HttpStatusCode statusCode)
             : base(message, errorType, errorCode, requestId, statusCode)
         {
         }
 
+        /// <summary>
+        /// Construct instance of AmazonSecurityTokenServiceException
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="innerException"></param>
+        /// <param name="errorType"></param>
+        /// <param name="errorCode"></param>
+        /// <param name="requestId"></param>
+        /// <param name="statusCode"></param>
         public AmazonSecurityTokenServiceException(string message, Exception innerException, ErrorType errorType, string errorCode, string requestId, HttpStatusCode statusCode)
             : base(message, innerException, errorType, errorCode, requestId, statusCode)
         {

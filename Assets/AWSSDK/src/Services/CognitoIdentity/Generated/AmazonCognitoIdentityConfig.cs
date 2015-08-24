@@ -23,6 +23,7 @@
 using System;
 
 using Amazon.Runtime;
+using Amazon.Util.Internal;
 
 
 namespace Amazon.CognitoIdentity
@@ -32,6 +33,11 @@ namespace Amazon.CognitoIdentity
     /// </summary>
     public partial class AmazonCognitoIdentityConfig : ClientConfig
     {
+        private static readonly string UserAgentString =
+            InternalSDKUtils.BuildUserAgentString("2.0.0.4");
+
+        private string _userAgent = UserAgentString;
+
         /// <summary>
         /// Default constructor
         /// </summary>
@@ -59,6 +65,17 @@ namespace Amazon.CognitoIdentity
             get
             {
                 return "2014-06-30";
+            }
+        }
+
+        /// <summary>
+        /// Gets the value of UserAgent property.
+        /// </summary>
+        public override string UserAgent
+        {
+            get
+            {
+                return _userAgent;
             }
         }
     }

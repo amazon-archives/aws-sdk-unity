@@ -15,7 +15,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Globalization;
 using System.IO;
@@ -35,7 +34,20 @@ namespace Amazon.DynamoDBv2.DocumentModel
     /// <summary>
     /// Enumerator describing type of DynamoDB data in a Primitive or PrimitiveList
     /// </summary>
-    public enum DynamoDBEntryType { String, Numeric, Binary }
+    public enum DynamoDBEntryType { 
+        /// <summary>
+        /// DynamoDB String type.
+        /// </summary>
+        String, 
+        /// <summary>
+        /// DynamoDB Numeric type.
+        /// </summary>
+        Numeric, 
+        /// <summary>
+        /// DynamoDB Binary type.
+        /// </summary>
+        Binary 
+    }
 
     /// <summary>
     /// A DynamoDBEntry that represents a scalar DynamoDB type
@@ -697,6 +709,10 @@ namespace Amazon.DynamoDBv2.DocumentModel
 
         #region Public overrides
 
+        /// <summary>
+        /// Implement the ToString method.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             if (this.Value == null)
@@ -705,11 +721,19 @@ namespace Amazon.DynamoDBv2.DocumentModel
             return this.Value.ToString();
         }
 
+        /// <summary>
+        /// Implement the Clone method.
+        /// </summary>
+        /// <returns></returns>
         public override object Clone()
         {
             return new Primitive(this.Value, this.Type);
         }
 
+        /// <summary>
+        /// Implement the GetHashCode method.
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             var typeHashCode = this.Type.GetHashCode();
@@ -736,6 +760,11 @@ namespace Amazon.DynamoDBv2.DocumentModel
             return Hashing.CombineHashes(typeHashCode, valueHashCode);
         }
 
+        /// <summary>
+        /// Implement the Equals method.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             Primitive entryOther = obj as Primitive;
@@ -774,6 +803,11 @@ namespace Amazon.DynamoDBv2.DocumentModel
 
         #region IEquatable<Primitive> Members
 
+        /// <summary>
+        /// Implement the Equals method from the IEquatable interface.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool Equals(Primitive other)
         {
             return this.Equals((object)other);
@@ -842,7 +876,6 @@ namespace Amazon.DynamoDBv2.DocumentModel
         public static PrimitiveComparer Default = new PrimitiveComparer();
     }
 }
-
 #if AWSSDK_UNITY
 #pragma warning restore 3021
 #endif

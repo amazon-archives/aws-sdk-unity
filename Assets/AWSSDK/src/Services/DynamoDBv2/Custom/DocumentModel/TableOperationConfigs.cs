@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 
@@ -267,7 +266,22 @@ namespace Amazon.DynamoDBv2.DocumentModel
         }
 
         /// <summary>
+        /// The key expression that is evaluated for each item. Only items that pass the expression are returned.
+        /// <para>
+        /// Both KeyExpression and FilterExpression contain ExpressionAttributeNames and ExpressionAttributeValues.
+        /// Attribute names or values can be added to either expression and can be referenced in either expression
+        /// statement. Conflicting attribute names or values will lead to an exception being thrown.
+        /// </para>
+        /// </summary>
+        public Expression KeyExpression { get; set; }
+
+        /// <summary>
         /// The expression that is evaluated for each item. Only items that pass the expression are returned.
+        /// <para>
+        /// Both KeyExpression and FilterExpression contain ExpressionAttributeNames and ExpressionAttributeValues.
+        /// Attribute names or values can be added to either expression and can be referenced in either expression
+        /// statement. Conflicting attribute names or values will lead to an exception being thrown.
+        /// </para>
         /// </summary>
         public Expression FilterExpression { get; set; }
 

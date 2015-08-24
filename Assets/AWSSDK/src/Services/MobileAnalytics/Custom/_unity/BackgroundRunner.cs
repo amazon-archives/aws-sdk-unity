@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -41,24 +40,26 @@ namespace Amazon.MobileAnalytics.MobileAnalyticsManager.Internal
         /// <returns><c>true</c> If is alive; otherwise, <c>false</c>.</returns>
         private static bool IsAlive()
         {
-                return _thread != null && _thread.ThreadState != ThreadState.Stopped 
-                                       && _thread.ThreadState != ThreadState.Aborted
-                                       && _thread.ThreadState != ThreadState.AbortRequested;                         
+            return _thread != null && _thread.ThreadState != ThreadState.Stopped
+                                   && _thread.ThreadState != ThreadState.Aborted
+                                   && _thread.ThreadState != ThreadState.AbortRequested;
         }
-        
+
         /// <summary>
         /// Starts the Mobile Analytics Manager background thread.
         /// </summary>
         public static void StartWork()
         {
             lock (_lock)
-            { 
-                if(!IsAlive())
+            {
+                if (!IsAlive())
+                {
                     _thread = new System.Threading.Thread(DoWork);
+                    _thread.Start();
+                }
             }
-            _thread.Start();
         }
-        
+
         /// <summary>
         /// Sends Mobile Analytics events to server on background thread.
         /// </summary>
@@ -75,21 +76,21 @@ namespace Amazon.MobileAnalytics.MobileAnalyticsManager.Internal
                         _logger.InfoFormat("Mobile Analytics Manager is trying to deliver events in background thread.");
 
                         IDictionary<string, MobileAnalyticsManager> instanceDictionary = MobileAnalyticsManager.InstanceDictionary;
-                        foreach(string appId in instanceDictionary.Keys)
+                        foreach (string appId in instanceDictionary.Keys)
                         {
-                            try 
+                            try
                             {
                                 MobileAnalyticsManager manager = MobileAnalyticsManager.GetInstance(appId);
-                                manager.BackgroundDeliveryClient.AttemptDelivery();      
+                                manager.BackgroundDeliveryClient.AttemptDelivery();
                             }
-                            catch(System.Exception e)
+                            catch (System.Exception e)
                             {
-                                _logger.Error(e,"An exception occurred in Mobile Analytics Delivery Client.");
+                                _logger.Error(e, "An exception occurred in Mobile Analytics Delivery Client.");
                             }
                         }
                         Thread.Sleep(Convert.ToInt32(AWSConfigsMobileAnalytics.BackgroundSubmissionWaitTime) * 1000);
                     }
-                    catch(System.Exception e)
+                    catch (System.Exception e)
                     {
                         _logger.Error(e, "An exception occurred in Mobile Analytics Manager.");
                     }

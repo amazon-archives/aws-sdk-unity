@@ -38,8 +38,13 @@ namespace Amazon.MobileAnalytics.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for PutEvents operation
     /// </summary>  
-    public class PutEventsResponseUnmarshaller : JsonResponseUnmarshaller, ISimplifiedErrorUnmarshaller 
+    public class PutEventsResponseUnmarshaller : JsonResponseUnmarshaller
     {
+        /// <summary>
+        /// Unmarshaller the response from the service to the response class.
+        /// </summary>  
+        /// <param name="context"></param>
+        /// <returns></returns>
         public override AmazonWebServiceResponse Unmarshall(JsonUnmarshallerContext context)
         {
             PutEventsResponse response = new PutEventsResponse();
@@ -48,6 +53,13 @@ namespace Amazon.MobileAnalytics.Model.Internal.MarshallTransformations
             return response;
         }
 
+        /// <summary>
+        /// Unmarshaller error response to exception.
+        /// </summary>  
+        /// <param name="context"></param>
+        /// <param name="innerException"></param>
+        /// <param name="statusCode"></param>
+        /// <returns></returns>
         public override AmazonServiceException UnmarshallException(JsonUnmarshallerContext context, Exception innerException, HttpStatusCode statusCode)
         {
             ErrorResponse errorResponse = JsonErrorResponseUnmarshaller.GetInstance().Unmarshall(context);
@@ -58,22 +70,16 @@ namespace Amazon.MobileAnalytics.Model.Internal.MarshallTransformations
             return new AmazonMobileAnalyticsException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
         }
 
-        public AmazonServiceException UnmarshallException(IWebResponseData response, ErrorResponse errorResponse, Exception innerException)
-        {
-            if (!string.IsNullOrEmpty(errorResponse.Code) && errorResponse.Code.StartsWith("BadRequestException"))
-            {
-                string message = string.IsNullOrEmpty(errorResponse.Message)?GetDefaultErrorMessage<AmazonMobileAnalyticsException>():errorResponse.Message;
-                return new BadRequestException(message, innerException, ErrorType.Unknown, errorResponse.Code, errorResponse.RequestId, response.StatusCode);
-            }
-            return new AmazonMobileAnalyticsException(GetDefaultErrorMessage<AmazonMobileAnalyticsException>(), innerException, ErrorType.Unknown, errorResponse.Code, errorResponse.RequestId, response.StatusCode);
-        }
-
         private static PutEventsResponseUnmarshaller _instance = new PutEventsResponseUnmarshaller();        
 
         internal static PutEventsResponseUnmarshaller GetInstance()
         {
             return _instance;
         }
+
+        /// <summary>
+        /// Gets the singleton.
+        /// </summary>  
         public static PutEventsResponseUnmarshaller Instance
         {
             get

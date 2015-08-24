@@ -35,26 +35,40 @@ using Amazon.DynamoDBv2;
 
 namespace Amazon
 {
+    /// <summary>
+    /// Configurations for accessing DynamoDB
+    /// </summary>    
     public static class AWSConfigsDynamoDB
     {
         private const string dynamoDBKey = "dynamoDB";
 
         static AWSConfigsDynamoDB()
         {
-            Context = new DynamoDBContextConfig();
-            ConversionSchema = ConversionSchema.V1;
-
+            try
+            {
 #if BCL || AWSSDK_UNITY
-            var root = new RootConfig();
-            var section = root.GetServiceSection(dynamoDBKey);
-            if (section == null)
-                return;
+                var root = new RootConfig();
+                var section = root.GetServiceSection(dynamoDBKey);
+                if (section == null)
+                     return;
 
-            var rootSection = new DynamoDBSectionRoot(section);
-            if (rootSection.DynamoDB != null)
-                AWSConfigsDynamoDB.Configure(rootSection.DynamoDB);
+                var rootSection = new DynamoDBSectionRoot(section);
+                if (rootSection.DynamoDB != null)
+                    AWSConfigsDynamoDB.Configure(rootSection.DynamoDB);
 #endif
-        }        
+            }
+            finally
+            {
+                // If no configuration exist at least
+                // configure the context config to the default.
+                if (Context == null)
+                {
+                    Context = new DynamoDBContextConfig();
+                    ConversionSchema = ConversionSchema.V1;;
+                }
+            }
+
+        }
 
         #region DynamoDBContext TableNamePrefix
 

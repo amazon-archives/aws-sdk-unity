@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Threading;
 using System.Collections;
@@ -210,14 +209,12 @@ namespace Amazon.MobileAnalytics.MobileAnalyticsManager.Internal
                 {
                     SubmitEvents(rowIds, eventArray, HandleResponse);
                     rowIds = new List<string>();
+                    eventArray = new List<Amazon.MobileAnalytics.Model.Event>();
                     eventsLength = 0L;
                 }
             }
 
             SubmitEvents(rowIds, eventArray, HandleResponse);
-
-            rowIds = new List<string>();
-            eventsLength = 0L;
         }
 
         /// <summary>
@@ -284,19 +281,19 @@ namespace Amazon.MobileAnalytics.MobileAnalyticsManager.Internal
 
             if (success)
             {
-                _logger.InfoFormat("Deliver events succefully and delete events");
+                _logger.InfoFormat("Deliver {0} events succefully and delete those events.", rowsToUpdate.Count);
                 _eventStore.DeleteEvent(rowsToUpdate);
             }
             else
             {
                 if (retriable)
                 {
-                    _logger.InfoFormat("Unable to deliver events. events will be retried in next attempt.");
+                    _logger.InfoFormat("Unable to deliver {0} events. events will be retried in next attempt.", rowsToUpdate.Count);
                     _eventStore.IncrementDeliveryAttempt(rowsToUpdate);
                 }
                 else
                 {
-                    _logger.InfoFormat("Events delivery fail and it's not retriable. Delete events");
+                    _logger.InfoFormat("Delivery of {0} events failed. The error is not retriable. Delete those events from local storage.", rowsToUpdate.Count);
                     _eventStore.DeleteEvent(rowsToUpdate);
                 }
             }

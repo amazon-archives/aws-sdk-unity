@@ -15,7 +15,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using Amazon.Runtime.Internal.Util;
 using Amazon.Util.Internal;
 using System;
@@ -33,10 +32,21 @@ namespace Amazon.Runtime.Internal
         /// <summary>
         /// Default set of exception handlers.
         /// </summary>
+        private IDictionary<Type, IExceptionHandler> _exceptionHandlers;
+
+        /// <summary>
+        /// Default set of exception handlers.
+        /// </summary>
         public IDictionary<Type, IExceptionHandler> ExceptionHandlers
         {
-            get;
-            protected set;
+            get
+            {
+                return _exceptionHandlers;
+            }
+            protected set
+            {
+                _exceptionHandlers = value;
+            }
         }
 
         /// <summary>
@@ -47,7 +57,7 @@ namespace Amazon.Runtime.Internal
         {
             this.Logger = logger;
 
-            this.ExceptionHandlers = new Dictionary<Type, IExceptionHandler>
+            _exceptionHandlers = new Dictionary<Type, IExceptionHandler>
             {
                 {typeof(WebException), new WebExceptionHandler(this.Logger)},
                 {typeof(HttpErrorResponseException), new HttpErrorResponseExceptionHandler(this.Logger)}

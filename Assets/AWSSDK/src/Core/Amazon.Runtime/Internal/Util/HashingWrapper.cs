@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 
 namespace Amazon.Runtime.Internal.Util
@@ -39,6 +38,20 @@ namespace Amazon.Runtime.Internal.Util
         public byte[] AppendLastBlock(byte[] buffer)
         {
             return AppendLastBlock(buffer, 0, buffer.Length);
+        }
+
+        #endregion
+
+
+        #region Dispose Pattern Implementation
+
+        /// <summary>
+        /// Disposes of all managed and unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         #endregion

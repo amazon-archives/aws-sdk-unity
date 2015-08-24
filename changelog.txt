@@ -1,3 +1,12 @@
+Version 2.0.0.4
+New Features:
+- Added a Amazon Cognito Identity public method that can query whether or not a particular credentials provider is used.
+Improvements:
+- General service and documentation updates.
+Bugs:
+- Fixed an Amazon Mobile Analytics bug where the timestamp on the session stop event can be that of the awakening time instead of the stopping time.
+- Fixed an Amazon Mobile Analytics bug where a ThreadStateException can occur when Mobile Analytics background thread starts.
+
 Version 2.0.0.3
 Bugs:
 - Fix a bug which causes Unity IDE to hang when the AWSPrefab was not present in the scene .

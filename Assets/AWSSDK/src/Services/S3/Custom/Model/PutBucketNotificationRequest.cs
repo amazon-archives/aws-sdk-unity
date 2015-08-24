@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
@@ -32,6 +31,9 @@ namespace Amazon.S3.Model
     /// </summary>
     public partial class PutBucketNotificationRequest : AmazonWebServiceRequest
     {
+        /// <summary>
+        /// Gets and sets the BucketName property.
+        /// </summary>
         public string BucketName { get; set; }
 
         // Check to see if Bucket property is set
@@ -62,17 +64,6 @@ namespace Amazon.S3.Model
             return this.QueueConfigurations != null && QueueConfigurations.Count > 0;
         }
 
-
-        /// <summary>
-        /// Gets and sets the CloudFunctionConfigurations property. CloudFunctionConfigurations are configuration for 
-        /// Amazon S3 events to be sent to an Amazon Lambda cloud function.
-        /// </summary>
-        public List<CloudFunctionConfiguration> CloudFunctionConfigurations { get; set; }
-
-        internal bool IsSetCloudFunctionConfigurations()
-        {
-            return this.CloudFunctionConfigurations != null && CloudFunctionConfigurations.Count > 0;
-        }
 
 
         /// <summary>

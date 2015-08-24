@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
@@ -127,6 +126,11 @@ namespace Amazon.S3.Model
         {
             return this.unmodifiedSinceDate.HasValue;
         }
+
+
+        /// <summary>
+        /// Gets and sets the Key property. This is the user defined key that identifies the object in the bucket.
+        /// </summary>
         public string Key
         {
             get { return this.key; }

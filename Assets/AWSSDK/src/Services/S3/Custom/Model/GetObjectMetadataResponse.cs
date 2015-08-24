@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
@@ -89,6 +88,10 @@ namespace Amazon.S3.Model
         {
             return this.deleteMarker != null;
         }
+
+        /// <summary>
+        /// Gets and sets the AcceptRanges.
+        /// </summary>
         public string AcceptRanges
         {
             get { return this.acceptRanges; }

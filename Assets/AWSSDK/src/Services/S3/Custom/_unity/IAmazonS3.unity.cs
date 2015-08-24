@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using Amazon.Runtime;
 using Amazon.S3.Model;
 using System;

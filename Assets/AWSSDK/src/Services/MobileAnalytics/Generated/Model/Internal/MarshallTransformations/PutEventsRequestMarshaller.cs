@@ -39,11 +39,21 @@ namespace Amazon.MobileAnalytics.Model.Internal.MarshallTransformations
     /// </summary>       
     public class PutEventsRequestMarshaller : IMarshaller<IRequest, PutEventsRequest> , IMarshaller<IRequest,AmazonWebServiceRequest>
     {
+        /// <summary>
+        /// Marshaller the request object to the HTTP request.
+        /// </summary>  
+        /// <param name="input"></param>
+        /// <returns></returns>
         public IRequest Marshall(AmazonWebServiceRequest input)
         {
             return this.Marshall((PutEventsRequest)input);
         }
 
+        /// <summary>
+        /// Marshaller the request object to the HTTP request.
+        /// </summary>  
+        /// <param name="publicRequest"></param>
+        /// <returns></returns>
         public IRequest Marshall(PutEventsRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.MobileAnalytics");

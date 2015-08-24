@@ -180,6 +180,16 @@ namespace Amazon.CognitoIdentity
         }
 
         /// <summary>
+        /// Returns if the providerName is present in the Logins Collection.
+        /// </summary>
+        /// <param name="providerName">The provider name for the login (i.e. graph.facebook.com)</param>
+        /// <returns>true if the provider name is present in the logins collection, else false</returns>
+        public bool ContainsProvider(string providerName)
+        {
+            return Logins.ContainsKey (providerName);
+        }
+
+        /// <summary>
         /// Removes a provider from the collection of logins.
         /// </summary>
         /// <param name="providerName">The provider name for the login (i.e. graph.facebook.com)</param>
@@ -211,6 +221,7 @@ namespace Amazon.CognitoIdentity
                 return Logins.Count;
             }
         }
+
 
         private IdentityState _identityState;
 

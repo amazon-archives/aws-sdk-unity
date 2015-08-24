@@ -15,7 +15,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +30,8 @@ using Amazon.Util;
 #if WIN_RT || WINDOWS_PHONE
 using System.Threading.Tasks;
 #endif
+
+#pragma warning disable 1591
 
 namespace Amazon.S3.Internal
 {
@@ -79,7 +80,7 @@ namespace Amazon.S3.Internal
         }
 #endif
 
-        protected void PreInvoke(IExecutionContext executionContext)
+        protected virtual void PreInvoke(IExecutionContext executionContext)
         {
             ProcessPreRequestHandlers(executionContext);
         }

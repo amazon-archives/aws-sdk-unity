@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
@@ -69,6 +68,9 @@ namespace Amazon.S3.Model
             return this.Policy != null;
         }
         
+        /// <summary>
+        /// Overriden to turn off sending SHA256 header.
+        /// </summary>
         protected override bool IncludeSHA256Header
         {
             get

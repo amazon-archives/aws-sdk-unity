@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 
@@ -55,6 +54,9 @@ namespace Amazon.DynamoDBv2.DataModel
     /// </summary>
     public class DynamoDBContextConfig
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public DynamoDBContextConfig()
         {
             TableNamePrefix = AWSConfigsDynamoDB.Context.TableNamePrefix;
@@ -138,6 +140,9 @@ namespace Amazon.DynamoDBv2.DataModel
         /// </summary>
         public List<ScanCondition> QueryFilter { get; set; }
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public DynamoDBOperationConfig()
         {
             QueryFilter = new List<ScanCondition>();
@@ -402,7 +407,7 @@ namespace Amazon.DynamoDBv2.DataModel
                 referenceTracking = new CircularReferenceTracking();
             }
 
-            public CircularReferenceTracking.Tracker Track(object target)
+            public IDisposable Track(object target)
             {
                 return referenceTracking.Track(target);
             }

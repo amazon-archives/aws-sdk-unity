@@ -15,7 +15,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.ComponentModel;
 using System.Globalization;
@@ -367,6 +366,7 @@ namespace Amazon
         #endregion
 
 
+
         #region AWS Config Sections
 
         /// <summary>
@@ -560,4 +560,5 @@ namespace Amazon
         /// </summary>
         JSON = 1
     }
+
 }

@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
@@ -32,20 +31,43 @@ namespace Amazon.S3.Model
     /// </summary>
     public class StreamSizeMismatchException : AmazonS3Exception
     {
+        /// <summary>
+        /// Gets and sets ExpectedSize property.
+        /// </summary>
         public long ExpectedSize { get; set; }
 
+        /// <summary>
+        /// Gets and sets ActualSize property.
+        /// </summary>
         public long ActualSize { get; set; }
 
+        /// <summary>
+        /// Construct an instance of StreamSizeMismatchException.
+        /// </summary>
+        /// <param name="message"></param>
         public StreamSizeMismatchException(string message)
             : base(message)
         {
         }
 
+        /// <summary>
+        /// Construct an instance of StreamSizeMismatchException.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="innerException"></param>
         public StreamSizeMismatchException(string message, Exception innerException)
             : base(message, innerException)
         {
         }
 
+        /// <summary>
+        /// Construct an instance of StreamSizeMismatchException.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="expectedSize"></param>
+        /// <param name="actualSize"></param>
+        /// <param name="requestId"></param>
+        /// <param name="amazonId2"></param>
         public StreamSizeMismatchException(string message, long expectedSize, long actualSize, string requestId, string amazonId2)
             : base(message)
         {
@@ -55,6 +77,15 @@ namespace Amazon.S3.Model
             this.AmazonId2 = amazonId2;
         }
 
+        /// <summary>
+        /// Construct an instance of StreamSizeMismatchException.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="innerException"></param>
+        /// <param name="expectedSize"></param>
+        /// <param name="actualSize"></param>
+        /// <param name="requestId"></param>
+        /// <param name="amazonId2"></param>
         public StreamSizeMismatchException(string message, Exception innerException, long expectedSize, long actualSize, string requestId, string amazonId2)
             : base(message, innerException)
         {
@@ -64,21 +95,52 @@ namespace Amazon.S3.Model
             this.AmazonId2 = amazonId2;
         }
 
+        /// <summary>
+        /// Construct an instance of StreamSizeMismatchException.
+        /// </summary>
+        /// <param name="innerException"></param>
         public StreamSizeMismatchException(Exception innerException)
             : base(innerException.Message, innerException)
         {
         }
 
+        /// <summary>
+        /// Construct an instance of StreamSizeMismatchException.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="errorType"></param>
+        /// <param name="errorCode"></param>
+        /// <param name="requestId"></param>
+        /// <param name="statusCode"></param>
         public StreamSizeMismatchException(string message, ErrorType errorType, string errorCode, string requestId, HttpStatusCode statusCode)
             : base(message, errorType, errorCode, requestId, statusCode)
         {
         }
 
+        /// <summary>
+        /// Construct an instance of StreamSizeMismatchException.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="innerException"></param>
+        /// <param name="errorType"></param>
+        /// <param name="errorCode"></param>
+        /// <param name="requestId"></param>
+        /// <param name="statusCode"></param>
         public StreamSizeMismatchException(string message, Exception innerException, ErrorType errorType, string errorCode, string requestId, HttpStatusCode statusCode)
             : base(message, innerException, errorType, errorCode, requestId, statusCode)
         {
         }
 
+        /// <summary>
+        /// Construct an instance of StreamSizeMismatchException.
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="innerException"></param>
+        /// <param name="errorType"></param>
+        /// <param name="errorCode"></param>
+        /// <param name="requestId"></param>
+        /// <param name="statusCode"></param>
+        /// <param name="amazonId2"></param>
         public StreamSizeMismatchException(string message, Exception innerException, ErrorType errorType, string errorCode, string requestId, HttpStatusCode statusCode, string amazonId2)
             : base(message, innerException, errorType, errorCode, requestId, statusCode, amazonId2)
         {

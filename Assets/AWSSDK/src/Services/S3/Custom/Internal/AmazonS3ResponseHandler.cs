@@ -16,7 +16,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +28,8 @@ using Amazon.Util;
 using Amazon.Runtime.Internal.Util;
 using Amazon.Runtime.Internal.Transform;
 using Amazon.Runtime.Internal;
+
+#pragma warning disable 1591
 
 namespace Amazon.S3.Internal
 {
@@ -77,7 +78,7 @@ namespace Amazon.S3.Internal
         }
 #endif
 
-        protected void PostInvoke(IExecutionContext executionContext)
+        protected virtual void PostInvoke(IExecutionContext executionContext)
         {
             ProcessResponseHandlers(executionContext);
         }
@@ -179,6 +180,7 @@ namespace Amazon.S3.Internal
             {
                 copyPartResponse.PartNumber = ((CopyPartRequest)request.OriginalRequest).PartNumber;
             }
+
 #if !AWSSDK_UNITY
             AmazonS3Client.CleanupRequest(request);
 #endif

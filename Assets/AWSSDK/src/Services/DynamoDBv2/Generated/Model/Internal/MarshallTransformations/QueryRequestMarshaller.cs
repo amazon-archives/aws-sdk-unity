@@ -39,11 +39,21 @@ namespace Amazon.DynamoDBv2.Model.Internal.MarshallTransformations
     /// </summary>       
     public class QueryRequestMarshaller : IMarshaller<IRequest, QueryRequest> , IMarshaller<IRequest,AmazonWebServiceRequest>
     {
+        /// <summary>
+        /// Marshaller the request object to the HTTP request.
+        /// </summary>  
+        /// <param name="input"></param>
+        /// <returns></returns>
         public IRequest Marshall(AmazonWebServiceRequest input)
         {
             return this.Marshall((QueryRequest)input);
         }
 
+        /// <summary>
+        /// Marshaller the request object to the HTTP request.
+        /// </summary>  
+        /// <param name="publicRequest"></param>
+        /// <returns></returns>
         public IRequest Marshall(QueryRequest publicRequest)
         {
             IRequest request = new DefaultRequest(publicRequest, "Amazon.DynamoDBv2");
@@ -144,6 +154,12 @@ namespace Amazon.DynamoDBv2.Model.Internal.MarshallTransformations
                 {
                     context.Writer.WritePropertyName("IndexName");
                     context.Writer.Write(publicRequest.IndexName);
+                }
+
+                if(publicRequest.IsSetKeyConditionExpression())
+                {
+                    context.Writer.WritePropertyName("KeyConditionExpression");
+                    context.Writer.Write(publicRequest.KeyConditionExpression);
                 }
 
                 if(publicRequest.IsSetKeyConditions())

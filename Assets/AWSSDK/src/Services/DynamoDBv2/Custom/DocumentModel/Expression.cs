@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 
@@ -135,5 +134,51 @@ namespace Amazon.DynamoDBv2.DocumentModel
             request.ExpressionAttributeNames = new Dictionary<string,string>(this.ExpressionAttributeNames);
             request.ExpressionAttributeValues = this.ConvertToAttributeValues(conversion);
         }
+
+        internal static void ApplyExpression(QueryRequest request, DynamoDBEntryConversion conversion,
+            Expression keyExpression, Expression filterExpression)
+        {
+            if (keyExpression == null)
+                keyExpression = new Expression();
+            if (filterExpression == null)
+                filterExpression = new Expression();
+
+            if (!keyExpression.IsSet && !filterExpression.IsSet)
+                return;
+
+            if (keyExpression.IsSet)
+                request.KeyConditionExpression = keyExpression.ExpressionStatement;
+            if (filterExpression.IsSet)
+                request.FilterExpression = filterExpression.ExpressionStatement;
+
+            var kean = keyExpression.ExpressionAttributeNames;
+            var fean = filterExpression.ExpressionAttributeNames;
+            var combinedEan = Common.Combine(kean, fean, StringComparer.Ordinal);
+            request.ExpressionAttributeNames = combinedEan;
+
+            var keav = new Document(keyExpression.ExpressionAttributeValues).ForceConversion(conversion);
+            var feav = new Document(filterExpression.ExpressionAttributeValues).ForceConversion(conversion);
+            var combinedEav = Common.Combine(keav, feav, null);
+            request.ExpressionAttributeValues = ConvertToAttributeValues(combinedEav, conversion);
+        }
+
+        internal static Dictionary<string, AttributeValue> ConvertToAttributeValues(
+            Dictionary<string, DynamoDBEntry> valueMap, DynamoDBEntryConversion conversion)
+        {
+            var convertedValues = new Dictionary<string, AttributeValue>();
+            if (valueMap != null)
+            {
+                foreach (var kvp in valueMap)
+                {
+                    if (kvp.Value == null)
+                        convertedValues[kvp.Key] = new AttributeValue { NULL = true };
+                    else
+                        convertedValues[kvp.Key] = kvp.Value.ConvertToAttributeValue(new DynamoDBEntry.AttributeConversionConfig(conversion));
+                }
+            }
+
+            return convertedValues;
+        }
+
     }
 }

@@ -14,14 +14,15 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 
+using Amazon.Runtime.Internal.Util;
 using ThirdParty.Json.LitJson;
+using System.Globalization;
 
 
 namespace Amazon.Runtime.Internal.Settings
@@ -238,9 +239,11 @@ namespace Amazon.Runtime.Internal.Settings
                             {
                                 objectCollection[key] = UserCrypto.Decrypt(value);
                             }
-                            catch
+                            catch (Exception e)
                             {
                                 objectCollection.Remove(key);
+                                var logger = Logger.GetLogger(typeof(PersistenceManager));
+                                logger.Error(e, "Exception decrypting value for key {0}/{1}", settingsKey, key);
                             }
                         }
                     }
@@ -248,9 +251,9 @@ namespace Amazon.Runtime.Internal.Settings
             }
         }
 
-        string getFileFromType(string type)
+        private static string getFileFromType(string type)
         {
-            return string.Format(@"{0}\{1}.json", GetSettingsStoreFolder(), type);
+            return string.Format(CultureInfo.InvariantCulture, @"{0}\{1}.json", GetSettingsStoreFolder(), type);
         }
 
         #endregion
@@ -320,12 +323,22 @@ namespace Amazon.Runtime.Internal.Settings
 
         public void Dispose()
         {
-            if (watcher != null)
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
             {
-                watchers.Remove(watcher);
-                watcher = null;
+                if (watcher != null)
+                {
+                    watchers.Remove(watcher);
+                    watcher = null;
+                }
             }
         }
+
 
         #endregion
 

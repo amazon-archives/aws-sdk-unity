@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
@@ -33,6 +32,9 @@ namespace Amazon.S3.Model
     /// </summary>
     public partial class PutBucketLoggingRequest : AmazonWebServiceRequest
     {
+        /// <summary>
+        /// Gets and sets the BucketName property.
+        /// </summary>
         public string BucketName { get; set; }
 
         // Check to see if Bucket property is set
@@ -40,6 +42,10 @@ namespace Amazon.S3.Model
         {
             return this.BucketName != null;
         }
+
+        /// <summary>
+        /// Gets and sets the LoggingConfig property.
+        /// </summary>
         public S3BucketLoggingConfig LoggingConfig { get; set; }
 
         // Check to see if BucketLoggingStatus property is set

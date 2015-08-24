@@ -28,8 +28,15 @@ using Amazon.Runtime.Internal.Transform;
 
 namespace Amazon.MobileAnalytics
 {
+    ///<summary>
+    /// Common exception for the MobileAnalytics service.
+    /// </summary>
     public class AmazonMobileAnalyticsException : AmazonServiceException
-    {    
+    {
+        /// <summary>
+        /// Construct instance of AmazonMobileAnalyticsException
+        /// </summary>
+        /// <param name="message"></param>
         public AmazonMobileAnalyticsException() : base(ResponseUnmarshaller.GetDefaultErrorMessage<AmazonMobileAnalyticsException>())
         {
         }
@@ -39,21 +46,47 @@ namespace Amazon.MobileAnalytics
         {
         }
 
+        /// <summary>
+        /// Construct instance of AmazonMobileAnalyticsException
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="innerException"></param>
         public AmazonMobileAnalyticsException(string message, Exception innerException)
             : base(message, innerException)
         {
         }
 
+        /// <summary>
+        /// Construct instance of AmazonMobileAnalyticsException
+        /// </summary>
+        /// <param name="innerException"></param>
         public AmazonMobileAnalyticsException(Exception innerException)
             : base(innerException.Message, innerException)
         {
         }
 
+        /// <summary>
+        /// Construct instance of AmazonMobileAnalyticsException
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="errorType"></param>
+        /// <param name="errorCode"></param>
+        /// <param name="requestId"></param>
+        /// <param name="statusCode"></param>
         public AmazonMobileAnalyticsException(string message, ErrorType errorType, string errorCode, string requestId, HttpStatusCode statusCode)
             : base(message, errorType, errorCode, requestId, statusCode)
         {
         }
 
+        /// <summary>
+        /// Construct instance of AmazonMobileAnalyticsException
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="innerException"></param>
+        /// <param name="errorType"></param>
+        /// <param name="errorCode"></param>
+        /// <param name="requestId"></param>
+        /// <param name="statusCode"></param>
         public AmazonMobileAnalyticsException(string message, Exception innerException, ErrorType errorType, string errorCode, string requestId, HttpStatusCode statusCode)
             : base(message, innerException, errorType, errorCode, requestId, statusCode)
         {

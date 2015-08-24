@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
@@ -83,6 +82,10 @@ namespace Amazon.S3.Model
         {
             return this.key != null;
         }
+
+        /// <summary>
+        /// Gets and sets the Owner property.
+        /// </summary>
         public Owner Owner
         {
             get { return this.owner; }

@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System.Collections;
 using System;
 
@@ -184,10 +183,10 @@ namespace Amazon.MobileAnalytics.MobileAnalyticsManager.Internal
             
             lock(_lock)
             {
-                startTimestamp = _startTime.ToString(AWSSDKUtils.ISO8601DateFormatNoMS);
+                startTimestamp = _startTime.ToString(AWSSDKUtils.ISO8601DateFormat);
                 if(_stopTime != null)
                 {
-                    stopTimestamp = ((DateTime)_stopTime).ToString(AWSSDKUtils.ISO8601DateFormatNoMS);
+                    stopTimestamp = ((DateTime)_stopTime).ToString(AWSSDKUtils.ISO8601DateFormat);
                 }
                 else
                     stopTimestamp = null;
@@ -216,23 +215,17 @@ namespace Amazon.MobileAnalytics.MobileAnalyticsManager.Internal
         
         private void StopSession()
         {
-            DateTime currentTime = DateTime.UtcNow;
-            
-            // update session info
-            lock(_lock)
-            {
-                _stopTime = currentTime;
-            }
-
+            //DateTime currentTime = DateTime.UtcNow;
             
             // record session stop event
             CustomEvent managerEvent = new CustomEvent(SESSION_STOP_EVENT_TYPE);
             lock(_lock)
             {
-                if(_stopTime != null)
-                    managerEvent.StopTimestamp = ((DateTime)_stopTime).ToString(AWSSDKUtils.ISO8601DateFormatNoMS);
-                
-                managerEvent.Duration = _duration;
+                if (_stopTime != null) 
+                { 
+                    managerEvent.StopTimestamp = ((DateTime)_stopTime).ToString(AWSSDKUtils.ISO8601DateFormat);
+                    managerEvent.Duration = Convert.ToInt64(((DateTime)_stopTime - _startTime).TotalMilliseconds);
+                }
             }
             MobileAnalyticsManager.GetInstance(_appid).RecordEvent(managerEvent);
         }
@@ -250,13 +243,6 @@ namespace Amazon.MobileAnalytics.MobileAnalyticsManager.Internal
             
             // record session pause event
             CustomEvent customEvent = new CustomEvent(SESSION_PAUSE_EVENT_TYPE);
-            lock(_lock)
-            {
-                if(_stopTime != null)
-                    customEvent.StopTimestamp = ((DateTime)_stopTime).ToString(AWSSDKUtils.ISO8601DateFormatNoMS);
-                    
-                customEvent.Duration = _duration;
-            }
             MobileAnalyticsManager.GetInstance(_appid).RecordEvent(customEvent);
         }
         
@@ -275,7 +261,7 @@ namespace Amazon.MobileAnalytics.MobileAnalyticsManager.Internal
             lock(_lock)
             {
                 if(_stopTime != null)
-                    customEvent.StopTimestamp = ((DateTime)_stopTime).ToString(AWSSDKUtils.ISO8601DateFormatNoMS);
+                    customEvent.StopTimestamp = ((DateTime)_stopTime).ToString(AWSSDKUtils.ISO8601DateFormat);
                     
                 customEvent.Duration = _duration;
             }

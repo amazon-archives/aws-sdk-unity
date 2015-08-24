@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
@@ -103,6 +102,10 @@ namespace Amazon.S3.Model
         {
             return this.contents.Count > 0;
         }
+
+        /// <summary>
+        /// Gets and sets the Name property which is the name of the bucket.
+        /// </summary>
         public string Name
         {
             get { return this.name; }
@@ -114,6 +117,10 @@ namespace Amazon.S3.Model
         {
             return this.name != null;
         }
+
+        /// <summary>
+        /// Gets and sets the Prefix property.
+        /// </summary>
         public string Prefix
         {
             get { return this.prefix; }
@@ -125,6 +132,10 @@ namespace Amazon.S3.Model
         {
             return this.prefix != null;
         }
+
+        /// <summary>
+        /// Gets and sets the MaxKeys property. This is max number of object keys returned by the list operation.
+        /// </summary>
         public int MaxKeys
         {
             get { return this.maxKeys ?? default(int); }

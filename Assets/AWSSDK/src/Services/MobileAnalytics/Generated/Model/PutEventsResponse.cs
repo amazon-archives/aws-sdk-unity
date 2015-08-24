@@ -29,6 +29,9 @@ using Amazon.Runtime.Internal;
 
 namespace Amazon.MobileAnalytics.Model
 {
+    /// <summary>
+    /// Empty class reserved for future use.
+    /// </summary>
     public partial class PutEventsResponse : AmazonWebServiceResponse
     {
 

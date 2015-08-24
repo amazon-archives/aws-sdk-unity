@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,8 +30,14 @@ namespace Amazon.DynamoDBv2.DocumentModel
     /// </summary>
     public class DynamoDBNull : DynamoDBEntry
     {
+        /// <summary>
+        /// Default Constructor.
+        /// </summary>
         public DynamoDBNull() { }
 
+        /// <summary>
+        /// Constant DynamoDBNull for the Null value.
+        /// </summary>
         public static readonly DynamoDBNull Null = new DynamoDBNull();
 
         #region Overrides
@@ -45,11 +50,20 @@ namespace Amazon.DynamoDBv2.DocumentModel
             };
         }
 
+        /// <summary>
+        /// Implement the Clone method.
+        /// </summary>
+        /// <returns></returns>
         public override object Clone()
         {
             return new DynamoDBNull();
         }
 
+        /// <summary>
+        /// Implement the Equals method.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             var otherNull = obj as DynamoDBNull;
@@ -59,6 +73,10 @@ namespace Amazon.DynamoDBv2.DocumentModel
             return true;
         }
 
+        /// <summary>
+        /// Implement the GetHashCode method.
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             return 0;

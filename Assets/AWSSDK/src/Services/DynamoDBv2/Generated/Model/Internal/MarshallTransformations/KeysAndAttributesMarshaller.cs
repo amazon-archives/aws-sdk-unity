@@ -39,6 +39,12 @@ namespace Amazon.DynamoDBv2.Model.Internal.MarshallTransformations
     /// </summary>       
     public class KeysAndAttributesMarshaller : IRequestMarshaller<KeysAndAttributes, JsonMarshallerContext> 
     {
+        /// <summary>
+        /// Unmarshaller the response from the service to the response class.
+        /// </summary>  
+        /// <param name="requestObject"></param>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public void Marshall(KeysAndAttributes requestObject, JsonMarshallerContext context)
         {
             if(requestObject.IsSetAttributesToGet())
@@ -104,6 +110,9 @@ namespace Amazon.DynamoDBv2.Model.Internal.MarshallTransformations
 
         }
 
+        /// <summary>
+        /// Singleton Marshaller.
+        /// </summary>  
         public readonly static KeysAndAttributesMarshaller Instance = new KeysAndAttributesMarshaller();
 
     }

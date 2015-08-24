@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
@@ -181,6 +180,9 @@ namespace Amazon.S3.Model
             }
         }
 
+        /// <summary>
+        /// Gets and sets Key property. This key is used to identify the object in S3.
+        /// </summary>
         public string Key
         {
             get { return this.key; }
@@ -387,6 +389,9 @@ namespace Amazon.S3.Model
             return !System.String.IsNullOrEmpty(this.md5Digest);
         }
 
+        /// <summary>
+        /// Overriden to turn off sending SHA256 header.
+        /// </summary>
         protected override bool IncludeSHA256Header
         {
             get
@@ -395,6 +400,9 @@ namespace Amazon.S3.Model
             }
         }
 
+        /// <summary>
+        /// Overriden to turn on expect 100 continue.
+        /// </summary>
         protected override bool Expect100Continue
         {
             get

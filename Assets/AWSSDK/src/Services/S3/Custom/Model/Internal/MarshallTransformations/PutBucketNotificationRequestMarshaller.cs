@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System.IO;
 using System.Xml;
 using System.Text;
@@ -23,6 +22,8 @@ using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Transform;
 using Amazon.Util;
+
+#pragma warning disable 1591
 
 namespace Amazon.S3.Model.Internal.MarshallTransformations
 {
@@ -105,36 +106,6 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
                     }
                 }
 
-                if (putBucketNotificationRequest.IsSetCloudFunctionConfigurations())
-                {
-                    foreach (var cloudFunctionConfiguartion in putBucketNotificationRequest.CloudFunctionConfigurations)
-                    {
-                        if (cloudFunctionConfiguartion != null)
-                        {
-                            xmlWriter.WriteStartElement("CloudFunctionConfiguration", "");
-                            if (cloudFunctionConfiguartion.IsSetId())
-                            {
-                                xmlWriter.WriteElementString("Id", "", S3Transforms.ToXmlStringValue(cloudFunctionConfiguartion.Id));
-                            }
-                            if (cloudFunctionConfiguartion.IsSetEvents())
-                            {
-                                foreach (var evnt in cloudFunctionConfiguartion.Events)
-                                {
-                                    xmlWriter.WriteElementString("Event", "", S3Transforms.ToXmlStringValue(evnt));
-                                }
-                            }
-                            if (cloudFunctionConfiguartion.IsSetCloudFunction())
-                            {
-                                xmlWriter.WriteElementString("CloudFunction", "", S3Transforms.ToXmlStringValue(cloudFunctionConfiguartion.CloudFunction));
-                            }
-                            if (cloudFunctionConfiguartion.IsSetInvocationRole())
-                            {
-                                xmlWriter.WriteElementString("InvocationRole", "", S3Transforms.ToXmlStringValue(cloudFunctionConfiguartion.InvocationRole));
-                            }
-                            xmlWriter.WriteEndElement();
-                        }
-                    }
-                }
 
                 if (putBucketNotificationRequest.IsSetLambdaFunctionConfigurations())
                 {

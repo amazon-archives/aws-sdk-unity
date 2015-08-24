@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -205,6 +204,10 @@ namespace Amazon.DynamoDBv2.DataModel
             ExecuteHelper(isAsync);
         }
 
+        /// <summary>
+        /// Execute the batch write.
+        /// </summary>
+        /// <param name="isAsync"></param>
         protected override void ExecuteHelper(bool isAsync)
         {
             DocumentBatch.ExecuteHelper(isAsync);

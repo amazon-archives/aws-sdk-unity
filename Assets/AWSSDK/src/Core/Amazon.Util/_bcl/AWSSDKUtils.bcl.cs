@@ -15,7 +15,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,15 +29,6 @@ namespace Amazon.Util
 {
     public static partial class AWSSDKUtils
     {
-#if BCL45
-        static string _userAgentBaseName = "aws-sdk-dotnet-45";
-#else
-#if AWSSDK_UNITY
-        static string _userAgentBaseName = "AWS-SDK-UNITY";
-#else
-        static string _userAgentBaseName = "aws-sdk-dotnet-35";
-#endif
-#endif
         static string DetermineRuntime()
         {
             return string.Format(CultureInfo.InvariantCulture, "{0}.{1}", Environment.Version.Major, Environment.Version.MajorRevision);

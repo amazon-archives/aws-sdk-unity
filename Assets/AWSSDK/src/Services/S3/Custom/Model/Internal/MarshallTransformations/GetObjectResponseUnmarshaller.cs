@@ -1,3 +1,4 @@
+#define AWSSDK_UNITY
 //
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
@@ -14,7 +15,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Net;
 using System.Collections.Generic;
@@ -26,6 +26,8 @@ using Amazon.Runtime.Internal.Transform;
 using Amazon.S3.Util;
 using System.Globalization;
 using Amazon.Util;
+
+#pragma warning disable 1591
 
 namespace Amazon.S3.Model.Internal.MarshallTransformations
 {

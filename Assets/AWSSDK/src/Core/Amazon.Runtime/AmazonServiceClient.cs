@@ -16,7 +16,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Auth;
 using Amazon.Runtime.Internal.Transform;
@@ -33,20 +32,23 @@ namespace Amazon.Runtime
     public abstract class AmazonServiceClient : IDisposable
     {
         private bool _disposed;
-        private ILogger _logger;
+        private Logger _logger;
 
         protected RuntimePipeline RuntimePipeline { get; set; }
         protected internal AWSCredentials Credentials { get; private set; }
         public ClientConfig Config { get; private set; }
 
+        protected ILogger Logger
+        {
+            get
+            {
+                return this._logger;
+            }
+        }
+
         protected virtual bool SupportResponseLogging
         {
             get { return true; }
-        }
-
-        protected ILogger Logger
-        {
-            get { return _logger; }
         }
 
         #region Events
@@ -300,7 +302,7 @@ namespace Amazon.Runtime
             }
         }
 
-        protected void ThrowIfDisposed()
+        protected virtual void ThrowIfDisposed()
         {
             if (this._disposed)
                 throw new ObjectDisposedException(GetType().FullName);

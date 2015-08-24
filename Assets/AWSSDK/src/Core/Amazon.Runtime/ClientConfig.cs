@@ -15,7 +15,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -50,7 +49,6 @@ namespace Amazon.Runtime
         private string serviceURL = null;
         private string authRegion = null;
         private string authServiceName = null;
-        private string userAgent = Amazon.Util.AWSSDKUtils.SDKUserAgent;
         private string signatureVersion = "2";
         private SigningAlgorithm signatureMethod = SigningAlgorithm.HmacSHA256;
         private int maxErrorRetry = 4;
@@ -94,11 +92,7 @@ namespace Amazon.Runtime
         /// <summary>
         /// Gets and sets of the UserAgent property.
         /// </summary>
-        public string UserAgent
-        {
-            get { return this.userAgent; }
-            set { this.userAgent = value; }
-        }
+        public abstract string UserAgent { get; }
 
         /// <summary>
         /// Gets and sets the RegionEndpoint property.  The region constant to use that 

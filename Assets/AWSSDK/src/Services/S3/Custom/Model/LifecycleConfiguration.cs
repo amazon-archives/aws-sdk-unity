@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
@@ -29,6 +28,10 @@ namespace Amazon.S3.Model
     {
         
         private List<LifecycleRule> rules = new List<LifecycleRule>();
+
+        /// <summary>
+        /// Gets and sets the Rules property. These rules defined the lifecycle configuration.
+        /// </summary>
         public List<LifecycleRule> Rules
         {
             get { return this.rules; }

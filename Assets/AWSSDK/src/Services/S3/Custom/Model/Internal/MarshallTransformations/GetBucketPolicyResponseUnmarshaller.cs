@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Net;
 using System.Collections.Generic;
@@ -22,6 +21,8 @@ using Amazon.S3.Model;
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Transform;
+
+#pragma warning disable 1591
 
 namespace Amazon.S3.Model.Internal.MarshallTransformations
 {

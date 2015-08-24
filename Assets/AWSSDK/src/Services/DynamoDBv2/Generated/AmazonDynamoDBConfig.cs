@@ -23,6 +23,7 @@
 using System;
 
 using Amazon.Runtime;
+using Amazon.Util.Internal;
 
 
 namespace Amazon.DynamoDBv2
@@ -32,6 +33,11 @@ namespace Amazon.DynamoDBv2
     /// </summary>
     public partial class AmazonDynamoDBConfig : ClientConfig
     {
+        private static readonly string UserAgentString =
+            InternalSDKUtils.BuildUserAgentString("2.0.0.4");
+
+        private string _userAgent = UserAgentString;
+
         /// <summary>
         /// Default constructor
         /// </summary>
@@ -60,6 +66,17 @@ namespace Amazon.DynamoDBv2
             get
             {
                 return "2012-08-10";
+            }
+        }
+
+        /// <summary>
+        /// Gets the value of UserAgent property.
+        /// </summary>
+        public override string UserAgent
+        {
+            get
+            {
+                return _userAgent;
             }
         }
     }

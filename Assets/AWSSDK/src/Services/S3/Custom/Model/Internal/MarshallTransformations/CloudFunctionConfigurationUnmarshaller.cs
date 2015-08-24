@@ -14,19 +14,20 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System.Collections.Generic;
 
 using Amazon.S3.Model;
 using Amazon.Runtime.Internal.Transform;
 
+#pragma warning disable 1591
+
 namespace Amazon.S3.Model.Internal.MarshallTransformations
 {
-    public class CloudFunctionConfigurationUnmarshaller : IUnmarshaller<CloudFunctionConfiguration, XmlUnmarshallerContext>, IUnmarshaller<CloudFunctionConfiguration, JsonUnmarshallerContext> 
+    public class LambdaFunctionConfigurationUnmarshaller : IUnmarshaller<LambdaFunctionConfiguration, XmlUnmarshallerContext>, IUnmarshaller<LambdaFunctionConfiguration, JsonUnmarshallerContext> 
     {
-        public CloudFunctionConfiguration Unmarshall(XmlUnmarshallerContext context)
+        public LambdaFunctionConfiguration Unmarshall(XmlUnmarshallerContext context)
         {
-            CloudFunctionConfiguration cloudFunctionConfiguration = new CloudFunctionConfiguration();
+            LambdaFunctionConfiguration cloudFunctionConfiguration = new LambdaFunctionConfiguration();
             int originalDepth = context.CurrentDepth;
             int targetDepth = originalDepth + 1;
 
@@ -51,13 +52,7 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
                     }
                     if (context.TestExpression("CloudFunction", targetDepth))
                     {
-                        cloudFunctionConfiguration.CloudFunction = StringUnmarshaller.GetInstance().Unmarshall(context);
-
-                        continue;
-                    }
-                    if (context.TestExpression("InvocationRole", targetDepth))
-                    {
-                        cloudFunctionConfiguration.InvocationRole = StringUnmarshaller.GetInstance().Unmarshall(context);
+                        cloudFunctionConfiguration.FunctionArn = StringUnmarshaller.GetInstance().Unmarshall(context);
 
                         continue;
                     }
@@ -71,20 +66,20 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
             return cloudFunctionConfiguration;
         }
 
-        public CloudFunctionConfiguration Unmarshall(JsonUnmarshallerContext context)
+        public LambdaFunctionConfiguration Unmarshall(JsonUnmarshallerContext context)
         {
             return null;
         }
 
-        private static CloudFunctionConfigurationUnmarshaller _instance;
+        private static LambdaFunctionConfigurationUnmarshaller _instance;
 
-        public static CloudFunctionConfigurationUnmarshaller Instance
+        public static LambdaFunctionConfigurationUnmarshaller Instance
         {
             get
             {
                 if (_instance == null)
                 {
-                    _instance = new CloudFunctionConfigurationUnmarshaller();
+                    _instance = new LambdaFunctionConfigurationUnmarshaller();
                 }
                 return _instance;
             }

@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +24,8 @@ using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime.Internal.Util;
 using Amazon.Runtime.Internal.Auth;
+
+#pragma warning disable 1591
 
 namespace Amazon.S3.Internal
 {
@@ -63,7 +64,7 @@ namespace Amazon.S3.Internal
                 SignRequest(request, metrics, awsAccessKeyId, awsSecretAccessKey);
         }
 
-        internal void SignRequest(IRequest request, RequestMetrics metrics, string awsAccessKeyId, string awsSecretAccessKey)
+        internal static void SignRequest(IRequest request, RequestMetrics metrics, string awsAccessKeyId, string awsSecretAccessKey)
         {
             request.Headers[HeaderKeys.XAmzDateHeader] = AWSSDKUtils.FormattedCurrentTimestampRFC822;
 

@@ -14,12 +14,12 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
+using System;
 using System.IO;
 
 namespace Amazon.Runtime.Internal.Util
 {
-    public interface IHashingWrapper
+    public interface IHashingWrapper : IDisposable
     {
         void Clear();
         byte[] ComputeHash(byte[] buffer);

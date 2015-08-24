@@ -14,16 +14,16 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Amazon.Runtime.Internal.Settings
 {
-    public class UserCrypto
+    public static class UserCrypto
     {
         public static string Decrypt(string encrypted)
         {
@@ -46,7 +46,7 @@ namespace Amazon.Runtime.Internal.Settings
                 if (!CryptUnprotectData(ref encryptedBlob, "psw", ref dataOption, IntPtr.Zero, ref prompt, flags, ref unencryptedBlob))
                 {
                     int errCode = Marshal.GetLastWin32Error();
-                    throw new Exception("CryptProtectData failed.", new Win32Exception(errCode));
+                    throw new AmazonClientException("CryptProtectData failed.", new Win32Exception(errCode));
                 }
 
                 byte[] outData = new byte[unencryptedBlob.cbData];
@@ -77,7 +77,7 @@ namespace Amazon.Runtime.Internal.Settings
                 if (!CryptProtectData(ref unencryptedBlob, "psw", ref dataOption, IntPtr.Zero, ref prompt, flags, ref encryptedBlob))
                 {
                     int errCode = Marshal.GetLastWin32Error();
-                    throw new Exception("CryptProtectData failed.", new Win32Exception(errCode));
+                    throw new AmazonClientException("CryptProtectData failed.", new Win32Exception(errCode));
                 }
 
                 byte[] outData = new byte[encryptedBlob.cbData];
@@ -88,10 +88,10 @@ namespace Amazon.Runtime.Internal.Settings
                 for (int i = 0; i <= outData.Length - 1; i++)
                 {
                     encrypted.Append(
-                        Convert.ToString(outData[i], 16).PadLeft(2, '0').ToUpper());
+                        Convert.ToString(outData[i], 16).PadLeft(2, '0').ToUpper(CultureInfo.InvariantCulture));
                 }
 
-                string encryptedPassword = encrypted.ToString().ToUpper();
+                string encryptedPassword = encrypted.ToString().ToUpper(CultureInfo.InvariantCulture);
                 return encryptedPassword;
             }
             finally
@@ -168,7 +168,7 @@ namespace Amazon.Runtime.Internal.Settings
             CRYPTPROTECT_VERIFY_PROTECTION = 0x40
         }
 
-        [DllImport("Crypt32.dll", SetLastError = true, CharSet = System.Runtime.InteropServices.CharSet.Auto)]
+        [DllImport("Crypt32.dll", SetLastError = true, CharSet = System.Runtime.InteropServices.CharSet.Unicode)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool CryptProtectData(
             ref DATA_BLOB pDataIn,
@@ -180,7 +180,7 @@ namespace Amazon.Runtime.Internal.Settings
             ref DATA_BLOB pDataOut
         );
 
-        [DllImport("Crypt32.dll", SetLastError = true, CharSet = System.Runtime.InteropServices.CharSet.Auto)]
+        [DllImport("Crypt32.dll", SetLastError = true, CharSet = System.Runtime.InteropServices.CharSet.Unicode)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool CryptUnprotectData(
             ref DATA_BLOB pDataIn,

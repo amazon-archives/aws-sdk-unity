@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
@@ -69,25 +68,6 @@ namespace Amazon.S3.Model
             }
         }
 
-        List<CloudFunctionConfiguration> _cloudFunctionConfigurations;
-        /// <summary>
-        /// Gets and sets the CloudFunctionConfigurations property. CloudFunctionConfigurations are configuration 
-        /// for Amazon S3 events to be sent to an Amazon Lambda cloud function.
-        /// </summary>
-        public List<CloudFunctionConfiguration> CloudFunctionConfigurations
-        {
-            get
-            {
-                if (this._cloudFunctionConfigurations == null)
-                    this._cloudFunctionConfigurations = new List<CloudFunctionConfiguration>();
-
-                return this._cloudFunctionConfigurations;
-            }
-            set
-            {
-                this._cloudFunctionConfigurations = value;
-            }
-        }
 
         List<LambdaFunctionConfiguration> _lambdaFunctionConfigurations;
         /// <summary>

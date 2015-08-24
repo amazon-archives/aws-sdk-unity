@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -470,6 +469,10 @@ namespace Amazon.DynamoDBv2.DocumentModel
 
         #region Public overrides
 
+        /// <summary>
+        /// Implement the Clone method.
+        /// </summary>
+        /// <returns></returns>
         public override object Clone()
         {
             PrimitiveList list = new PrimitiveList(this.Type);
@@ -481,6 +484,10 @@ namespace Amazon.DynamoDBv2.DocumentModel
             return list;
         }
 
+        /// <summary>
+        /// Implement the GetHashCode method.
+        /// </summary>
+        /// <returns></returns>
         public override int GetHashCode()
         {
             var typeHashCode = this.Type.GetHashCode();
@@ -494,6 +501,11 @@ namespace Amazon.DynamoDBv2.DocumentModel
             return Hashing.CombineHashes(typeHashCode, entriesHashCode);
         }
 
+        /// <summary>
+        /// Implement the Equals method.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override bool Equals(object obj)
         {
             PrimitiveList entryOther = obj as PrimitiveList;
@@ -525,6 +537,11 @@ namespace Amazon.DynamoDBv2.DocumentModel
 
         #region IEquatable<PrimitiveList> Members
 
+        /// <summary>
+        /// Implement the Equals method from IEquatable
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool Equals(PrimitiveList other)
         {
             return this.Equals((object)other);

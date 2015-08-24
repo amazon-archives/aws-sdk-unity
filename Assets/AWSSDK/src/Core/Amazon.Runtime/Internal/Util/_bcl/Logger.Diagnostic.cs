@@ -1,4 +1,3 @@
-#pragma warning disable 0414
 //
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
@@ -15,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -174,4 +172,3 @@ namespace Amazon.Runtime.Internal.Util
         #endregion
     }
 }
-#pragma warning restore 0414

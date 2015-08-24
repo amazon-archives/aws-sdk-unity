@@ -15,7 +15,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using Amazon.Runtime;
 using Amazon.Runtime.Internal;
 using Amazon.S3.Util;
@@ -23,6 +22,9 @@ using System;
 
 namespace Amazon.S3.Internal
 {
+    /// <summary>
+    /// Custom pipeline handler to enable sig V4 for Get requests.
+    /// </summary>
     public class AmazonS3KmsHandler : PipelineHandler
     {
         /// <summary>
@@ -67,8 +69,11 @@ namespace Amazon.S3.Internal
             return base.InvokeAsync(executionContext);
         }
 #endif
-
-        protected void PreInvoke(IExecutionContext executionContext)
+        /// <summary>
+        /// Custom pipeline handler to enable sig V4 for Get requests.
+        /// </summary>
+        /// <param name="executionContext"></param>
+        protected virtual void PreInvoke(IExecutionContext executionContext)
         {
             var request = executionContext.RequestContext.Request;
             EvaluateIfSigV4Required(request);

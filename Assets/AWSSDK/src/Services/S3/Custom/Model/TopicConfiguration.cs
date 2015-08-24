@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
@@ -28,7 +27,7 @@ namespace Amazon.S3.Model
     /// and send the event to an Amazon SNS topic.
     /// <para>
     /// The topic's policy must allow S3 to publish messages to it. The utility method 
-    /// <see cref="Amazon.SimpleNotificationService.AmazonSimpleNotificationServiceClient.AuthorizeS3ToPublish(string,string)"/>
+    /// Amazon.SimpleNotificationService.AmazonSimpleNotificationServiceClient.AuthorizeS3ToPublish(string,string)
     /// can be used to help setup the topic policy.
     /// </para>
     /// </summary>
@@ -102,7 +101,7 @@ namespace Amazon.S3.Model
         /// specified events for the bucket.
         /// <para>
         /// The topic's policy must allow S3 to publish messages to it. The utility method 
-        /// <see cref="Amazon.SimpleNotificationService.AmazonSimpleNotificationServiceClient.AuthorizeS3ToPublish(string,string)"/>
+        /// Amazon.SimpleNotificationService.AmazonSimpleNotificationServiceClient.AuthorizeS3ToPublish(string,string)
         /// can be used to help setup the topic policy.
         /// </para>
         /// </summary>

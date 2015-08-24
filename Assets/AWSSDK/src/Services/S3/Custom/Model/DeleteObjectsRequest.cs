@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
@@ -53,6 +52,9 @@ namespace Amazon.S3.Model
             return this.bucketName != null;
         }
 
+        /// <summary>
+        /// List of object keys to delete.
+        /// </summary>
         public List<KeyVersion> Objects
         {
             get 

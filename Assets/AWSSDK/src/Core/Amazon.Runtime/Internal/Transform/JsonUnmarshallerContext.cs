@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -72,7 +71,7 @@ namespace Amazon.Runtime.Internal.Transform
         {
             if (maintainResponseBody)
             {
-                this.WrappingStream = new CachingWrapperStream(responseStream);
+                this.WrappingStream = new CachingWrapperStream(responseStream, AWSConfigs.LoggingConfig.LogResponsesSizeLimit);
                 responseStream = this.WrappingStream;
             }
             

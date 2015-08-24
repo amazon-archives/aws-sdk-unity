@@ -14,14 +14,13 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Amazon.Runtime.Internal.Settings
 {
-    public class SettingsConstants
+    public static class SettingsConstants
     {
         public const string UserPreferences = "UserPreferences";
 

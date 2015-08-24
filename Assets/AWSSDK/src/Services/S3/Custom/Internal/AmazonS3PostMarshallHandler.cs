@@ -15,7 +15,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +28,8 @@ using Amazon.S3;
 using System.Text.RegularExpressions;
 using Amazon.Util;
 using System.Globalization;
+
+#pragma warning disable 1591
 
 namespace Amazon.S3.Internal
 {
@@ -77,12 +78,12 @@ namespace Amazon.S3.Internal
         }
 #endif
 
-        protected void PreInvoke(IExecutionContext executionContext)
+        protected virtual void PreInvoke(IExecutionContext executionContext)
         {
             ProcessRequestHandlers(executionContext);
         }
 
-        public void ProcessRequestHandlers(IExecutionContext executionContext)
+        public static void ProcessRequestHandlers(IExecutionContext executionContext)
         {
             var request = executionContext.RequestContext.Request;
             var config = executionContext.RequestContext.ClientConfig;

@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
@@ -60,6 +59,9 @@ namespace Amazon.Util
     /// </summary>
     public partial class LoggingConfig
     {
+        // Default limit for response logging is 1 KB.
+        public static readonly int DefaultLogResponsesSizeLimit = 1024; 
+
         private LoggingOptions _logTo;
 
         /// <summary>
@@ -78,6 +80,14 @@ namespace Amazon.Util
         /// When to log responses.
         /// </summary>
         public ResponseLoggingOption LogResponses { get; set; }
+
+        /// <summary>        
+        /// Gets or sets the size limit in bytes for logged responses.
+        /// If logging for response body is enabled, logged response
+        /// body is limited to this size. The default limit is 1KB.
+        /// </summary>
+        public int LogResponsesSizeLimit { get; set; }
+
         /// <summary>
         /// Whether or not to log SDK metrics.
         /// </summary>

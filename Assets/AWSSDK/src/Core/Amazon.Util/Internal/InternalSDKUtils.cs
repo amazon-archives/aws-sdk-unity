@@ -28,8 +28,64 @@ using System.Threading;
 
 namespace Amazon.Util.Internal
 {
-    public static class InternalSDKUtils
+    public static partial class InternalSDKUtils
     {
+        #region UserAgent
+
+        static string _versionNumber;
+        static string _customSdkUserAgent;
+        static string _customData;
+ 
+        public static void SetUserAgent(string productName, string versionNumber)
+        {
+            SetUserAgent(productName, versionNumber, null);
+        }
+
+        public static void SetUserAgent(string productName, string versionNumber, string customData)
+        {
+            _userAgentBaseName = productName;
+            _versionNumber = versionNumber;
+            _customData = customData;
+
+            BuildCustomUserAgentString();
+        }
+        
+        static void BuildCustomUserAgentString()
+        {
+            if (_versionNumber == null)
+            {
+                _versionNumber = CoreVersionNumber;
+            }
+
+            _customSdkUserAgent = string.Format(CultureInfo.InvariantCulture, "{0}/{1} .NET Runtime/{2} .NET Framework/{3} OS/{4} {5}",
+                _userAgentBaseName,
+                _versionNumber,
+                DetermineRuntime(),
+                DetermineFramework(),
+                DetermineOSVersion(),
+                _customData).Trim();
+        }
+
+
+        public static string BuildUserAgentString(string serviceSdkVersion)
+        {
+            if (!string.IsNullOrEmpty(_customSdkUserAgent))
+            {
+                return _customSdkUserAgent;
+            }
+
+            return string.Format(CultureInfo.InvariantCulture, "{0}/{1}/{2} .NET Runtime/{3} .NET Framework/{4} OS/{5} {6}",
+                _userAgentBaseName,
+                CoreVersionNumber,
+                serviceSdkVersion,
+                DetermineRuntime(),
+                DetermineFramework(),
+                DetermineOSVersion(),
+                _customData).Trim();
+        }
+
+
+        #endregion
         public static void ApplyValues(object target, IDictionary<string, object> propertyValues)
         {
             if (propertyValues == null || propertyValues.Count == 0)
@@ -41,7 +97,7 @@ namespace Amazon.Util.Internal
             {
                 var property = targetTypeInfo.GetProperty(kvp.Key);
                 if (property == null)
-                    throw new ArgumentException(string.Format("Unable to find property {0} on type {1}.", kvp.Key, targetTypeInfo.FullName));
+                    throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Unable to find property {0} on type {1}.", kvp.Key, targetTypeInfo.FullName));
 
                 try
                 {
@@ -58,7 +114,7 @@ namespace Amazon.Util.Internal
                 }
                 catch (Exception e)
                 {
-                    throw new ArgumentException(string.Format("Unable to set property {0} on type {1}: {2}", kvp.Key, targetTypeInfo.FullName, e.Message));
+                    throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "Unable to set property {0} on type {1}: {2}", kvp.Key, targetTypeInfo.FullName, e.Message));
                 }
             }
         }
@@ -81,7 +137,12 @@ namespace Amazon.Util.Internal
             }
         }
 
-        public static Dictionary<TKey, TValue> ToDictionary<T, TKey, TValue>(IEnumerable<T> items, Func<T, TKey> keyGenerator, Func<T, TValue> valueGenerator, IEqualityComparer<TKey> comparer = null)
+        public static Dictionary<TKey, TValue> ToDictionary<T, TKey, TValue>(IEnumerable<T> items, Func<T, TKey> keyGenerator, Func<T, TValue> valueGenerator)
+        {
+            return ToDictionary<T, TKey, TValue>(items, keyGenerator, valueGenerator, comparer: null);
+        }
+
+        public static Dictionary<TKey, TValue> ToDictionary<T, TKey, TValue>(IEnumerable<T> items, Func<T, TKey> keyGenerator, Func<T, TValue> valueGenerator, IEqualityComparer<TKey> comparer)
         {
             Dictionary<TKey, TValue> dictionary;
             if (comparer == null)

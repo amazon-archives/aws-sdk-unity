@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +21,9 @@ using System.Text;
 
 namespace Amazon.S3.Model
 {
+    /// <summary>
+    /// This class defines the configuration for replication.
+    /// </summary>
     public class ReplicationConfiguration
     {
         private string role;

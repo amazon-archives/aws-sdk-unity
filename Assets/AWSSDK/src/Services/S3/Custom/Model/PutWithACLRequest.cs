@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
@@ -26,6 +25,9 @@ using Amazon.Runtime.Internal;
 
 namespace Amazon.S3.Model
 {
+    /// <summary>
+    /// Base class for put operations that can also put an ACL.
+    /// </summary>
     public abstract class PutWithACLRequest : AmazonWebServiceRequest
     {
         private List<S3Grant> _grants;

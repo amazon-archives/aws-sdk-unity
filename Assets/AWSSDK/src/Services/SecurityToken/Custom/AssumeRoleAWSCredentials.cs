@@ -76,6 +76,10 @@ namespace Amazon.SecurityToken
             PreemptExpiryTime = _defaultPreemptExpiryTime;
         }
 
+        /// <summary>
+        /// Generate new credentials.
+        /// </summary>
+        /// <returns></returns>
         protected override CredentialsRefreshState GenerateNewCredentials()
         {
             Credentials credentials = GetServiceCredentials();
