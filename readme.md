@@ -42,4 +42,6 @@ There are only a few fundamentals that are helpful to know when developing again
 * Never embed credentrials in an application.  It is trivially easy to decompile applications and steal embedded credentials.  Always use temporarily vended credentials from services such as [Amazon Cognito Identity](http://docs.aws.amazon.com/mobile/sdkforunity/developerguide/cognito-identity.html).
 * Calls are always asynchronous unlesss explicitly stated. In some cases there may be internal Sync API's, but it is highly discouraged to use them as it may block the game thread.THe Asynchronous Responses are always returned on main thread unless specified in AsyncOptions parameter.
 
-**Note: For a complete summary of improvements since the Developer Preview, please refer to our blog post [here](http://mobile.awsblog.com/post/Tx30Z7HPU42S0IN/Improvements-in-the-AWS-Mobile-SDK-for-Unity).**
+**Note: **
+ * For a complete summary of improvements since the Developer Preview, please refer to our blog post [here](http://mobile.awsblog.com/post/Tx30Z7HPU42S0IN/Improvements-in-the-AWS-Mobile-SDK-for-Unity).
+ * Support for iOS9 - Please refer to our blogpost [here](https://mobile.awsblog.com/post/Tx2QM69ZE6BGTYX/Preparing-Your-Apps-for-iOS-9) if you are planning to compile your apps with XCode 7
