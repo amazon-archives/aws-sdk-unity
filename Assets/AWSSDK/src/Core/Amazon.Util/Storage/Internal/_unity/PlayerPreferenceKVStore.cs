@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
 // 
@@ -47,10 +47,13 @@ namespace Amazon.Util.Storage.Internal
             }
             else
             {
+                AutoResetEvent asyncEvent = new AutoResetEvent(false);
                 UnityRequestQueue.Instance.ExecuteOnMainThread(() =>
                 {
                     PutHelper(key, value);
+                    asyncEvent.Set();
                 });
+                asyncEvent.WaitOne();
             }
         }
 

@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
 // 
@@ -94,7 +94,7 @@ namespace Amazon.Runtime.Internal
             }
             else
             {
-                var baseServiceException = new AmazonServiceException(); 
+                var baseServiceException = new AmazonServiceException();
                 baseServiceException.RequestId = errorResponse.RequestId;
                 baseServiceException.ErrorCode = errorResponse.Code;
                 baseServiceException.StatusCode = httpErrorResponse.StatusCode;

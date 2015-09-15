@@ -36,7 +36,7 @@ namespace Amazon.CognitoIdentity
     public partial class CognitoAWSCredentials : RefreshingAWSCredentials
     {
         #region Private members
-
+        private static object refreshIdLock = new object();
         private string identityId;
         private static int DefaultDurationSeconds = (int)TimeSpan.FromHours(1).TotalSeconds;
 #if !AWSSDK_UNITY
@@ -53,6 +53,10 @@ namespace Amazon.CognitoIdentity
         {
             get
             {
+                if (string.IsNullOrEmpty(identityId))
+                {
+                    identityId = GetCachedIdentityId();
+                }
                 return !string.IsNullOrEmpty(identityId);
             }
         }
@@ -236,19 +240,27 @@ namespace Amazon.CognitoIdentity
             return GetIdentityId(false);
         }
 
+
         private string GetIdentityId(bool forceRefresh)
         {
-            if (!IsIdentitySet || forceRefresh)
+            // Locking so that concurrent calls do not make separate network calls,
+            // and instead wait for the first caller to cache the Identity ID.
+            lock (refreshIdLock)
             {
-                _identityState = RefreshIdentity();
-                if (!string.IsNullOrEmpty(_identityState.LoginProvider))
+                if (!IsIdentitySet || forceRefresh)
                 {
-                    Logins[_identityState.LoginProvider] = _identityState.LoginToken;
+                    _identityState = RefreshIdentity();
+
+                    if (!string.IsNullOrEmpty(_identityState.LoginProvider))
+                    {
+                        Logins[_identityState.LoginProvider] = _identityState.LoginToken;
+                    }
+                    UpdateIdentity(_identityState.IdentityId);
                 }
-                UpdateIdentity(_identityState.IdentityId);
             }
             return identityId;
         }
+
 
         /// <summary>
         /// Provides a way to override fetching the identity in case of developer authenticated identities.
@@ -273,11 +285,10 @@ namespace Amazon.CognitoIdentity
 #endif
                 isCached = false;
                 UpdateIdentity(response.IdentityId);
-            }
-            return new IdentityState(identityId,isCached);
-        }
 
-        
+            }
+            return new IdentityState(identityId, isCached);
+        }
 
 
 #if AWS_ASYNC_API
@@ -417,7 +428,6 @@ namespace Amazon.CognitoIdentity
             if (string.IsNullOrEmpty(identityPoolId)) throw new ArgumentNullException("identityPoolId");
             if (cibClient == null) throw new ArgumentNullException("cibClient");
             if ((unAuthRoleArn != null || authRoleArn != null) && stsClient == null) throw new ArgumentNullException("stsClient");
-
             AccountId = accountId;
             IdentityPoolId = identityPoolId;
             UnAuthRoleArn = unAuthRoleArn;

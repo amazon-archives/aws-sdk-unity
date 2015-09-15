@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
 // 
@@ -14,6 +14,7 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
+
 using UnityEngine;
 using System.Collections;
 using UnityEditor;

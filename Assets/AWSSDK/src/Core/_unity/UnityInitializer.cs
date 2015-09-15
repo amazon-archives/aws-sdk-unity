@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
 // 
@@ -15,6 +15,7 @@
 // limitations under the License.
 //
 using UnityEngine;
+
 using System;
 using System.Collections;
 using System.Collections.Specialized;
@@ -26,6 +27,7 @@ using Amazon.Runtime.Internal;
 using Amazon.Util;
 using System.Threading;
 using Amazon.Util.Internal;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -110,10 +112,10 @@ namespace Amazon
         /// <returns>true if the thread is the game/main/unity thread, else false</returns>
         public static bool IsMainThread()
         {
-			if(null == _mainThread)
-			{
-				throw new Exception("Main thread has not been set, is the AWSPrefab on the scene?");
-			}
+            if(null == _mainThread)
+            {
+                  throw new Exception("Main thread has not been set, is the AWSPrefab on the scene?");
+            }
             return Thread.CurrentThread.Equals(_mainThread);
         }
 
