@@ -23,7 +23,7 @@ The AWS SDK for Unity supports the following AWS services:
 * [Amazon Mobile Analytics](http://aws.amazon.com/mobileanalytics/)
 * [Amazon SNS](http://aws.amazon.com/sns/)
 * [Amazon S3](http://aws.amazon.com/s3/)
-
+* [Amazon SQS](http://aws.amazon.com/sqs/)
 
 ## SDK Fundametals
 There are only a few fundamentals that are helpful to know when developing against the AWS SDK for Unity
