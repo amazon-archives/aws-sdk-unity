@@ -1,3 +1,12 @@
+Version 2.0.0.5
+New Features:
+- Added Support for SQS
+- Updated the WipeData api in Sync Manager to optionally wipe the identity id as well.
+Improvements:
+- Fixed a bug which caused multiple identities to be created.
+- Fixed a reflection API which was failing on iOS.
+- Fixed a bug which caused the response unmarshalling to fail due to crc32 check.
+
 Version 2.0.0.4
 New Features:
 - Added a Amazon Cognito Identity public method that can query whether or not a particular credentials provider is used.
