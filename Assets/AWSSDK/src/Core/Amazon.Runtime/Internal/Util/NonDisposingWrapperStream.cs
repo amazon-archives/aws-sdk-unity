@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
 // 
@@ -34,7 +34,7 @@ namespace Amazon.Runtime.Internal.Util
         public NonDisposingWrapperStream(Stream baseStream) : base (baseStream)
         {
         }
-#if !WIN_RT
+#if !PCL
         /// <summary>
         /// The Close implementation for this wrapper stream
         /// does not close the underlying stream.

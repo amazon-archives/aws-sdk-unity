@@ -31,7 +31,7 @@
 using System.Collections;
 using System.Collections.Specialized;
 
-#if (WIN_RT || WINDOWS_PHONE)
+#if (WIN_RT || WINDOWS_PHONE || PCL && !(__ANDROID__ || __IOS__))
 using Amazon.MissingTypes;
 #endif
 

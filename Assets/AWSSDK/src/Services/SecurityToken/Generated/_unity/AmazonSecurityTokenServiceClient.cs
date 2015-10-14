@@ -229,30 +229,6 @@ namespace Amazon.SecurityToken
         
         #region  AssumeRole
 
-
-        /// <summary>
-        /// Initiates the asynchronous execution of the AssumeRole operation.
-        /// </summary>
-        /// 
-        /// <param name="request">Container for the necessary parameters to execute the AssumeRole operation on AmazonSecurityTokenServiceClient.</param>
-        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
-        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
-        ///          procedure using the AsyncState property.</param>
-        public void AssumeRoleAsync(AssumeRoleRequest request, AmazonServiceCallback<AssumeRoleRequest, AssumeRoleResponse> callback, AsyncOptions options = null)
-        {
-            options = options == null?new AsyncOptions():options;
-            var marshaller = new AssumeRoleRequestMarshaller();
-            var unmarshaller = AssumeRoleResponseUnmarshaller.Instance;
-            Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
-            if(callback !=null )
-                callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
-                    AmazonServiceResult<AssumeRoleRequest,AssumeRoleResponse> responseObject 
-                            = new AmazonServiceResult<AssumeRoleRequest,AssumeRoleResponse>((AssumeRoleRequest)req, (AssumeRoleResponse)res, ex , ao.State);    
-                        callback(responseObject); 
-                };
-            BeginInvoke<AssumeRoleRequest>(request, marshaller, unmarshaller, options, callbackHelper);
-        }
-
         /// <summary>
         /// Returns a set of temporary security credentials (consisting of an access key ID, a
         /// secret access key, and a security token) that you can use to access AWS resources
@@ -273,8 +249,8 @@ namespace Amazon.SecurityToken
         /// which one can access which account can be time consuming. Instead, you can create
         /// one set of long-term credentials in one account and then use temporary security credentials
         /// to access all the other accounts by assuming roles in those accounts. For more information
-        /// about roles, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html">Roles</a>
-        /// in <i>Using IAM</i>. 
+        /// about roles, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/roles-toplevel.html">IAM
+        /// Roles (Delegation and Federation)</a> in <i>Using IAM</i>. 
         /// </para>
         ///  
         /// <para>
@@ -307,7 +283,8 @@ namespace Amazon.SecurityToken
         /// temporary security credentials. You cannot use the passed policy to grant permissions
         /// that are in excess of those allowed by the access policy of the role that is being
         /// assumed. For more information, see <a href="http://docs.aws.amazon.com/STS/latest/UsingSTS/permissions-assume-role.html">Permissions
-        /// for AssumeRole</a> in <i>Using Temporary Security Credentials</i>.
+        /// for AssumeRole, AssumeRoleWithSAML, and AssumeRoleWithWebIdentity</a> in <i>Using
+        /// Temporary Security Credentials</i>.
         /// </para>
         ///  
         /// <para>
@@ -331,12 +308,12 @@ namespace Amazon.SecurityToken
         /// </para>
         ///  
         /// <para>
-        ///  <code>"Condition": {"Null": {"aws:MultiFactorAuthAge": false}}</code> 
+        ///  <code>"Condition": {"Bool": {"aws:MultiFactorAuthPresent": true}}</code> 
         /// </para>
         ///  
         /// <para>
         /// For more information, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/MFAProtectedAPI.html">Configuring
-        /// MFA-Protected API Access</a> in the <i>Using IAM</i> guide. 
+        /// MFA-Protected API Access</a> in <i>Using IAM</i> guide.
         /// </para>
         ///  
         /// <para>
@@ -350,7 +327,6 @@ namespace Amazon.SecurityToken
         /// <member name="DurationSeconds" target="roleDurationSecondsType"></member> <member
         /// name="ExternalId" target="externalIdType"></member>
         /// </summary>
-        /// <param name="request">Container for the necessary parameters to execute the AssumeRole service method.</param>
         /// 
         /// <returns>The response from the AssumeRole service method, as returned by SecurityTokenService.</returns>
         /// <exception cref="Amazon.SecurityToken.Model.MalformedPolicyDocumentException">
@@ -369,33 +345,33 @@ namespace Amazon.SecurityToken
 
             return Invoke<AssumeRoleRequest,AssumeRoleResponse>(request, marshaller, unmarshaller);
         }
-        #endregion
-        
-        #region  AssumeRoleWithSAML
-
 
         /// <summary>
-        /// Initiates the asynchronous execution of the AssumeRoleWithSAML operation.
+        /// Initiates the asynchronous execution of the AssumeRole operation.
         /// </summary>
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the AssumeRoleWithSAML operation on AmazonSecurityTokenServiceClient.</param>
+        /// <param name="request">Container for the necessary parameters to execute the AssumeRole operation on AmazonSecurityTokenServiceClient.</param>
         /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
         /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
         ///          procedure using the AsyncState property.</param>
-        public void AssumeRoleWithSAMLAsync(AssumeRoleWithSAMLRequest request, AmazonServiceCallback<AssumeRoleWithSAMLRequest, AssumeRoleWithSAMLResponse> callback, AsyncOptions options = null)
+        public void AssumeRoleAsync(AssumeRoleRequest request, AmazonServiceCallback<AssumeRoleRequest, AssumeRoleResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = new AssumeRoleWithSAMLRequestMarshaller();
-            var unmarshaller = AssumeRoleWithSAMLResponseUnmarshaller.Instance;
+            var marshaller = new AssumeRoleRequestMarshaller();
+            var unmarshaller = AssumeRoleResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
-                    AmazonServiceResult<AssumeRoleWithSAMLRequest,AssumeRoleWithSAMLResponse> responseObject 
-                            = new AmazonServiceResult<AssumeRoleWithSAMLRequest,AssumeRoleWithSAMLResponse>((AssumeRoleWithSAMLRequest)req, (AssumeRoleWithSAMLResponse)res, ex , ao.State);    
+                    AmazonServiceResult<AssumeRoleRequest,AssumeRoleResponse> responseObject 
+                            = new AmazonServiceResult<AssumeRoleRequest,AssumeRoleResponse>((AssumeRoleRequest)req, (AssumeRoleResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<AssumeRoleWithSAMLRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke<AssumeRoleRequest>(request, marshaller, unmarshaller, options, callbackHelper);
         }
+
+        #endregion
+        
+        #region  AssumeRoleWithSAML
 
         /// <summary>
         /// Returns a set of temporary security credentials for users who have been authenticated
@@ -446,8 +422,7 @@ namespace Amazon.SecurityToken
         /// For more information, see the following resources:
         /// </para>
         ///  <ul> <li> <a href="http://docs.aws.amazon.com/STS/latest/UsingSTS/CreatingSAML.html">Creating
-        /// Temporary Security Credentials for SAML Federation</a> in <i>Using Temporary Security
-        /// Credentials</i>. </li> <li> <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/idp-managing-identityproviders.html">SAML
+        /// Temporary Security Credentials for SAML Federation</a>. </li> <li> <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/idp-managing-identityproviders.html">SAML
         /// Providers</a> in <i>Using IAM</i>. </li> <li> <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/create-role-saml-IdP-tasks.html">Configuring
         /// a Relying Party and Claims</a> in <i>Using IAM</i>. </li> <li> <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/create-role-saml.html">Creating
         /// a Role for SAML-Based Federation</a> in <i>Using IAM</i>. </li> </ul> <member name="RoleArn"
@@ -455,7 +430,6 @@ namespace Amazon.SecurityToken
         /// <member name="Policy" target="sessionPolicyDocumentType"></member> <member name="DurationSeconds"
         /// target="roleDurationSecondsType"></member>
         /// </summary>
-        /// <param name="request">Container for the necessary parameters to execute the AssumeRoleWithSAML service method.</param>
         /// 
         /// <returns>The response from the AssumeRoleWithSAML service method, as returned by SecurityTokenService.</returns>
         /// <exception cref="Amazon.SecurityToken.Model.ExpiredTokenException">
@@ -492,33 +466,33 @@ namespace Amazon.SecurityToken
 
             return Invoke<AssumeRoleWithSAMLRequest,AssumeRoleWithSAMLResponse>(request, marshaller, unmarshaller);
         }
-        #endregion
-        
-        #region  AssumeRoleWithWebIdentity
-
 
         /// <summary>
-        /// Initiates the asynchronous execution of the AssumeRoleWithWebIdentity operation.
+        /// Initiates the asynchronous execution of the AssumeRoleWithSAML operation.
         /// </summary>
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the AssumeRoleWithWebIdentity operation on AmazonSecurityTokenServiceClient.</param>
+        /// <param name="request">Container for the necessary parameters to execute the AssumeRoleWithSAML operation on AmazonSecurityTokenServiceClient.</param>
         /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
         /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
         ///          procedure using the AsyncState property.</param>
-        public void AssumeRoleWithWebIdentityAsync(AssumeRoleWithWebIdentityRequest request, AmazonServiceCallback<AssumeRoleWithWebIdentityRequest, AssumeRoleWithWebIdentityResponse> callback, AsyncOptions options = null)
+        public void AssumeRoleWithSAMLAsync(AssumeRoleWithSAMLRequest request, AmazonServiceCallback<AssumeRoleWithSAMLRequest, AssumeRoleWithSAMLResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = new AssumeRoleWithWebIdentityRequestMarshaller();
-            var unmarshaller = AssumeRoleWithWebIdentityResponseUnmarshaller.Instance;
+            var marshaller = new AssumeRoleWithSAMLRequestMarshaller();
+            var unmarshaller = AssumeRoleWithSAMLResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
-                    AmazonServiceResult<AssumeRoleWithWebIdentityRequest,AssumeRoleWithWebIdentityResponse> responseObject 
-                            = new AmazonServiceResult<AssumeRoleWithWebIdentityRequest,AssumeRoleWithWebIdentityResponse>((AssumeRoleWithWebIdentityRequest)req, (AssumeRoleWithWebIdentityResponse)res, ex , ao.State);    
+                    AmazonServiceResult<AssumeRoleWithSAMLRequest,AssumeRoleWithSAMLResponse> responseObject 
+                            = new AmazonServiceResult<AssumeRoleWithSAMLRequest,AssumeRoleWithSAMLResponse>((AssumeRoleWithSAMLRequest)req, (AssumeRoleWithSAMLResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<AssumeRoleWithWebIdentityRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke<AssumeRoleWithSAMLRequest>(request, marshaller, unmarshaller, options, callbackHelper);
         }
+
+        #endregion
+        
+        #region  AssumeRoleWithWebIdentity
 
         /// <summary>
         /// Returns a set of temporary security credentials for users who have been authenticated
@@ -571,7 +545,7 @@ namespace Amazon.SecurityToken
         /// temporary security credentials. You cannot use the passed policy to grant permissions
         /// that are in excess of those allowed by the access policy of the role that is being
         /// assumed. For more information, see <a href="http://docs.aws.amazon.com/STS/latest/UsingSTS/permissions-assume-role.html">Permissions
-        /// for AssumeRoleWithWebIdentity</a> in <i>Using Temporary Security Credentials</i>.
+        /// for AssumeRoleWithWebIdentity</a>.
         /// </para>
         ///  
         /// <para>
@@ -589,7 +563,7 @@ namespace Amazon.SecurityToken
         ///  <ul> <li> <a href="http://docs.aws.amazon.com/STS/latest/UsingSTS/STSUseCases.html#MobileApplication-KnownProvider">
         /// Creating a Mobile Application with Third-Party Sign-In</a> and <a href="http://docs.aws.amazon.com/STS/latest/UsingSTS/CreatingWIF.html">
         /// Creating Temporary Security Credentials for Mobile Apps Using Third-Party Identity
-        /// Providers</a> in <i>Using Temporary Security Credentials</i>. </li> <li> <a href="https://web-identity-federation-playground.s3.amazonaws.com/index.html">
+        /// Providers</a>. </li> <li> <a href="https://web-identity-federation-playground.s3.amazonaws.com/index.html">
         /// Web Identity Federation Playground</a>. This interactive website lets you walk through
         /// the process of authenticating via Login with Amazon, Facebook, or Google, getting
         /// temporary security credentials, and then using those credentials to make a request
@@ -602,7 +576,6 @@ namespace Amazon.SecurityToken
         /// federation and shows an example of how to use web identity federation to get access
         /// to content in Amazon S3. </li> </ul>
         /// </summary>
-        /// <param name="request">Container for the necessary parameters to execute the AssumeRoleWithWebIdentity service method.</param>
         /// 
         /// <returns>The response from the AssumeRoleWithWebIdentity service method, as returned by SecurityTokenService.</returns>
         /// <exception cref="Amazon.SecurityToken.Model.ExpiredTokenException">
@@ -646,33 +619,33 @@ namespace Amazon.SecurityToken
 
             return Invoke<AssumeRoleWithWebIdentityRequest,AssumeRoleWithWebIdentityResponse>(request, marshaller, unmarshaller);
         }
-        #endregion
-        
-        #region  DecodeAuthorizationMessage
-
 
         /// <summary>
-        /// Initiates the asynchronous execution of the DecodeAuthorizationMessage operation.
+        /// Initiates the asynchronous execution of the AssumeRoleWithWebIdentity operation.
         /// </summary>
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the DecodeAuthorizationMessage operation on AmazonSecurityTokenServiceClient.</param>
+        /// <param name="request">Container for the necessary parameters to execute the AssumeRoleWithWebIdentity operation on AmazonSecurityTokenServiceClient.</param>
         /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
         /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
         ///          procedure using the AsyncState property.</param>
-        public void DecodeAuthorizationMessageAsync(DecodeAuthorizationMessageRequest request, AmazonServiceCallback<DecodeAuthorizationMessageRequest, DecodeAuthorizationMessageResponse> callback, AsyncOptions options = null)
+        public void AssumeRoleWithWebIdentityAsync(AssumeRoleWithWebIdentityRequest request, AmazonServiceCallback<AssumeRoleWithWebIdentityRequest, AssumeRoleWithWebIdentityResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = new DecodeAuthorizationMessageRequestMarshaller();
-            var unmarshaller = DecodeAuthorizationMessageResponseUnmarshaller.Instance;
+            var marshaller = new AssumeRoleWithWebIdentityRequestMarshaller();
+            var unmarshaller = AssumeRoleWithWebIdentityResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
-                    AmazonServiceResult<DecodeAuthorizationMessageRequest,DecodeAuthorizationMessageResponse> responseObject 
-                            = new AmazonServiceResult<DecodeAuthorizationMessageRequest,DecodeAuthorizationMessageResponse>((DecodeAuthorizationMessageRequest)req, (DecodeAuthorizationMessageResponse)res, ex , ao.State);    
+                    AmazonServiceResult<AssumeRoleWithWebIdentityRequest,AssumeRoleWithWebIdentityResponse> responseObject 
+                            = new AmazonServiceResult<AssumeRoleWithWebIdentityRequest,AssumeRoleWithWebIdentityResponse>((AssumeRoleWithWebIdentityRequest)req, (AssumeRoleWithWebIdentityResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<DecodeAuthorizationMessageRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke<AssumeRoleWithWebIdentityRequest>(request, marshaller, unmarshaller, options, callbackHelper);
         }
+
+        #endregion
+        
+        #region  DecodeAuthorizationMessage
 
         /// <summary>
         /// Decodes additional information about the authorization status of a request from an
@@ -705,7 +678,6 @@ namespace Amazon.SecurityToken
         /// who made the request.</li> <li>The requested action.</li> <li>The requested resource.</li>
         /// <li>The values of condition keys in the context of the user's request.</li> </ul>
         /// </summary>
-        /// <param name="request">Container for the necessary parameters to execute the DecodeAuthorizationMessage service method.</param>
         /// 
         /// <returns>The response from the DecodeAuthorizationMessage service method, as returned by SecurityTokenService.</returns>
         /// <exception cref="Amazon.SecurityToken.Model.InvalidAuthorizationMessageException">
@@ -719,33 +691,33 @@ namespace Amazon.SecurityToken
 
             return Invoke<DecodeAuthorizationMessageRequest,DecodeAuthorizationMessageResponse>(request, marshaller, unmarshaller);
         }
-        #endregion
-        
-        #region  GetFederationToken
-
 
         /// <summary>
-        /// Initiates the asynchronous execution of the GetFederationToken operation.
+        /// Initiates the asynchronous execution of the DecodeAuthorizationMessage operation.
         /// </summary>
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetFederationToken operation on AmazonSecurityTokenServiceClient.</param>
+        /// <param name="request">Container for the necessary parameters to execute the DecodeAuthorizationMessage operation on AmazonSecurityTokenServiceClient.</param>
         /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
         /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
         ///          procedure using the AsyncState property.</param>
-        public void GetFederationTokenAsync(GetFederationTokenRequest request, AmazonServiceCallback<GetFederationTokenRequest, GetFederationTokenResponse> callback, AsyncOptions options = null)
+        public void DecodeAuthorizationMessageAsync(DecodeAuthorizationMessageRequest request, AmazonServiceCallback<DecodeAuthorizationMessageRequest, DecodeAuthorizationMessageResponse> callback, AsyncOptions options = null)
         {
             options = options == null?new AsyncOptions():options;
-            var marshaller = new GetFederationTokenRequestMarshaller();
-            var unmarshaller = GetFederationTokenResponseUnmarshaller.Instance;
+            var marshaller = new DecodeAuthorizationMessageRequestMarshaller();
+            var unmarshaller = DecodeAuthorizationMessageResponseUnmarshaller.Instance;
             Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
             if(callback !=null )
                 callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
-                    AmazonServiceResult<GetFederationTokenRequest,GetFederationTokenResponse> responseObject 
-                            = new AmazonServiceResult<GetFederationTokenRequest,GetFederationTokenResponse>((GetFederationTokenRequest)req, (GetFederationTokenResponse)res, ex , ao.State);    
+                    AmazonServiceResult<DecodeAuthorizationMessageRequest,DecodeAuthorizationMessageResponse> responseObject 
+                            = new AmazonServiceResult<DecodeAuthorizationMessageRequest,DecodeAuthorizationMessageResponse>((DecodeAuthorizationMessageRequest)req, (DecodeAuthorizationMessageResponse)res, ex , ao.State);    
                         callback(responseObject); 
                 };
-            BeginInvoke<GetFederationTokenRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            BeginInvoke<DecodeAuthorizationMessageRequest>(request, marshaller, unmarshaller, options, callbackHelper);
         }
+
+        #endregion
+        
+        #region  GetFederationToken
 
         /// <summary>
         /// Returns a set of temporary security credentials (consisting of an access key ID, a
@@ -763,8 +735,7 @@ namespace Amazon.SecurityToken
         /// Connect-compatible identity provider, we recommend that you use <a href="http://aws.amazon.com/cognito/">Amazon
         /// Cognito</a> or <code>AssumeRoleWithWebIdentity</code>. For more information, see <a
         /// href="http://docs.aws.amazon.com/STS/latest/UsingSTS/CreatingWIF.html">Creating Temporary
-        /// Security Credentials for Mobile Apps Using Identity Providers</a> in <i>Using Temporary
-        /// Security Credentials</i>.
+        /// Security Credentials for Mobile Apps Using Identity Providers</a>.
         /// </para>
         ///  </note> 
         /// <para>
@@ -824,14 +795,11 @@ namespace Amazon.SecurityToken
         ///  
         /// <para>
         /// For more information about how permissions work, see <a href="http://docs.aws.amazon.com/STS/latest/UsingSTS/permissions-get-federation-token.html">Permissions
-        /// for GetFederationToken</a> in <i>Using Temporary Security Credentials</i>. For information
-        /// about using <code>GetFederationToken</code> to create temporary security credentials,
-        /// see <a href="http://docs.aws.amazon.com/STS/latest/UsingSTS/CreatingFedTokens.html">Creating
-        /// Temporary Credentials to Enable Access for Federated Users</a> in <i>Using Temporary
-        /// Security Credentials</i>. 
+        /// for GetFederationToken</a>. For information about using <code>GetFederationToken</code>
+        /// to create temporary security credentials, see <a href="http://docs.aws.amazon.com/STS/latest/UsingSTS/CreatingFedTokens.html">Creating
+        /// Temporary Credentials to Enable Access for Federated Users</a>. 
         /// </para>
         /// </summary>
-        /// <param name="request">Container for the necessary parameters to execute the GetFederationToken service method.</param>
         /// 
         /// <returns>The response from the GetFederationToken service method, as returned by SecurityTokenService.</returns>
         /// <exception cref="Amazon.SecurityToken.Model.MalformedPolicyDocumentException">
@@ -850,32 +818,81 @@ namespace Amazon.SecurityToken
 
             return Invoke<GetFederationTokenRequest,GetFederationTokenResponse>(request, marshaller, unmarshaller);
         }
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetFederationToken operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetFederationToken operation on AmazonSecurityTokenServiceClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        public void GetFederationTokenAsync(GetFederationTokenRequest request, AmazonServiceCallback<GetFederationTokenRequest, GetFederationTokenResponse> callback, AsyncOptions options = null)
+        {
+            options = options == null?new AsyncOptions():options;
+            var marshaller = new GetFederationTokenRequestMarshaller();
+            var unmarshaller = GetFederationTokenResponseUnmarshaller.Instance;
+            Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
+            if(callback !=null )
+                callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
+                    AmazonServiceResult<GetFederationTokenRequest,GetFederationTokenResponse> responseObject 
+                            = new AmazonServiceResult<GetFederationTokenRequest,GetFederationTokenResponse>((GetFederationTokenRequest)req, (GetFederationTokenResponse)res, ex , ao.State);    
+                        callback(responseObject); 
+                };
+            BeginInvoke<GetFederationTokenRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+        }
+
         #endregion
         
         #region  GetSessionToken
 
-
         /// <summary>
-        /// Initiates the asynchronous execution of the GetSessionToken operation.
+        /// Returns a set of temporary credentials for an AWS account or IAM user. The credentials
+        /// consist of an access key ID, a secret access key, and a security token. Typically,
+        /// you use <code>GetSessionToken</code> if you want to use MFA to protect programmatic
+        /// calls to specific AWS APIs like Amazon EC2 <code>StopInstances</code>. MFA-enabled
+        /// IAM users would need to call <code>GetSessionToken</code> and submit an MFA code that
+        /// is associated with their MFA device. Using the temporary security credentials that
+        /// are returned from the call, IAM users can then make programmatic calls to APIs that
+        /// require MFA authentication. 
+        /// 
+        ///  
+        /// <para>
+        /// The <code>GetSessionToken</code> action must be called by using the long-term AWS
+        /// security credentials of the AWS account or an IAM user. Credentials that are created
+        /// by IAM users are valid for the duration that you specify, between 900 seconds (15
+        /// minutes) and 129600 seconds (36 hours); credentials that are created by using account
+        /// credentials have a maximum duration of 3600 seconds (1 hour). 
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// We recommend that you do not call <code>GetSessionToken</code> with root account credentials.
+        /// Instead, follow our <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/IAMBestPractices.html#create-iam-users">best
+        /// practices</a> by creating one or more IAM users, giving them the necessary permissions,
+        /// and using IAM users for everyday interaction with AWS. 
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// The permissions associated with the temporary security credentials returned by <code>GetSessionToken</code>
+        /// are based on the permissions associated with account or IAM user whose credentials
+        /// are used to call the action. If <code>GetSessionToken</code> is called using root
+        /// account credentials, the temporary credentials have root account permissions. Similarly,
+        /// if <code>GetSessionToken</code> is called using the credentials of an IAM user, the
+        /// temporary credentials have the same permissions as the IAM user. 
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about using <code>GetSessionToken</code> to create temporary
+        /// credentials, go to <a href="http://docs.aws.amazon.com/STS/latest/UsingSTS/CreatingSessionTokens.html"
+        /// target="_blank">Creating Temporary Credentials to Enable Access for IAM Users</a>.
+        /// 
+        /// </para>
         /// </summary>
         /// 
-        /// <param name="request">Container for the necessary parameters to execute the GetSessionToken operation on AmazonSecurityTokenServiceClient.</param>
-        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
-        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
-        ///          procedure using the AsyncState property.</param>
-        public void GetSessionTokenAsync(GetSessionTokenRequest request, AmazonServiceCallback<GetSessionTokenRequest, GetSessionTokenResponse> callback, AsyncOptions options = null)
+        /// <returns>The response from the GetSessionToken service method, as returned by SecurityTokenService.</returns>
+        internal GetSessionTokenResponse GetSessionToken()
         {
-            options = options == null?new AsyncOptions():options;
-            var marshaller = new GetSessionTokenRequestMarshaller();
-            var unmarshaller = GetSessionTokenResponseUnmarshaller.Instance;
-            Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
-            if(callback !=null )
-                callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
-                    AmazonServiceResult<GetSessionTokenRequest,GetSessionTokenResponse> responseObject 
-                            = new AmazonServiceResult<GetSessionTokenRequest,GetSessionTokenResponse>((GetSessionTokenRequest)req, (GetSessionTokenResponse)res, ex , ao.State);    
-                        callback(responseObject); 
-                };
-            BeginInvoke<GetSessionTokenRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+            return GetSessionToken(new GetSessionTokenRequest());
         }
 
         /// <summary>
@@ -916,11 +933,10 @@ namespace Amazon.SecurityToken
         /// <para>
         /// For more information about using <code>GetSessionToken</code> to create temporary
         /// credentials, go to <a href="http://docs.aws.amazon.com/STS/latest/UsingSTS/CreatingSessionTokens.html"
-        /// target="_blank">Creating Temporary Credentials to Enable Access for IAM Users</a>
-        /// in <i>Using Temporary Security Credentials</i>. 
+        /// target="_blank">Creating Temporary Credentials to Enable Access for IAM Users</a>.
+        /// 
         /// </para>
         /// </summary>
-        /// <param name="request">Container for the necessary parameters to execute the GetSessionToken service method.</param>
         /// 
         /// <returns>The response from the GetSessionToken service method, as returned by SecurityTokenService.</returns>
         internal GetSessionTokenResponse GetSessionToken(GetSessionTokenRequest request)
@@ -930,6 +946,84 @@ namespace Amazon.SecurityToken
 
             return Invoke<GetSessionTokenRequest,GetSessionTokenResponse>(request, marshaller, unmarshaller);
         }
+
+        /// <summary>
+        /// Returns a set of temporary credentials for an AWS account or IAM user. The credentials
+        /// consist of an access key ID, a secret access key, and a security token. Typically,
+        /// you use <code>GetSessionToken</code> if you want to use MFA to protect programmatic
+        /// calls to specific AWS APIs like Amazon EC2 <code>StopInstances</code>. MFA-enabled
+        /// IAM users would need to call <code>GetSessionToken</code> and submit an MFA code that
+        /// is associated with their MFA device. Using the temporary security credentials that
+        /// are returned from the call, IAM users can then make programmatic calls to APIs that
+        /// require MFA authentication. 
+        /// 
+        ///  
+        /// <para>
+        /// The <code>GetSessionToken</code> action must be called by using the long-term AWS
+        /// security credentials of the AWS account or an IAM user. Credentials that are created
+        /// by IAM users are valid for the duration that you specify, between 900 seconds (15
+        /// minutes) and 129600 seconds (36 hours); credentials that are created by using account
+        /// credentials have a maximum duration of 3600 seconds (1 hour). 
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// We recommend that you do not call <code>GetSessionToken</code> with root account credentials.
+        /// Instead, follow our <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/IAMBestPractices.html#create-iam-users">best
+        /// practices</a> by creating one or more IAM users, giving them the necessary permissions,
+        /// and using IAM users for everyday interaction with AWS. 
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// The permissions associated with the temporary security credentials returned by <code>GetSessionToken</code>
+        /// are based on the permissions associated with account or IAM user whose credentials
+        /// are used to call the action. If <code>GetSessionToken</code> is called using root
+        /// account credentials, the temporary credentials have root account permissions. Similarly,
+        /// if <code>GetSessionToken</code> is called using the credentials of an IAM user, the
+        /// temporary credentials have the same permissions as the IAM user. 
+        /// </para>
+        ///  
+        /// <para>
+        /// For more information about using <code>GetSessionToken</code> to create temporary
+        /// credentials, go to <a href="http://docs.aws.amazon.com/STS/latest/UsingSTS/CreatingSessionTokens.html"
+        /// target="_blank">Creating Temporary Credentials to Enable Access for IAM Users</a>.
+        /// 
+        /// </para>
+        /// </summary>
+         /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
+        /// 
+        /// <returns>The response from the GetSessionToken service method, as returned by SecurityTokenService.</returns>
+        public void GetSessionTokenAsync(AmazonServiceCallback<GetSessionTokenRequest, GetSessionTokenResponse> callback, AsyncOptions options = null)
+        {
+            GetSessionTokenAsync(new GetSessionTokenRequest(), callback, options);
+        }
+
+
+        /// <summary>
+        /// Initiates the asynchronous execution of the GetSessionToken operation.
+        /// </summary>
+        /// 
+        /// <param name="request">Container for the necessary parameters to execute the GetSessionToken operation on AmazonSecurityTokenServiceClient.</param>
+        /// <param name="callback">An Action delegate that is invoked when the operation completes.</param>
+        /// <param name="options">A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+        ///          procedure using the AsyncState property.</param>
+        public void GetSessionTokenAsync(GetSessionTokenRequest request, AmazonServiceCallback<GetSessionTokenRequest, GetSessionTokenResponse> callback, AsyncOptions options = null)
+        {
+            options = options == null?new AsyncOptions():options;
+            var marshaller = new GetSessionTokenRequestMarshaller();
+            var unmarshaller = GetSessionTokenResponseUnmarshaller.Instance;
+            Action<AmazonWebServiceRequest, AmazonWebServiceResponse, Exception, AsyncOptions> callbackHelper = null;
+            if(callback !=null )
+                callbackHelper = (AmazonWebServiceRequest req, AmazonWebServiceResponse res, Exception ex, AsyncOptions ao) => { 
+                    AmazonServiceResult<GetSessionTokenRequest,GetSessionTokenResponse> responseObject 
+                            = new AmazonServiceResult<GetSessionTokenRequest,GetSessionTokenResponse>((GetSessionTokenRequest)req, (GetSessionTokenResponse)res, ex , ao.State);    
+                        callback(responseObject); 
+                };
+            BeginInvoke<GetSessionTokenRequest>(request, marshaller, unmarshaller, options, callbackHelper);
+        }
+
         #endregion
         
     }

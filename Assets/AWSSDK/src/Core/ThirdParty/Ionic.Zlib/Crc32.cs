@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright (c) 2006-2009 Microsoft Corporation.  All rights reserved.
 //
 //

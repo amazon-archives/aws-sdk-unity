@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
 // 
@@ -198,7 +198,7 @@ namespace Amazon.DynamoDBv2.DataModel
         private static object[] GetAttributeObjects(MemberInfo targetMemberInfo)
         {
             if (targetMemberInfo == null) throw new ArgumentNullException("targetMemberInfo");
-#if (WIN_RT || WINDOWS_PHONE)
+#if PCL
             object[] attributes = targetMemberInfo.GetCustomAttributes(typeof(DynamoDBAttribute), true).ToArray();
 #else
             object[] attributes = targetMemberInfo.GetCustomAttributes(typeof(DynamoDBAttribute), true);

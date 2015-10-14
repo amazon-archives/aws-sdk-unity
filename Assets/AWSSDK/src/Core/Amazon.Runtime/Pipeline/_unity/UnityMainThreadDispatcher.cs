@@ -61,7 +61,7 @@ namespace Amazon.Runtime.Internal
 
             // Invoke queued callbacks on the main thread
             var asyncResult = UnityRequestQueue.Instance.DequeueCallback();
-            if (asyncResult != null && asyncResult.Action!=null)
+            if (asyncResult != null && asyncResult.Action != null)
             {
                 try
                 {
@@ -131,25 +131,23 @@ namespace Amazon.Runtime.Internal
 #endif
             yield return request.WwwRequest;
             request.Response = new UnityWebResponseData(request.WwwRequest);
-            
+
             if (request.IsSync)
             {
                 // For synchronous calls, signal the wait handle 
                 // so that the calling thread which waits on the wait handle
                 // is unblocked.
-                if(!request.Response.IsSuccessStatusCode)
+                if (!request.Response.IsSuccessStatusCode)
                     request.Exception = new UnityHttpErrorResponseException(request);
-                
+
                 request.WaitHandle.Set();
             }
             else
             {
-		    
                 if (!request.Response.IsSuccessStatusCode)
-            	{
-                	var executionContext = request.AsyncResult.AsyncState as IAsyncExecutionContext;
-                	executionContext.ResponseContext.AsyncResult.Exception = new UnityHttpErrorResponseException(request);
-            	}
+                {
+                    request.Exception = new UnityHttpErrorResponseException(request);
+                }
                 // For asychronous calls invoke the callback method with the
                 // state object that was originally passed in.
 
@@ -189,10 +187,8 @@ namespace Amazon.Runtime.Internal
             {
                 NetworkReachability = reachability;
             }
-
         }
+
         public static event EventHandler<NetworkStatusRefreshed> OnRefresh;
-
-
     }
 }

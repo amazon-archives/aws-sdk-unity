@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
 // 
@@ -34,7 +34,29 @@ namespace Amazon
     public static partial class AWSConfigs
     {
         private static List<string> standardConfigs = new List<string>() { "region", "logging", "correctForClockSkew" };
+		
+		#region ApplicationName
 
+        /// <summary>
+        /// The unique application name for the current application. This values is currently used 
+        /// by high level APIs (Mobile Analytics Manager and Cognito Sync Manager) to create a unique file
+        /// path to store local database files.
+        /// Changes to this setting will only take effect in newly-constructed objects using this property.
+        /// <code>
+        /// &lt;configSections&gt;
+        ///   &lt;section name="aws" type="Amazon.AWSSection, AWSSDK"/&gt;
+        /// &lt;/configSections&gt;
+        /// &lt;aws applicationName="" /&gt;
+        /// </code>
+        /// </summary>
+        public static string ApplicationName
+        {
+            get { return _rootConfig.ApplicationName; }
+            set { _rootConfig.ApplicationName = value; }
+        }
+
+        #endregion
+		
         public static string GetConfig(string name)
         {
             return null;

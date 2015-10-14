@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
 // 
@@ -105,11 +105,7 @@ namespace Amazon.Runtime.Internal
 
         private static ITypeInfo LoadServiceClientType(string assemblyName, string serviceClientClassName)
         {
-#if WIN_RT || WINDOWS_PHONE
             var assembly = Assembly.Load(new AssemblyName(assemblyName));
-#else
-            var assembly = Assembly.LoadFrom(assemblyName);
-#endif
             if (assembly == null)
                 throw new AmazonClientException(
                     string.Format(CultureInfo.InvariantCulture, "Failed to find service client {0}. Be sure to include a reference to {1}.", serviceClientClassName, assemblyName)
@@ -121,11 +117,7 @@ namespace Amazon.Runtime.Internal
 
         private static ClientConfig CreateServiceConfig(string assemblyName, string serviceClientClassName)
         {
-#if WIN_RT || WINDOWS_PHONE            
             var assembly = Assembly.Load(new AssemblyName(assemblyName));
-#else
-            var assembly = Assembly.LoadFrom(assemblyName);
-#endif
             if (assembly == null)
                 throw new AmazonClientException(
                     string.Format(CultureInfo.InvariantCulture, "Failed to find service client {0}. Be sure to include a reference to {1}.", serviceClientClassName, assemblyName)

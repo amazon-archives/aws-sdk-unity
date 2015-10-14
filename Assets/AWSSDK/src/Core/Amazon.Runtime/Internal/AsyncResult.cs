@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
 // 
@@ -23,10 +23,6 @@ using System.Threading;
 using Amazon.Runtime.Internal.Auth;
 using Amazon.Runtime.Internal.Transform;
 using Amazon.Runtime.Internal.Util;
-
-#if (WIN_RT || WINDOWS_PHONE)
-using Amazon.MissingTypes;
-#endif
 
 namespace Amazon.Runtime.Internal
 {
@@ -189,7 +185,7 @@ namespace Amazon.Runtime.Internal
             {
                 if (disposing && _waitHandle != null)
                 {
-#if WIN_RT
+#if PCL
                     _waitHandle.Dispose();
 #else
                     _waitHandle.Close();

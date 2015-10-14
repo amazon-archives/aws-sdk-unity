@@ -53,7 +53,8 @@ namespace Amazon.DynamoDBv2.DocumentModel
         internal Table.DynamoDBConsumer TableConsumer { get; private set; }
         internal DynamoDBEntryConversion Conversion { get; private set; }
 
-#if (WIN_RT || WINDOWS_PHONE || AWSSDK_UNITY)
+
+#if PCL ||AWSSDK_UNITY
         internal AmazonDynamoDBClient DDBClient { get; private set; }
 #else
         internal IAmazonDynamoDB DDBClient { get; private set; }
@@ -333,7 +334,7 @@ namespace Amazon.DynamoDBv2.DocumentModel
 
         private Table(IAmazonDynamoDB ddbClient, string tableName, Table.DynamoDBConsumer consumer, DynamoDBEntryConversion conversion)
         {
-#if (WIN_RT || WINDOWS_PHONE || AWSSDK_UNITY)
+#if PCL || AWSSDK_UNITY
             DDBClient = ddbClient as AmazonDynamoDBClient;
 #else
             DDBClient = ddbClient;
@@ -749,7 +750,8 @@ namespace Amazon.DynamoDBv2.DocumentModel
                 AttributesToGet = currentConfig.AttributesToGet,
                 Select = currentConfig.Select,
                 CollectResults = currentConfig.CollectResults,
-                IndexName = currentConfig.IndexName
+                IndexName = currentConfig.IndexName,
+                IsConsistentRead = currentConfig.ConsistentRead
             };
 
             if (currentConfig.TotalSegments != 0)
@@ -842,8 +844,7 @@ namespace Amazon.DynamoDBv2.DocumentModel
                 TableName = TableName,
                 AttributesToGet = config.AttributesToGet,
                 Filter = config.Filter,
-                KeyExpression = config.KeyExpression,
-                FilterExpression = config.FilterExpression,
+                KeyExpression = config.KeyExpression,                FilterExpression = config.FilterExpression,
                 ConditionalOperator = config.ConditionalOperator,
                 Limit = config.Limit,
                 IsConsistentRead = config.ConsistentRead,

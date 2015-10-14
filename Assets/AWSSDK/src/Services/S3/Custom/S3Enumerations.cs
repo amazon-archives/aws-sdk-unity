@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
 // 
@@ -377,6 +377,13 @@ namespace Amazon.S3
         public static readonly S3StorageClass Glacier = new S3StorageClass("GLACIER");
 
         /// <summary>
+        /// The STANDARD_IA storage is for infrequently accessed objects.
+        /// This storage class is for objects that are long-lived and less frequently accessed,
+        /// like backups and older data.
+        /// </summary>
+        public static readonly S3StorageClass StandardInfrequentAccess = new S3StorageClass("STANDARD_IA");
+
+        /// <summary>
         /// Construct an instance of S3StorageClass.
         /// </summary>
         /// <param name="value"></param>
@@ -735,6 +742,21 @@ namespace Amazon.S3
         /// </summary>
         public static readonly EventType ObjectCreatedCompleteMultipartUpload = new EventType("s3:ObjectCreated:CompleteMultipartUpload");
 
+        /// <summary>
+        /// This event encapsulates all the object removed events
+        /// </summary>
+        public static readonly EventType ObjectRemovedAll = new EventType("s3:ObjectRemoved:*");
+
+        /// <summary>
+        /// Event for object removed, delete operation.
+        /// </summary>
+        public static readonly EventType ObjectRemovedDelete = new EventType("s3:ObjectRemoved:Delete");
+
+        /// <summary>
+        /// Event for object removed, delete marker created operation.
+        /// </summary>
+        public static readonly EventType ObjectRemovedDeleteMarkerCreated = new EventType("s3:ObjectRemoved:DeleteMarkerCreated");
+		
         /// <summary>
         /// Event for objects stored in reduced redundancy and S3 detects the object is lost
         /// </summary>

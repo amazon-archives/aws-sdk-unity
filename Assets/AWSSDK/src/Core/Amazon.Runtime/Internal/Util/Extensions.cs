@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
 // 
@@ -32,10 +32,6 @@ using Amazon.Util;
 using System;
 using System.Diagnostics;
 using System.Text;
-
-#if WIN_RT
-using Amazon.MissingTypes;
-#endif
 
 namespace Amazon.Runtime.Internal.Util
 {

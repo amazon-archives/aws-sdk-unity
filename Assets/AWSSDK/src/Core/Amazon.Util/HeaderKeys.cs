@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
 // 
@@ -14,7 +14,6 @@
 // for the specific language governing permissions and 
 // limitations under the License.
 //
-using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 
 namespace Amazon.Util

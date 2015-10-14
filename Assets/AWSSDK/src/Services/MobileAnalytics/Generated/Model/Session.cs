@@ -36,8 +36,8 @@ namespace Amazon.MobileAnalytics.Model
     {
         private long? _duration;
         private string _id;
-        private string _startTimestamp;
-        private string _stopTimestamp;
+        private DateTime? _startTimestamp;
+        private DateTime? _stopTimestamp;
 
         /// <summary>
         /// Gets and sets the property Duration. 
@@ -81,16 +81,16 @@ namespace Amazon.MobileAnalytics.Model
         /// The time the event started in ISO 8601 standard date time format. For example, 2014-06-30T19:07:47.885Z
         /// </para>
         /// </summary>
-        public string StartTimestamp
+        public DateTime StartTimestamp
         {
-            get { return this._startTimestamp; }
+            get { return this._startTimestamp.GetValueOrDefault(); }
             set { this._startTimestamp = value; }
         }
 
         // Check to see if StartTimestamp property is set
         internal bool IsSetStartTimestamp()
         {
-            return this._startTimestamp != null;
+            return this._startTimestamp.HasValue; 
         }
 
         /// <summary>
@@ -100,16 +100,16 @@ namespace Amazon.MobileAnalytics.Model
         /// 2014-06-30T19:07:47.885Z
         /// </para>
         /// </summary>
-        public string StopTimestamp
+        public DateTime StopTimestamp
         {
-            get { return this._stopTimestamp; }
+            get { return this._stopTimestamp.GetValueOrDefault(); }
             set { this._stopTimestamp = value; }
         }
 
         // Check to see if StopTimestamp property is set
         internal bool IsSetStopTimestamp()
         {
-            return this._stopTimestamp != null;
+            return this._stopTimestamp.HasValue; 
         }
 
     }

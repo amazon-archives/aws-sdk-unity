@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
 // 
@@ -53,6 +53,12 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
                     if (context.TestExpression("CloudFunction", targetDepth))
                     {
                         cloudFunctionConfiguration.FunctionArn = StringUnmarshaller.GetInstance().Unmarshall(context);
+
+                        continue;
+                    }
+                    if (context.TestExpression("Filter", targetDepth))
+                    {
+                        cloudFunctionConfiguration.Filter = FilterUnmarshaller.Instance.Unmarshall(context);
 
                         continue;
                     }

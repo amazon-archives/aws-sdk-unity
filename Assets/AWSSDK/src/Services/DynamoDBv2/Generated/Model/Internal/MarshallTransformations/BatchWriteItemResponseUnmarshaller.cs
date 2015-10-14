@@ -38,8 +38,7 @@ namespace Amazon.DynamoDBv2.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for BatchWriteItem operation
     /// </summary>  
-    public class BatchWriteItemResponseUnmarshaller : JsonResponseUnmarshaller
-    {
+    public class BatchWriteItemResponseUnmarshaller : JsonResponseUnmarshaller    {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.
         /// </summary>  

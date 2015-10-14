@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
 // 
@@ -18,7 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 
-#if WIN_RT
+#if PCL
 using System.Threading.Tasks;
 #endif
 
@@ -36,7 +36,7 @@ namespace Amazon.Runtime.Internal.Util
         private bool isDisposed = false;
         private Action<T> action;
         private Queue<T> queue;
-#if WIN_RT
+#if PCL
         private Task backgroundThread;
 #else
         private Thread backgroundThread;
@@ -60,7 +60,7 @@ namespace Amazon.Runtime.Internal.Util
             shouldStop = false;
             this.action = action;
 
-#if WIN_RT
+#if PCL
             backgroundThread = new Task(Run);
             backgroundThread.Start();
 #else
@@ -92,7 +92,7 @@ namespace Amazon.Runtime.Internal.Util
             {
                 if (disposing && resetEvent != null)
                 {
-#if WIN_RT
+#if PCL
                     resetEvent.Dispose();
 #else
                     resetEvent.Close();

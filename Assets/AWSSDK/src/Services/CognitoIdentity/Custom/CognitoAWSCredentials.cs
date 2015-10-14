@@ -43,7 +43,7 @@ namespace Amazon.CognitoIdentity
         private IAmazonCognitoIdentity cib;
 #else
         private AmazonCognitoIdentityClient cib;
-#endif   
+#endif
 #if !AWSSDK_UNITY
         private IAmazonSecurityTokenService sts;
 #else
@@ -86,6 +86,35 @@ namespace Amazon.CognitoIdentity
 
         #endregion
 
+        #region protected methods and enum
+
+        /// <summary>
+        /// Gives a namespaced key for supporting multiple identity pool id's
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        protected string GetNamespacedKey(string key)
+        {
+            return key + ":" + IdentityPoolId;
+        }
+
+        [Flags]
+        private enum RefreshIdentityOptions
+        {
+            /// <summary>
+            /// Dont refresh identity. 
+            /// </summary>
+            None = 0,
+
+            /// <summary>
+            /// Refresh if Id not set or If Identity Provider is BYOI
+            /// </summary>
+            Refresh = 1
+        }
+
+
+        #endregion
+
         #region Public properties, methods, classes, and events
 
         /// <summary>
@@ -108,11 +137,33 @@ namespace Amazon.CognitoIdentity
         /// </summary>
         public class IdentityState
         {
+            /// <summary>
+            /// Gets the Identity Id
+            /// </summary>
             public string IdentityId { get; private set; }
+
+            /// <summary>
+            /// Gets the Login Provider
+            /// </summary>
             public string LoginProvider { get; private set; }
+
+            /// <summary>
+            /// Gets the Login Token
+            /// </summary>
             public string LoginToken { get; private set; }
+
+            /// <summary>
+            /// Indicates if the identity Id is from cache
+            /// </summary>
             public bool FromCache { get; private set; }
 
+            /// <summary>
+            /// Creates an instance of the Identity State using identity id , token, provider, fromCache flag
+            /// </summary>
+            /// <param name="identityId"></param>
+            /// <param name="provider"></param>
+            /// <param name="token"></param>
+            /// <param name="fromCache"></param>
             public IdentityState(string identityId, string provider, string token, bool fromCache)
             {
                 IdentityId = identityId;
@@ -121,12 +172,20 @@ namespace Amazon.CognitoIdentity
                 FromCache = fromCache;
             }
 
+            /// <summary>
+            /// Creates an instance using the identity id and from cache flag
+            /// </summary>
+            /// <param name="identityId"></param>
+            /// <param name="fromCache"></param>
             public IdentityState(string identityId, bool fromCache)
             {
                 IdentityId = identityId;
                 FromCache = fromCache;
             }
 
+            /// <summary>
+            /// returns true is the Login provider and login token values are present
+            /// </summary>
             public bool LoginSpecified
             {
                 get
@@ -164,8 +223,8 @@ namespace Amazon.CognitoIdentity
         private Dictionary<string, string> Logins { get; set; }
 
         /// <summary>
-        /// Clears current credentials state. Caution: This will clear the IdentityId.
-        /// Use ClearCredentials instead if you just want to trigger a credentials refresh.
+        /// Clears current credentials state. This will reset the IdentityId.
+        /// Use <see cref="Amazon.Runtime.RefreshingAWSCredentials.ClearCredentials()"/> instead if you just want to trigger a credentials refresh.
         /// </summary>
         public void Clear()
         {
@@ -190,7 +249,7 @@ namespace Amazon.CognitoIdentity
         /// <returns>true if the provider name is present in the logins collection, else false</returns>
         public bool ContainsProvider(string providerName)
         {
-            return Logins.ContainsKey (providerName);
+            return Logins.ContainsKey(providerName);
         }
 
         /// <summary>
@@ -237,17 +296,16 @@ namespace Amazon.CognitoIdentity
         /// </summary>
         public string GetIdentityId()
         {
-            return GetIdentityId(false);
+            return GetIdentityId(RefreshIdentityOptions.None);
         }
 
-
-        private string GetIdentityId(bool forceRefresh)
+        private string GetIdentityId(RefreshIdentityOptions options)
         {
             // Locking so that concurrent calls do not make separate network calls,
             // and instead wait for the first caller to cache the Identity ID.
             lock (refreshIdLock)
             {
-                if (!IsIdentitySet || forceRefresh)
+                if (!IsIdentitySet || options == RefreshIdentityOptions.Refresh)
                 {
                     _identityState = RefreshIdentity();
 
@@ -290,7 +348,6 @@ namespace Amazon.CognitoIdentity
             return new IdentityState(identityId, isCached);
         }
 
-
 #if AWS_ASYNC_API
         /// <summary>
         /// Gets the Identity Id corresponding to the credentials retrieved from Cognito.
@@ -302,11 +359,11 @@ namespace Amazon.CognitoIdentity
             return await GetIdentityIdAsync(false);
         }
 
-        public async System.Threading.Tasks.Task<string> GetIdentityIdAsync(bool forceRefresh)
+        private async System.Threading.Tasks.Task<string> GetIdentityIdAsync(RefreshIdentityOptions options)
         {
-            if (!IsIdentitySet || forceRefresh)
+            if (!IsIdentitySet || options == RefreshIdentityOptions.Refresh)
             {
-                IdentityState state = await RefreshIdentityAsync().ConfigureAwait(false);
+                _identityState = await RefreshIdentityAsync().ConfigureAwait(false);
                 if (!string.IsNullOrEmpty(_identityState.LoginProvider))
                 {
                     Logins[_identityState.LoginProvider] = _identityState.LoginToken;
@@ -323,21 +380,21 @@ namespace Amazon.CognitoIdentity
         /// </summary>
         /// <returns>returns a <see cref="IdentityState"/></returns>
         public virtual async System.Threading.Tasks.Task<IdentityState> RefreshIdentityAsync()
-        { 
-             bool isCached = true;
-             if (!IsIdentitySet)
-             {
-                 var getIdRequest = new GetIdRequest
-                 {
-                     AccountId = AccountId,
-                     IdentityPoolId = IdentityPoolId,
-                     Logins = Logins
-                 };
-                 var response = await cib.GetIdAsync(getIdRequest).ConfigureAwait(false);
-                 isCached = false;
-                 UpdateIdentity(response.IdentityId);
-             }
-             return new IdentityState(identityId, isCached);
+        {
+            bool isCached = true;
+            if (!IsIdentitySet)
+            {
+                var getIdRequest = new GetIdRequest
+                {
+                    AccountId = AccountId,
+                    IdentityPoolId = IdentityPoolId,
+                    Logins = Logins
+                };
+                var response = await cib.GetIdAsync(getIdRequest).ConfigureAwait(false);
+                isCached = false;
+                UpdateIdentity(response.IdentityId);
+            }
+            return new IdentityState(identityId, isCached);
         }
 
 #endif
@@ -450,7 +507,7 @@ namespace Amazon.CognitoIdentity
                 _currentState = GetCachedCredentials();
             }
         }
-         
+
         #endregion
 
         #region Overrides
@@ -483,7 +540,7 @@ namespace Amazon.CognitoIdentity
             CredentialsRefreshState credentialsState;
             // Retrieve Open Id Token
             // (Reuses existing IdentityId or creates a new one)
-            var identity = await GetIdentityIdAsync(true).ConfigureAwait(false);
+            var identity = await GetIdentityIdAsync(RefreshIdentityOptions.Refresh).ConfigureAwait(false);
             var getTokenRequest = new GetOpenIdTokenRequest { IdentityId = identity };
             // If logins are set, pass them to the GetOpenId call
             if (Logins.Count > 0)
@@ -495,7 +552,7 @@ namespace Amazon.CognitoIdentity
             {
                 getTokenResult = await cib.GetOpenIdTokenAsync(getTokenRequest).ConfigureAwait(false);
             }
-            catch(AmazonCognitoIdentityException e)
+            catch (AmazonCognitoIdentityException e)
             {
                 if (ShouldRetry(e))
                     retry = true;
@@ -503,7 +560,7 @@ namespace Amazon.CognitoIdentity
                     throw;
             }
 
-            if(retry)
+            if (retry)
             {
                 return await GetCredentialsForRoleAsync(roleArn);
             }
@@ -532,13 +589,14 @@ namespace Amazon.CognitoIdentity
         private async System.Threading.Tasks.Task<CredentialsRefreshState> GetPoolCredentialsAsync()
         {
             CredentialsRefreshState credentialsState;
-            var identity = await GetIdentityIdAsync(true).ConfigureAwait(false);
+
+            var identity = await GetIdentityIdAsync(RefreshIdentityOptions.Refresh).ConfigureAwait(false);
             var getCredentialsRequest = new GetCredentialsForIdentityRequest { IdentityId = identity };
-             if(Logins.Count > 0)
+            if (Logins.Count > 0)
                 getCredentialsRequest.Logins = Logins;
-            if (_identityState!=null && !string.IsNullOrEmpty(_identityState.LoginToken))
+            if (_identityState != null && !string.IsNullOrEmpty(_identityState.LoginToken))
             {
-                getCredentialsRequest.Logins = new Dictionary<string,string>();
+                getCredentialsRequest.Logins = new Dictionary<string, string>();
                 getCredentialsRequest.Logins.Add("cognito-identity.amazonaws.com", _identityState.LoginToken);
             }
 
@@ -598,7 +656,7 @@ namespace Amazon.CognitoIdentity
         private CredentialsRefreshState GetPoolCredentials()
         {
             CredentialsRefreshState credentialsState;
-            var identity = this.GetIdentityId(true);
+            var identity = this.GetIdentityId(RefreshIdentityOptions.Refresh);
             var getCredentialsRequest = new GetCredentialsForIdentityRequest { IdentityId = identity };
 
             if (Logins.Count > 0)
@@ -644,7 +702,7 @@ namespace Amazon.CognitoIdentity
             CredentialsRefreshState credentialsState;
             // Retrieve Open Id Token
             // (Reuses existing IdentityId or creates a new one)
-            var identity = this.GetIdentityId(true);
+            var identity = this.GetIdentityId(RefreshIdentityOptions.Refresh);
             var getTokenRequest = new GetOpenIdTokenRequest { IdentityId = identity };
             // If logins are set, pass them to the GetOpenId call
             if (Logins.Count > 0)

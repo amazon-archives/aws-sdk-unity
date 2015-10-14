@@ -7,7 +7,8 @@
         logTo="UnityLogger"
         logResponses="Always"
         logMetrics="true"
-        logMetricsFormat="JSON" />
+        logMetricsFormat="JSON" 
+        logResponsesSizeLimit ="4096"/>
   
     <s3 useSignatureVersion4="true" />
  

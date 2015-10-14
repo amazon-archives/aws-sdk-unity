@@ -1,3 +1,4 @@
+#define AWSSDK_UNITY
 //
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
@@ -48,7 +49,7 @@ namespace Amazon.Runtime.Internal.Util
 
                 this.partSize = partSize;
 
-#if !WIN_RT && !WINDOWS_PHONE
+#if !PCL && !AWSSDK_UNITY
 
                 var encryptionStream = BaseStream as AESEncryptionUploadPartStream;
                 if (encryptionStream != null && (partSize % 16) != 0)
@@ -148,7 +149,7 @@ namespace Amazon.Runtime.Internal.Util
             throw new NotSupportedException();
         }
 
-#if !WIN_RT
+#if !PCL && !AWSSDK_UNITY
         public override IAsyncResult BeginRead(byte[] buffer, int offset, int count, AsyncCallback callback, Object state)
         {
             throw new NotSupportedException();

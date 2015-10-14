@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
 // 
@@ -24,10 +24,6 @@ using System.Text;
 using Amazon.Util;
 using Amazon.Runtime.Internal.Util;
 using ThirdParty.Json.LitJson;
-
-#if (WIN_RT || WINDOWS_PHONE)
-using Amazon.MissingTypes;
-#endif
 
 namespace Amazon.Runtime.Internal.Util
 {

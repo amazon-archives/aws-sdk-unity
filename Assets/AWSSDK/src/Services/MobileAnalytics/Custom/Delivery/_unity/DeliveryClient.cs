@@ -31,7 +31,6 @@ using ThirdParty.Json.LitJson;
 using Amazon.Runtime.Internal.Util;
 
 
-
 namespace Amazon.MobileAnalytics.MobileAnalyticsManager.Internal
 {
     /// <summary>
@@ -49,7 +48,7 @@ namespace Amazon.MobileAnalytics.MobileAnalyticsManager.Internal
         private readonly IDeliveryPolicyFactory _policyFactory;
         private IEventStore _eventStore;
 
-        private ClientContext _clientContext;
+        private Amazon.Runtime.Internal.ClientContext _clientContext;
         private AmazonMobileAnalyticsClient _mobileAnalyticsLowLevelClient;
         private string _appId;
         private List<IDeliveryPolicy> _deliveryPolicies;
@@ -61,7 +60,7 @@ namespace Amazon.MobileAnalytics.MobileAnalyticsManager.Internal
         /// <param name="clientContext">An instance of ClientContext <see cref="Amazon.MobileAnalytics.MobileAnalyticsManager.Internal.ClientContext"/></param>
         /// <param name="credentials">An instance of Credentials <see cref="Amazon.Runtime.AWSCredentials"/></param>
         /// <param name="regionEndPoint">Region end point <see cref="Amazon.RegionEndpoint"/></param>
-        public DeliveryClient(bool isDataAllowed, ClientContext clientContext, AWSCredentials credentials, RegionEndpoint regionEndPoint):
+        public DeliveryClient(bool isDataAllowed, Amazon.Runtime.Internal.ClientContext clientContext, AWSCredentials credentials, RegionEndpoint regionEndPoint) :
             this(new DeliveryPolicyFactory(isDataAllowed), clientContext, credentials, regionEndPoint)
         {
         }
@@ -73,12 +72,12 @@ namespace Amazon.MobileAnalytics.MobileAnalyticsManager.Internal
         /// <param name="clientContext">An instance of ClientContext <see cref="Amazon.MobileAnalytics.MobileAnalyticsManager.Internal.ClientContext"/></param>
         /// <param name="credentials">An instance of Credentials <see cref="Amazon.Runtime.AWSCredentials"/></param>
         /// <param name="regionEndPoint">Region end point <see cref="Amazon.RegionEndpoint"/></param>
-        public DeliveryClient(IDeliveryPolicyFactory policyFactory, ClientContext clientContext, AWSCredentials credentials, RegionEndpoint regionEndPoint)
+        public DeliveryClient(IDeliveryPolicyFactory policyFactory, Amazon.Runtime.Internal.ClientContext clientContext, AWSCredentials credentials, RegionEndpoint regionEndPoint)
         {
             _policyFactory = policyFactory;
             _mobileAnalyticsLowLevelClient = new AmazonMobileAnalyticsClient(credentials, regionEndPoint);
             _clientContext = clientContext;
-            _appId = clientContext.Config.AppId;
+            _appId = clientContext.AppID;
             _eventStore = new SQLiteEventStore(AWSConfigsMobileAnalytics.MaxDBSize, AWSConfigsMobileAnalytics.DBWarningThreshold);
             _deliveryPolicies = new List<IDeliveryPolicy>();
             _deliveryPolicies.Add(_policyFactory.NewConnectivityPolicy());
@@ -93,7 +92,7 @@ namespace Amazon.MobileAnalytics.MobileAnalyticsManager.Internal
         {
             ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
             {
-                string eventString = JsonMapper.ToJson(eventObject);
+                string eventString = eventObject.MarshallToJson();
                 bool eventStored = false;
 
                 try
@@ -201,7 +200,7 @@ namespace Amazon.MobileAnalytics.MobileAnalyticsManager.Internal
 
                     _logger.InfoFormat("Event string is {0}", eventString);
 
-                    Amazon.MobileAnalytics.Model.Event _analyticsEvent = JsonMapper.ToObject<Amazon.MobileAnalytics.Model.Event>(eventString);
+                    Amazon.MobileAnalytics.Model.Event _analyticsEvent = Amazon.MobileAnalytics.Model.Event.UnmarshallFromJson(eventString);
                     eventArray.Add(_analyticsEvent);
                     rowIds.Add(eventData["id"].ToString());
                 }
@@ -272,7 +271,8 @@ namespace Amazon.MobileAnalytics.MobileAnalyticsManager.Internal
             else if (result.Exception is AmazonMobileAnalyticsException)
             {
                 if ( string.Equals(((AmazonMobileAnalyticsException)(result.Exception)).ErrorCode,"ThrottlingException", StringComparison.CurrentCultureIgnoreCase) ||
-                    ((AmazonMobileAnalyticsException)(result.Exception)).StatusCode >= HttpStatusCode.InternalServerError)
+                    ((AmazonMobileAnalyticsException)(result.Exception)).StatusCode >= HttpStatusCode.InternalServerError || ((AmazonMobileAnalyticsException)(result.Exception)).StatusCode == 0)
+
                 {
                     retriable = true;
                 }

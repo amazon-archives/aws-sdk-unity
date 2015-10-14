@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
 // 
@@ -104,6 +104,7 @@ namespace Amazon.Util
         {
             LogTo = AWSConfigs._logging;
             LogResponses = AWSConfigs._responseLogging;
+            LogResponsesSizeLimit = DefaultLogResponsesSizeLimit;
             LogMetrics = AWSConfigs._logMetrics;
         }
     }

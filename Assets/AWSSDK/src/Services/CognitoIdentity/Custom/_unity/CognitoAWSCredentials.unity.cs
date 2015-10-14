@@ -128,15 +128,6 @@ namespace Amazon.CognitoIdentity
         }
         #endregion
 
-        #region private methods
-
-        private string GetNamespacedKey(string key)
-        {
-            return key + ":" + IdentityPoolId;
-        }
-
-        #endregion
-
         #region GetIdentityId
 
         /// <summary>

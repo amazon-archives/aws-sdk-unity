@@ -156,7 +156,7 @@ namespace Amazon.SQS.Internal
 
             public void Dispose()
             {
-#if WIN_RT
+#if PCL
                 writer.Dispose();
 #else
                 writer.Close();

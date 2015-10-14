@@ -318,9 +318,9 @@ namespace Amazon.Util
         /// Initializes a PropertyConfig object for a specific property
         /// </summary>
         /// <param name="name"></param>
-        public PropertyConfig(string name)
+        public PropertyConfig(string propertyName)
         {
-            Name = name;
+            Name = propertyName;
         }
 
 #if BCL || AWSSDK_UNITY

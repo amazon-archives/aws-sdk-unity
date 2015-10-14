@@ -38,7 +38,7 @@ namespace Amazon.CognitoIdentity.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for UnlinkIdentity operation
     /// </summary>  
-    public class UnlinkIdentityResponseUnmarshaller : JsonResponseUnmarshaller
+    public class UnlinkIdentityResponseUnmarshaller : JsonResponseUnmarshaller, ISimplifiedErrorUnmarshaller 
     {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.
@@ -63,6 +63,10 @@ namespace Amazon.CognitoIdentity.Model.Internal.MarshallTransformations
         public override AmazonServiceException UnmarshallException(JsonUnmarshallerContext context, Exception innerException, HttpStatusCode statusCode)
         {
             ErrorResponse errorResponse = JsonErrorResponseUnmarshaller.GetInstance().Unmarshall(context);
+            if (errorResponse.Code != null && errorResponse.Code.Equals("ExternalServiceException"))
+            {
+                return new ExternalServiceException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
+            }
             if (errorResponse.Code != null && errorResponse.Code.Equals("InternalErrorException"))
             {
                 return new InternalErrorException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
@@ -90,6 +94,45 @@ namespace Amazon.CognitoIdentity.Model.Internal.MarshallTransformations
             return new AmazonCognitoIdentityException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
         }
 
+        public AmazonServiceException UnmarshallException(IWebResponseData response, ErrorResponse errorResponse, Exception innerException)
+        {
+            if (!string.IsNullOrEmpty(errorResponse.Code) && errorResponse.Code.StartsWith("ExternalServiceException", StringComparison.OrdinalIgnoreCase))
+            {
+                string message = string.IsNullOrEmpty(errorResponse.Message)?GetDefaultErrorMessage<AmazonCognitoIdentityException>():errorResponse.Message;
+                return new ExternalServiceException(message, innerException, ErrorType.Unknown, errorResponse.Code, errorResponse.RequestId, response.StatusCode);
+            }
+            if (!string.IsNullOrEmpty(errorResponse.Code) && errorResponse.Code.StartsWith("InternalErrorException", StringComparison.OrdinalIgnoreCase))
+            {
+                string message = string.IsNullOrEmpty(errorResponse.Message)?GetDefaultErrorMessage<AmazonCognitoIdentityException>():errorResponse.Message;
+                return new InternalErrorException(message, innerException, ErrorType.Unknown, errorResponse.Code, errorResponse.RequestId, response.StatusCode);
+            }
+            if (!string.IsNullOrEmpty(errorResponse.Code) && errorResponse.Code.StartsWith("InvalidParameterException", StringComparison.OrdinalIgnoreCase))
+            {
+                string message = string.IsNullOrEmpty(errorResponse.Message)?GetDefaultErrorMessage<AmazonCognitoIdentityException>():errorResponse.Message;
+                return new InvalidParameterException(message, innerException, ErrorType.Unknown, errorResponse.Code, errorResponse.RequestId, response.StatusCode);
+            }
+            if (!string.IsNullOrEmpty(errorResponse.Code) && errorResponse.Code.StartsWith("NotAuthorizedException", StringComparison.OrdinalIgnoreCase))
+            {
+                string message = string.IsNullOrEmpty(errorResponse.Message)?GetDefaultErrorMessage<AmazonCognitoIdentityException>():errorResponse.Message;
+                return new NotAuthorizedException(message, innerException, ErrorType.Unknown, errorResponse.Code, errorResponse.RequestId, response.StatusCode);
+            }
+            if (!string.IsNullOrEmpty(errorResponse.Code) && errorResponse.Code.StartsWith("ResourceConflictException", StringComparison.OrdinalIgnoreCase))
+            {
+                string message = string.IsNullOrEmpty(errorResponse.Message)?GetDefaultErrorMessage<AmazonCognitoIdentityException>():errorResponse.Message;
+                return new ResourceConflictException(message, innerException, ErrorType.Unknown, errorResponse.Code, errorResponse.RequestId, response.StatusCode);
+            }
+            if (!string.IsNullOrEmpty(errorResponse.Code) && errorResponse.Code.StartsWith("ResourceNotFoundException", StringComparison.OrdinalIgnoreCase))
+            {
+                string message = string.IsNullOrEmpty(errorResponse.Message)?GetDefaultErrorMessage<AmazonCognitoIdentityException>():errorResponse.Message;
+                return new ResourceNotFoundException(message, innerException, ErrorType.Unknown, errorResponse.Code, errorResponse.RequestId, response.StatusCode);
+            }
+            if (!string.IsNullOrEmpty(errorResponse.Code) && errorResponse.Code.StartsWith("TooManyRequestsException", StringComparison.OrdinalIgnoreCase))
+            {
+                string message = string.IsNullOrEmpty(errorResponse.Message)?GetDefaultErrorMessage<AmazonCognitoIdentityException>():errorResponse.Message;
+                return new TooManyRequestsException(message, innerException, ErrorType.Unknown, errorResponse.Code, errorResponse.RequestId, response.StatusCode);
+            }
+            return new AmazonCognitoIdentityException(GetDefaultErrorMessage<AmazonCognitoIdentityException>(), innerException, ErrorType.Unknown, errorResponse.Code, errorResponse.RequestId, response.StatusCode);
+        }
         private static UnlinkIdentityResponseUnmarshaller _instance = new UnlinkIdentityResponseUnmarshaller();        
 
         internal static UnlinkIdentityResponseUnmarshaller GetInstance()

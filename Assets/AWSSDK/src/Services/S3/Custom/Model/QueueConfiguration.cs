@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
 // 
@@ -31,7 +31,7 @@ namespace Amazon.S3.Model
     /// can be used to help setup the queue policy.
     /// </para>    
     /// </summary>
-    public class QueueConfiguration
+    public class QueueConfiguration : NotificationConfiguration
     {
         /// <summary>
         /// Gets and set the Id property. The Id will be provided in the event content and can be used 
@@ -42,28 +42,6 @@ namespace Amazon.S3.Model
         internal bool IsSetId()
         {
             return this.Id != null;
-        }
-
-        List<EventType> _events;
-        /// <summary>
-        /// Gets and sets the Events property. These are the events the configuration will listen to and send to the Amazon SQS queue.
-        /// </summary>
-        public List<EventType> Events
-        {
-            get
-            {
-                if (this._events == null)
-                    this._events = new List<EventType>();
-
-                return this._events;
-            }
-            set { this._events = value; }
-        }
-
-        // Check to see if Event property is set
-        internal bool IsSetEvents()
-        {
-            return this._events != null && this._events.Count > 0;
         }
 
         /// <summary>

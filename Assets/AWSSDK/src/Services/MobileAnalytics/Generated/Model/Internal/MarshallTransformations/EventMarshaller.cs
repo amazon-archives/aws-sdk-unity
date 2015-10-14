@@ -95,7 +95,7 @@ namespace Amazon.MobileAnalytics.Model.Internal.MarshallTransformations
             if(requestObject.IsSetTimestamp())
             {
                 context.Writer.WritePropertyName("timestamp");
-                context.Writer.Write(requestObject.Timestamp);
+                context.Writer.Write(Amazon.Runtime.Internal.Util.StringUtils.FromDateTime(requestObject.Timestamp));
             }
 
             if(requestObject.IsSetVersion())

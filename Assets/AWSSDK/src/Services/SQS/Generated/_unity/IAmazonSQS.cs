@@ -73,6 +73,7 @@ namespace Amazon.SQS
         
         #region  AddPermission
 
+
         /// <summary>
         /// Adds a permission to a queue for a specific <a href="http://docs.aws.amazon.com/general/latest/gr/glos-chap.html#P">principal</a>.
         /// This allows for sharing access to the queue.
@@ -106,6 +107,10 @@ namespace Amazon.SQS
         /// <param name="label">The unique identification of the permission you're setting (e.g., <code>AliceSendMessage</code>). Constraints: Maximum 80 characters; alphanumeric characters, hyphens (-), and underscores (_) are allowed.</param>
         /// <param name="awsAccountIds">The AWS account number of the <a href="http://docs.aws.amazon.com/general/latest/gr/glos-chap.html#P">principal</a> who will be given permission. The principal must have an AWS account, but does not need to be signed up for Amazon SQS. For information about locating the AWS account identification, see <a href="http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/AWSCredentials.html">Your AWS Identifiers</a> in the <i>Amazon SQS Developer Guide</i>.</param>
         /// <param name="actions">The action the client wants to allow for the specified principal. The following are valid values: <code>* | SendMessage | ReceiveMessage | DeleteMessage | ChangeMessageVisibility | GetQueueAttributes | GetQueueUrl</code>. For more information about these actions, see <a href="http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/acp-overview.html#PermissionTypes">Understanding Permissions</a> in the <i>Amazon SQS Developer Guide</i>. Specifying <code>SendMessage</code>, <code>DeleteMessage</code>, or <code>ChangeMessageVisibility</code> for the <code>ActionName.n</code> also grants permissions for the corresponding batch versions of those actions: <code>SendMessageBatch</code>, <code>DeleteMessageBatch</code>, and <code>ChangeMessageVisibilityBatch</code>.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the AddPermission service method, as returned by SQS.</returns>
         /// <exception cref="Amazon.SQS.Model.OverLimitException">
@@ -114,8 +119,7 @@ namespace Amazon.SQS
         /// returns this error if the maximum number of permissions for the queue has already
         /// been reached.
         /// </exception>
-        void AddPermissionAsync(string queueUrl, string label, List<string> awsAccountIds, List<string> actions, AmazonServiceCallback<AddPermissionRequest, AddPermissionResponse> callback, AsyncOptions options = null);
-
+        void AddPermissionAsync(string queueUrl, string label, List<string> awsAccountIds, List<string> actions,  AmazonServiceCallback<AddPermissionRequest, AddPermissionResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the AddPermission operation.
@@ -131,6 +135,7 @@ namespace Amazon.SQS
         #endregion
         
         #region  ChangeMessageVisibility
+
 
         /// <summary>
         /// Changes the visibility timeout of a specified message in a queue to a new value. The
@@ -168,6 +173,10 @@ namespace Amazon.SQS
         /// <param name="queueUrl">The URL of the Amazon SQS queue to take action on.</param>
         /// <param name="receiptHandle">The receipt handle associated with the message whose visibility timeout should be changed. This parameter is returned by the <a>ReceiveMessage</a> action.</param>
         /// <param name="visibilityTimeout">The new value (in seconds - from 0 to 43200 - maximum 12 hours) for the message's visibility timeout.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the ChangeMessageVisibility service method, as returned by SQS.</returns>
         /// <exception cref="Amazon.SQS.Model.MessageNotInflightException">
@@ -176,8 +185,7 @@ namespace Amazon.SQS
         /// <exception cref="Amazon.SQS.Model.ReceiptHandleIsInvalidException">
         /// The receipt handle provided is not valid.
         /// </exception>
-        void ChangeMessageVisibilityAsync(string queueUrl, string receiptHandle, int visibilityTimeout, AmazonServiceCallback<ChangeMessageVisibilityRequest, ChangeMessageVisibilityResponse> callback, AsyncOptions options = null);
-
+        void ChangeMessageVisibilityAsync(string queueUrl, string receiptHandle, int visibilityTimeout,  AmazonServiceCallback<ChangeMessageVisibilityRequest, ChangeMessageVisibilityResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the ChangeMessageVisibility operation.
@@ -193,6 +201,7 @@ namespace Amazon.SQS
         #endregion
         
         #region  ChangeMessageVisibilityBatch
+
 
         /// <summary>
         /// Changes the visibility timeout of multiple messages. This is a batch version of <a>ChangeMessageVisibility</a>.
@@ -216,6 +225,10 @@ namespace Amazon.SQS
         /// </summary>
         /// <param name="queueUrl">The URL of the Amazon SQS queue to take action on.</param>
         /// <param name="entries">A list of receipt handles of the messages for which the visibility timeout must be changed.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the ChangeMessageVisibilityBatch service method, as returned by SQS.</returns>
         /// <exception cref="Amazon.SQS.Model.BatchEntryIdsNotDistinctException">
@@ -230,8 +243,7 @@ namespace Amazon.SQS
         /// <exception cref="Amazon.SQS.Model.TooManyEntriesInBatchRequestException">
         /// Batch request contains more number of entries than permissible.
         /// </exception>
-        void ChangeMessageVisibilityBatchAsync(string queueUrl, List<ChangeMessageVisibilityBatchRequestEntry> entries, AmazonServiceCallback<ChangeMessageVisibilityBatchRequest, ChangeMessageVisibilityBatchResponse> callback, AsyncOptions options = null);
-
+        void ChangeMessageVisibilityBatchAsync(string queueUrl, List<ChangeMessageVisibilityBatchRequestEntry> entries,  AmazonServiceCallback<ChangeMessageVisibilityBatchRequest, ChangeMessageVisibilityBatchResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the ChangeMessageVisibilityBatch operation.
@@ -247,6 +259,7 @@ namespace Amazon.SQS
         #endregion
         
         #region  CreateQueue
+
 
         /// <summary>
         /// Creates a new queue, or returns the URL of an existing one. When you request <code>CreateQueue</code>,
@@ -288,6 +301,10 @@ namespace Amazon.SQS
         /// </para>
         /// </summary>
         /// <param name="queueName">The name for the queue to be created.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the CreateQueue service method, as returned by SQS.</returns>
         /// <exception cref="Amazon.SQS.Model.QueueDeletedRecentlyException">
@@ -298,8 +315,7 @@ namespace Amazon.SQS
         /// A queue already exists with this name. Amazon SQS returns this error only if the request
         /// includes attributes whose values differ from those of the existing queue.
         /// </exception>
-        void CreateQueueAsync(string queueName, AmazonServiceCallback<CreateQueueRequest, CreateQueueResponse> callback, AsyncOptions options = null);
-
+        void CreateQueueAsync(string queueName,  AmazonServiceCallback<CreateQueueRequest, CreateQueueResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the CreateQueue operation.
@@ -315,6 +331,7 @@ namespace Amazon.SQS
         #endregion
         
         #region  DeleteMessage
+
 
         /// <summary>
         /// Deletes the specified message from the specified queue. You specify the message by
@@ -345,6 +362,10 @@ namespace Amazon.SQS
         /// </summary>
         /// <param name="queueUrl">The URL of the Amazon SQS queue to take action on.</param>
         /// <param name="receiptHandle">The receipt handle associated with the message to delete.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the DeleteMessage service method, as returned by SQS.</returns>
         /// <exception cref="Amazon.SQS.Model.InvalidIdFormatException">
@@ -353,8 +374,7 @@ namespace Amazon.SQS
         /// <exception cref="Amazon.SQS.Model.ReceiptHandleIsInvalidException">
         /// The receipt handle provided is not valid.
         /// </exception>
-        void DeleteMessageAsync(string queueUrl, string receiptHandle, AmazonServiceCallback<DeleteMessageRequest, DeleteMessageResponse> callback, AsyncOptions options = null);
-
+        void DeleteMessageAsync(string queueUrl, string receiptHandle,  AmazonServiceCallback<DeleteMessageRequest, DeleteMessageResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the DeleteMessage operation.
@@ -370,6 +390,7 @@ namespace Amazon.SQS
         #endregion
         
         #region  DeleteMessageBatch
+
 
         /// <summary>
         /// Deletes up to ten messages from the specified queue. This is a batch version of <a>DeleteMessage</a>.
@@ -394,6 +415,10 @@ namespace Amazon.SQS
         /// </summary>
         /// <param name="queueUrl">The URL of the Amazon SQS queue to take action on.</param>
         /// <param name="entries">A list of receipt handles for the messages to be deleted.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the DeleteMessageBatch service method, as returned by SQS.</returns>
         /// <exception cref="Amazon.SQS.Model.BatchEntryIdsNotDistinctException">
@@ -408,8 +433,7 @@ namespace Amazon.SQS
         /// <exception cref="Amazon.SQS.Model.TooManyEntriesInBatchRequestException">
         /// Batch request contains more number of entries than permissible.
         /// </exception>
-        void DeleteMessageBatchAsync(string queueUrl, List<DeleteMessageBatchRequestEntry> entries, AmazonServiceCallback<DeleteMessageBatchRequest, DeleteMessageBatchResponse> callback, AsyncOptions options = null);
-
+        void DeleteMessageBatchAsync(string queueUrl, List<DeleteMessageBatchRequestEntry> entries,  AmazonServiceCallback<DeleteMessageBatchRequest, DeleteMessageBatchResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the DeleteMessageBatch operation.
@@ -425,6 +449,7 @@ namespace Amazon.SQS
         #endregion
         
         #region  DeleteQueue
+
 
         /// <summary>
         /// Deletes the queue specified by the <b>queue URL</b>, regardless of whether the queue
@@ -452,10 +477,13 @@ namespace Amazon.SQS
         /// </para>
         /// </summary>
         /// <param name="queueUrl">The URL of the Amazon SQS queue to take action on.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the DeleteQueue service method, as returned by SQS.</returns>
-        void DeleteQueueAsync(string queueUrl, AmazonServiceCallback<DeleteQueueRequest, DeleteQueueResponse> callback, AsyncOptions options = null);
-
+        void DeleteQueueAsync(string queueUrl,  AmazonServiceCallback<DeleteQueueRequest, DeleteQueueResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the DeleteQueue operation.
@@ -471,6 +499,7 @@ namespace Amazon.SQS
         #endregion
         
         #region  GetQueueAttributes
+
 
         /// <summary>
         /// Gets attributes for the specified queue. The following attributes are supported: <ul>
@@ -516,13 +545,16 @@ namespace Amazon.SQS
         /// </summary>
         /// <param name="queueUrl">The URL of the Amazon SQS queue to take action on.</param>
         /// <param name="attributeNames">A list of attributes to retrieve information for. </param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the GetQueueAttributes service method, as returned by SQS.</returns>
         /// <exception cref="Amazon.SQS.Model.InvalidAttributeNameException">
         /// The attribute referred to does not exist.
         /// </exception>
-        void GetQueueAttributesAsync(string queueUrl, List<string> attributeNames, AmazonServiceCallback<GetQueueAttributesRequest, GetQueueAttributesResponse> callback, AsyncOptions options = null);
-
+        void GetQueueAttributesAsync(string queueUrl, List<string> attributeNames,  AmazonServiceCallback<GetQueueAttributesRequest, GetQueueAttributesResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the GetQueueAttributes operation.
@@ -539,6 +571,7 @@ namespace Amazon.SQS
         
         #region  GetQueueUrl
 
+
         /// <summary>
         /// Returns the URL of an existing queue. This action provides a simple way to retrieve
         /// the URL of an Amazon SQS queue. 
@@ -553,13 +586,16 @@ namespace Amazon.SQS
         /// </para>
         /// </summary>
         /// <param name="queueName">The name of the queue whose URL must be fetched. Maximum 80 characters; alphanumeric characters, hyphens (-), and underscores (_) are allowed.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the GetQueueUrl service method, as returned by SQS.</returns>
         /// <exception cref="Amazon.SQS.Model.QueueDoesNotExistException">
         /// The queue referred to does not exist.
         /// </exception>
-        void GetQueueUrlAsync(string queueName, AmazonServiceCallback<GetQueueUrlRequest, GetQueueUrlResponse> callback, AsyncOptions options = null);
-
+        void GetQueueUrlAsync(string queueName,  AmazonServiceCallback<GetQueueUrlRequest, GetQueueUrlResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the GetQueueUrl operation.
@@ -592,16 +628,20 @@ namespace Amazon.SQS
         
         #region  ListQueues
 
+
         /// <summary>
         /// Returns a list of your queues. The maximum number of queues that can be returned is
         /// 1000. If you specify a value for the optional <code>QueueNamePrefix</code> parameter,
         /// only queues with a name beginning with the specified value are returned.
         /// </summary>
         /// <param name="queueNamePrefix">A string to use for filtering the list results. Only those queues whose name begins with the specified string are returned.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the ListQueues service method, as returned by SQS.</returns>
-        void ListQueuesAsync(string queueNamePrefix, AmazonServiceCallback<ListQueuesRequest, ListQueuesResponse> callback, AsyncOptions options = null);
-
+        void ListQueuesAsync(string queueNamePrefix,  AmazonServiceCallback<ListQueuesRequest, ListQueuesResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the ListQueues operation.
@@ -618,6 +658,7 @@ namespace Amazon.SQS
         
         #region  PurgeQueue
 
+
         /// <summary>
         /// Deletes the messages in a queue specified by the <b>queue URL</b>.
         /// 
@@ -632,6 +673,10 @@ namespace Amazon.SQS
         /// </para>
         /// </summary>
         /// <param name="queueUrl">The queue URL of the queue to delete the messages from when using the <code>PurgeQueue</code> API.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the PurgeQueue service method, as returned by SQS.</returns>
         /// <exception cref="Amazon.SQS.Model.PurgeQueueInProgressException">
@@ -641,8 +686,7 @@ namespace Amazon.SQS
         /// <exception cref="Amazon.SQS.Model.QueueDoesNotExistException">
         /// The queue referred to does not exist.
         /// </exception>
-        void PurgeQueueAsync(string queueUrl, AmazonServiceCallback<PurgeQueueRequest, PurgeQueueResponse> callback, AsyncOptions options = null);
-
+        void PurgeQueueAsync(string queueUrl,  AmazonServiceCallback<PurgeQueueRequest, PurgeQueueResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the PurgeQueue operation.
@@ -658,6 +702,7 @@ namespace Amazon.SQS
         #endregion
         
         #region  ReceiveMessage
+
 
         /// <summary>
         /// Retrieves one or more messages, with a maximum limit of 10 messages, from the specified
@@ -727,6 +772,10 @@ namespace Amazon.SQS
         ///  </note>
         /// </summary>
         /// <param name="queueUrl">The URL of the Amazon SQS queue to take action on.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the ReceiveMessage service method, as returned by SQS.</returns>
         /// <exception cref="Amazon.SQS.Model.OverLimitException">
@@ -735,8 +784,7 @@ namespace Amazon.SQS
         /// returns this error if the maximum number of permissions for the queue has already
         /// been reached.
         /// </exception>
-        void ReceiveMessageAsync(string queueUrl, AmazonServiceCallback<ReceiveMessageRequest, ReceiveMessageResponse> callback, AsyncOptions options = null);
-
+        void ReceiveMessageAsync(string queueUrl,  AmazonServiceCallback<ReceiveMessageRequest, ReceiveMessageResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the ReceiveMessage operation.
@@ -753,16 +801,20 @@ namespace Amazon.SQS
         
         #region  RemovePermission
 
+
         /// <summary>
         /// Revokes any permissions in the queue policy that matches the specified <code>Label</code>
         /// parameter. Only the owner of the queue can remove permissions.
         /// </summary>
         /// <param name="queueUrl">The URL of the Amazon SQS queue to take action on.</param>
         /// <param name="label">The identification of the permission to remove. This is the label added with the <a>AddPermission</a> action.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the RemovePermission service method, as returned by SQS.</returns>
-        void RemovePermissionAsync(string queueUrl, string label, AmazonServiceCallback<RemovePermissionRequest, RemovePermissionResponse> callback, AsyncOptions options = null);
-
+        void RemovePermissionAsync(string queueUrl, string label,  AmazonServiceCallback<RemovePermissionRequest, RemovePermissionResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the RemovePermission operation.
@@ -778,6 +830,7 @@ namespace Amazon.SQS
         #endregion
         
         #region  SendMessage
+
 
         /// <summary>
         /// Delivers a message to the specified queue. With Amazon SQS, you now have the ability
@@ -800,6 +853,10 @@ namespace Amazon.SQS
         /// </summary>
         /// <param name="queueUrl">The URL of the Amazon SQS queue to take action on.</param>
         /// <param name="messageBody">The message to send. String maximum 256 KB in size. For a list of allowed characters, see the preceding important note.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the SendMessage service method, as returned by SQS.</returns>
         /// <exception cref="Amazon.SQS.Model.InvalidMessageContentsException">
@@ -808,8 +865,7 @@ namespace Amazon.SQS
         /// <exception cref="Amazon.SQS.Model.UnsupportedOperationException">
         /// Error code 400. Unsupported operation.
         /// </exception>
-        void SendMessageAsync(string queueUrl, string messageBody, AmazonServiceCallback<SendMessageRequest, SendMessageResponse> callback, AsyncOptions options = null);
-
+        void SendMessageAsync(string queueUrl, string messageBody,  AmazonServiceCallback<SendMessageRequest, SendMessageResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the SendMessage operation.
@@ -825,6 +881,7 @@ namespace Amazon.SQS
         #endregion
         
         #region  SendMessageBatch
+
 
         /// <summary>
         /// Delivers up to ten messages to the specified queue. This is a batch version of <a>SendMessage</a>.
@@ -865,6 +922,10 @@ namespace Amazon.SQS
         /// </summary>
         /// <param name="queueUrl">The URL of the Amazon SQS queue to take action on.</param>
         /// <param name="entries">A list of <a>SendMessageBatchRequestEntry</a> items.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the SendMessageBatch service method, as returned by SQS.</returns>
         /// <exception cref="Amazon.SQS.Model.BatchEntryIdsNotDistinctException">
@@ -885,8 +946,7 @@ namespace Amazon.SQS
         /// <exception cref="Amazon.SQS.Model.UnsupportedOperationException">
         /// Error code 400. Unsupported operation.
         /// </exception>
-        void SendMessageBatchAsync(string queueUrl, List<SendMessageBatchRequestEntry> entries, AmazonServiceCallback<SendMessageBatchRequest, SendMessageBatchResponse> callback, AsyncOptions options = null);
-
+        void SendMessageBatchAsync(string queueUrl, List<SendMessageBatchRequestEntry> entries,  AmazonServiceCallback<SendMessageBatchRequest, SendMessageBatchResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the SendMessageBatch operation.
@@ -903,6 +963,7 @@ namespace Amazon.SQS
         
         #region  SetQueueAttributes
 
+
         /// <summary>
         /// Sets the value of one or more queue attributes. When you change a queue's attributes,
         /// the change can take up to 60 seconds for most of the attributes to propagate throughout
@@ -915,13 +976,16 @@ namespace Amazon.SQS
         /// </summary>
         /// <param name="queueUrl">The URL of the Amazon SQS queue to take action on.</param>
         /// <param name="attributes">A map of attributes to set. The following lists the names, descriptions, and values of the special request parameters the <code>SetQueueAttributes</code> action uses:  <ul> <li> <code>DelaySeconds</code> - The time in seconds that the delivery of all messages in the queue will be delayed. An integer from 0 to 900 (15 minutes). The default for this attribute is 0 (zero).</li> <li> <code>MaximumMessageSize</code> - The limit of how many bytes a message can contain before Amazon SQS rejects it. An integer from 1024 bytes (1 KiB) up to 262144 bytes (256 KiB). The default for this attribute is 262144 (256 KiB).</li> <li> <code>MessageRetentionPeriod</code> - The number of seconds Amazon SQS retains a message. Integer representing seconds, from 60 (1 minute) to 1209600 (14 days). The default for this attribute is 345600 (4 days).</li> <li> <code>Policy</code> - The queue's policy. A valid AWS policy. For more information about policy structure, see <a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/PoliciesOverview.html">Overview of AWS IAM Policies</a> in the <i>Amazon IAM User Guide</i>.</li> <li> <code>ReceiveMessageWaitTimeSeconds</code> - The time for which a ReceiveMessage call will wait for a message to arrive. An integer from 0 to 20 (seconds). The default for this attribute is 0. </li> <li> <code>VisibilityTimeout</code> - The visibility timeout for the queue. An integer from 0 to 43200 (12 hours). The default for this attribute is 30. For more information about visibility timeout, see Visibility Timeout in the <i>Amazon SQS Developer Guide</i>.</li> <li> <code>RedrivePolicy</code> - The parameters for dead letter queue functionality of the source queue. For more information about RedrivePolicy and dead letter queues, see Using Amazon SQS Dead Letter Queues in the <i>Amazon SQS Developer Guide</i>.</li> </ul> </param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the SetQueueAttributes service method, as returned by SQS.</returns>
         /// <exception cref="Amazon.SQS.Model.InvalidAttributeNameException">
         /// The attribute referred to does not exist.
         /// </exception>
-        void SetQueueAttributesAsync(string queueUrl, Dictionary<string, string> attributes, AmazonServiceCallback<SetQueueAttributesRequest, SetQueueAttributesResponse> callback, AsyncOptions options = null);
-
+        void SetQueueAttributesAsync(string queueUrl, Dictionary<string, string> attributes,  AmazonServiceCallback<SetQueueAttributesRequest, SetQueueAttributesResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the SetQueueAttributes operation.

@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 
-#if (WIN_RT || WINDOWS_PHONE)
+#if (PCL && !(__ANDROID__ || __IOS__))
 using Amazon.MissingTypes;
 #endif
 
@@ -453,7 +453,7 @@ namespace ThirdParty.Json.LitJson
             if (data.type != JsonType.Long && data.type != JsonType.Int)
             {
                 throw new InvalidCastException (
-                    "Instance of JsonData doesn't hold a long");
+                    "Instance of JsonData doesn't hold an long");
             }
             
             return data.type == JsonType.Long? data.inst_long:data.inst_int;

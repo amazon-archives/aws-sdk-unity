@@ -17,6 +17,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Globalization;
 using System.Collections.ObjectModel;
 using Amazon.MobileAnalytics.MobileAnalyticsManager;
 using Amazon.Util;
@@ -126,12 +127,12 @@ namespace Amazon.MobileAnalytics.MobileAnalyticsManager
             modelEvent.EventType = this._eventType;
             modelEvent.Session = new Amazon.MobileAnalytics.Model.Session();
             modelEvent.Session.Id = this.SessionId;
-            modelEvent.Session.StartTimestamp = this.StartTimestamp;
+            modelEvent.Session.StartTimestamp = DateTime.ParseExact(this.StartTimestamp,AWSSDKUtils.ISO8601DateFormat,CultureInfo.InvariantCulture);
 
             if (_eventType == "_session.stop") 
-            { 
-                modelEvent.Session.StopTimestamp = stopTimestamp;
-                modelEvent.Session.Duration = this.Duration;             
+            {
+                modelEvent.Session.StopTimestamp = DateTime.ParseExact(stopTimestamp, AWSSDKUtils.ISO8601DateFormat, CultureInfo.InvariantCulture);
+                modelEvent.Session.Duration = this.Duration;
             }
            
             lock(_globalLock)
@@ -155,8 +156,8 @@ namespace Amazon.MobileAnalytics.MobileAnalyticsManager
                 AddDict(_attributes,modelEvent.Attributes);
                 AddDict(_metrics,modelEvent.Metrics);
             }
-            
-            modelEvent.Timestamp = Timestamp;
+
+            modelEvent.Timestamp = DateTime.ParseExact(this.Timestamp, AWSSDKUtils.ISO8601DateFormat, CultureInfo.InvariantCulture);
             modelEvent.Version = "v2.0";
             
             return modelEvent;

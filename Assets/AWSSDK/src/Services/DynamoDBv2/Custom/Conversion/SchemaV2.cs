@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
 // 
@@ -80,6 +80,9 @@ namespace Amazon.DynamoDBv2
     { }
 
     internal class DictionaryConverterV2 : DictionaryConverterV1
+    { }
+
+    internal class EnumConverterV2 : EnumConverterV1
     { }
 
     #endregion

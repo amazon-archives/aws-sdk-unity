@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
 // 
@@ -40,6 +40,12 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
                     if (context.TestExpression("Bucket", targetDepth))
                     {
                         destination.BucketArn = StringUnmarshaller.GetInstance().Unmarshall(context);
+
+                        continue;
+                    }
+                    if (context.TestExpression("StorageClass", targetDepth))
+                    {
+                        destination.StorageClass = StringUnmarshaller.GetInstance().Unmarshall(context);
 
                         continue;
                     }

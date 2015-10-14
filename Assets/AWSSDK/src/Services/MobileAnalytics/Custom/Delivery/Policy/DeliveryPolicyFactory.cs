@@ -20,7 +20,11 @@ using Amazon.MobileAnalytics.MobileAnalyticsManager;
 
 namespace Amazon.MobileAnalytics.MobileAnalyticsManager.Internal
 {
-    internal class DeliveryPolicyFactory:IDeliveryPolicyFactory
+    
+    /// <summary>
+    /// Object that creates delivery policy.
+    /// </summary>
+    public partial class DeliveryPolicyFactory : IDeliveryPolicyFactory
     {
         private readonly bool IsDataNetworkAllowed;
         
@@ -41,26 +45,6 @@ namespace Amazon.MobileAnalytics.MobileAnalyticsManager.Internal
         public IDeliveryPolicy NewConnectivityPolicy()
         {
             return new ConnectivityPolicy(this.IsDataNetworkAllowed);
-        }
-        
-        
-        /// <summary>
-        /// returns a new force submission time policy
-        /// </summary>
-        /// <returns>instance of <see cref="Amazon.MobileAnalytics.MobileAnalyticsManager.Internal.IDeliveryPolicy"/></returns>
-        public IDeliveryPolicy NewForceSubmissionPolicy()
-        {
-            return new SubmissionTimePolicy(AWSConfigsMobileAnalytics.ForceSubmissionWaitTime);
-        }
-        
-        
-        /// <summary>
-        /// returns a new force submission time policy
-        /// </summary>
-        /// <returns>instance of <see cref="Amazon.MobileAnalytics.MobileAnalyticsManager.Internal.IDeliveryPolicy"/></returns>
-        public IDeliveryPolicy NewBackgroundSubmissionPolicy()
-        {
-            return new SubmissionTimePolicy(AWSConfigsMobileAnalytics.BackgroundSubmissionWaitTime); ;
         }
     
     }

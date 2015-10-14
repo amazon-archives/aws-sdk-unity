@@ -38,8 +38,7 @@ namespace Amazon.DynamoDBv2.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for CreateTable operation
     /// </summary>  
-    public class CreateTableResponseUnmarshaller : JsonResponseUnmarshaller
-    {
+    public class CreateTableResponseUnmarshaller : JsonResponseUnmarshaller    {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.
         /// </summary>  

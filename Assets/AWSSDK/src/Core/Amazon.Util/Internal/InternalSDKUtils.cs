@@ -25,12 +25,15 @@ using Amazon.Runtime.Internal.Util;
 using Amazon.Runtime.Internal;
 using Amazon.Runtime;
 using System.Threading;
+using Amazon.Util.Internal.PlatformServices;
 
 namespace Amazon.Util.Internal
 {
     public static partial class InternalSDKUtils
     {
         #region UserAgent
+        internal const string UnknownVersion = "Unknown";
+        internal const string UnknownNetFrameworkVersion = ".NET_Runtime/Unknown .NET_Framework/Unknown";
 
         static string _versionNumber;
         static string _customSdkUserAgent;
@@ -57,12 +60,12 @@ namespace Amazon.Util.Internal
                 _versionNumber = CoreVersionNumber;
             }
 
-            _customSdkUserAgent = string.Format(CultureInfo.InvariantCulture, "{0}/{1} .NET Runtime/{2} .NET Framework/{3} OS/{4} {5}",
+            var environmentInfo = ServiceFactory.Instance.GetService<IEnvironmentInfo>();
+            _customSdkUserAgent = string.Format(CultureInfo.InvariantCulture, "{0}/{1} {2} OS/{3} {4}",
                 _userAgentBaseName,
                 _versionNumber,
-                DetermineRuntime(),
-                DetermineFramework(),
-                DetermineOSVersion(),
+                environmentInfo.FrameworkUserAgent,
+                environmentInfo.PlatformUserAgent,                
                 _customData).Trim();
         }
 
@@ -74,14 +77,35 @@ namespace Amazon.Util.Internal
                 return _customSdkUserAgent;
             }
 
-            return string.Format(CultureInfo.InvariantCulture, "{0}/{1}/{2} .NET Runtime/{3} .NET Framework/{4} OS/{5} {6}",
+            var environmentInfo = ServiceFactory.Instance.GetService<IEnvironmentInfo>();
+
+#if BCL
+            return string.Format(CultureInfo.InvariantCulture, "{0}/{1} aws-sdk-dotnet-core/{2} {3} OS/{4} {5}",
                 _userAgentBaseName,
-                CoreVersionNumber,
                 serviceSdkVersion,
-                DetermineRuntime(),
-                DetermineFramework(),
-                DetermineOSVersion(),
+                CoreVersionNumber,
+                environmentInfo.FrameworkUserAgent,
+                environmentInfo.PlatformUserAgent,
                 _customData).Trim();
+#elif PCL
+            return string.Format(CultureInfo.InvariantCulture, "{0}/{1} aws-sdk-dotnet-core/{2} {3} OS/{4} {5} {6}",
+                _userAgentBaseName,
+                serviceSdkVersion,
+                CoreVersionNumber,
+                environmentInfo.FrameworkUserAgent,
+                environmentInfo.PlatformUserAgent,
+                environmentInfo.PclPlatform,
+                _customData).Trim();
+#elif AWSSDK_UNITY
+            return string.Format(CultureInfo.InvariantCulture, "{0}/{1} aws-sdk-core/{2} {3} OS/{4} {5}",
+                _userAgentBaseName,
+                serviceSdkVersion,
+                CoreVersionNumber,
+                environmentInfo.FrameworkUserAgent,
+                environmentInfo.PlatformUserAgent,
+                _customData).Trim();
+#endif
+
         }
 
 

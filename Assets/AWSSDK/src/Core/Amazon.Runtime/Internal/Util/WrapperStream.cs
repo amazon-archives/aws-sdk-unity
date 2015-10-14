@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
 // 
@@ -151,7 +151,7 @@ namespace Amazon.Runtime.Internal.Util
         /// Closes the current stream and releases any resources (such as sockets and
         /// file handles) associated with the current stream.
         /// </summary>
-#if !WIN_RT
+#if !PCL
         public override void Close()
         {
             BaseStream.Close();

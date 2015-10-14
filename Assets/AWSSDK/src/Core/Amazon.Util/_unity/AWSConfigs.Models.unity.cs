@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
 // 
@@ -31,7 +31,7 @@ namespace Amazon.Util
     {
         internal void Configure(ProxySection section)
         {
-             
+
         }
     }
 
@@ -46,6 +46,7 @@ namespace Amazon.Util
             LogResponses = section.LogResponses;
             LogMetrics = section.LogMetrics.GetValueOrDefault(false);
             LogMetricsFormat = section.LogMetricsFormat;
+            LogResponsesSizeLimit = section.LogResponsesSizeLimit.HasValue ? section.LogResponsesSizeLimit.Value : 1024;
             if (section.LogMetricsCustomFormatter != null
                 && typeof(IMetricsFormatter).IsAssignableFrom(section.LogMetricsCustomFormatter))
             {
@@ -53,6 +54,6 @@ namespace Amazon.Util
             }
         }
     }
-    
+
     #endregion
 }

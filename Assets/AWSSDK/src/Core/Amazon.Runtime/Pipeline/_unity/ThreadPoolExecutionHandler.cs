@@ -1,4 +1,5 @@
 #define AWS_APM_API
+#define AWS_APM_API
 //
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.

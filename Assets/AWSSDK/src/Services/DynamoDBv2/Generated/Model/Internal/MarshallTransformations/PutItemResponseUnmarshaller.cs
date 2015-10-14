@@ -38,8 +38,7 @@ namespace Amazon.DynamoDBv2.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for PutItem operation
     /// </summary>  
-    public class PutItemResponseUnmarshaller : JsonResponseUnmarshaller
-    {
+    public class PutItemResponseUnmarshaller : JsonResponseUnmarshaller    {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.
         /// </summary>  

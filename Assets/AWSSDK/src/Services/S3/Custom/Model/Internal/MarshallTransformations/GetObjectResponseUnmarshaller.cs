@@ -1,4 +1,3 @@
-#define AWSSDK_UNITY
 //
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
@@ -97,6 +96,8 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
                 response.ServerSideEncryptionKeyManagementServiceKeyId = S3Transforms.ToString(responseData.GetHeaderValue(HeaderKeys.XAmzServerSideEncryptionAwsKmsKeyIdHeader));
             if (responseData.IsHeaderPresent("x-amz-replication-status"))
                 response.ReplicationStatus = S3Transforms.ToString(responseData.GetHeaderValue("x-amz-replication-status"));
+            if (responseData.IsHeaderPresent(HeaderKeys.XAmzStorageClassHeader))
+                response.StorageClass = S3Transforms.ToString(responseData.GetHeaderValue(HeaderKeys.XAmzStorageClassHeader));
 
             foreach (var name in responseData.GetHeaderNames())
             {

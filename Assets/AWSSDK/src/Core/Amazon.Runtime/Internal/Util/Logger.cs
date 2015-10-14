@@ -78,6 +78,14 @@ namespace Amazon.Runtime.Internal.Util
             UnityDebugLogger debugLogger = new UnityDebugLogger(type);
             loggers.Add(debugLogger);
 #endif
+#if __ANDROID__ || __IOS__
+            InternalConsoleLogger consoleLogger = new InternalConsoleLogger(type);
+            loggers.Add(consoleLogger);
+#endif
+#if PCL
+            InternalFileLogger fileLogger = new InternalFileLogger(type);
+            loggers.Add(fileLogger);
+#endif
             ConfigureLoggers();
             AWSConfigs.PropertyChanged += ConfigsChanged;
         }
@@ -103,6 +111,14 @@ namespace Amazon.Runtime.Internal.Util
 #if AWSSDK_UNITY
                 if (il is UnityDebugLogger)
                     il.IsEnabled = (logging & LoggingOptions.UnityLogger) == LoggingOptions.UnityLogger;
+#endif
+#if __ANDROID__ || __IOS__
+                if (il is InternalConsoleLogger)
+                    il.IsEnabled = (logging & LoggingOptions.SystemDiagnostics) == LoggingOptions.SystemDiagnostics;
+#endif
+#if PCL
+                if (il is InternalFileLogger)
+                    il.IsEnabled = (logging & LoggingOptions.File) == LoggingOptions.File;
 #endif
             }
         }

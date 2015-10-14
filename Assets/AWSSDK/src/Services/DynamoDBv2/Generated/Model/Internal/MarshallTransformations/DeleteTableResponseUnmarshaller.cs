@@ -38,8 +38,7 @@ namespace Amazon.DynamoDBv2.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for DeleteTable operation
     /// </summary>  
-    public class DeleteTableResponseUnmarshaller : JsonResponseUnmarshaller
-    {
+    public class DeleteTableResponseUnmarshaller : JsonResponseUnmarshaller    {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.
         /// </summary>  

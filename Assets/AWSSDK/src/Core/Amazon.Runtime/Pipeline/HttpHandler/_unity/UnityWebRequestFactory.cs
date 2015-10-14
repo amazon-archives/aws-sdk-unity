@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
 // 
@@ -162,7 +162,7 @@ namespace Amazon.Runtime.Internal
         /// <returns>The HTTP response.</returns>
         public IWebResponseData GetResponse()
         {
-	    if (UnityInitializer.IsMainThread())
+            if (UnityInitializer.IsMainThread())
                 throw new Exception("Network on game thread");
 
             this.IsSync = true;
@@ -276,8 +276,7 @@ namespace Amazon.Runtime.Internal
         {
             if (this.Exception != null)
             {
-                var executionContext = asyncResult.AsyncState as IAsyncExecutionContext;
-                executionContext.ResponseContext.AsyncResult.Exception = this.Exception;
+                throw this.Exception;
             }
 
             return this.Response;

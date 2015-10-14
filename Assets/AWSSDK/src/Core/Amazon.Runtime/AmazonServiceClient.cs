@@ -315,7 +315,8 @@ namespace Amazon.Runtime
 
         protected virtual void BuildRuntimePipeline()
         {
-#if BCL || BCL45 || AWSSDK_UNITY
+#if !AWSSDK_UNITY
+#if BCL || BCL45
             var httpRequestFactory = new HttpWebRequestFactory();
             var httpHandler = new HttpHandler<Stream>(httpRequestFactory, this);
 #else
@@ -355,6 +356,7 @@ namespace Amazon.Runtime
             );
 
             CustomizeRuntimePipeline(this.RuntimePipeline);
+#endif
         }
 
         public static Uri ComposeUrl(IRequest iRequest)

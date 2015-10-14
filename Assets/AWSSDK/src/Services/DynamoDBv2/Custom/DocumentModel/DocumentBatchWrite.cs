@@ -21,6 +21,7 @@ using System.IO;
 using System.Net;
 using Amazon.DynamoDBv2.Model;
 using Amazon.Runtime;
+using Amazon.Runtime.Internal.Util;
 
 namespace Amazon.DynamoDBv2.DocumentModel
 {
@@ -376,7 +377,7 @@ namespace Amazon.DynamoDBv2.DocumentModel
             return nextItems;
         }
 
-#if (WIN_RT || WINDOWS_PHONE || AWSSDK_UNITY)
+#if (PCL|| AWSSDK_UNITY)
         private void CallUntilCompletion(BatchWriteItemRequest request, Dictionary<string, Dictionary<Key, Document>> documentMap, AmazonDynamoDBClient client)
 #else
         private void CallUntilCompletion(BatchWriteItemRequest request, Dictionary<string, Dictionary<Key, Document>> documentMap, IAmazonDynamoDB client)

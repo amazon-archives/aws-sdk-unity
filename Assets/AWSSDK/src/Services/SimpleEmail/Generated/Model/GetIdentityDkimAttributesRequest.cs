@@ -1,0 +1,81 @@
+//
+// Copyright 2014-2015 Amazon.com, 
+// Inc. or its affiliates. All Rights Reserved.
+// 
+// Licensed under the Amazon Software License (the "License"). 
+// You may not use this file except in compliance with the 
+// License. A copy of the License is located at
+// 
+//     http://aws.amazon.com/asl/
+// 
+// or in the "license" file accompanying this file. This file is 
+// distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR 
+// CONDITIONS OF ANY KIND, express or implied. See the License 
+// for the specific language governing permissions and 
+// limitations under the License.
+//
+
+/*
+ * Do not modify this file. This file is generated from the email-2010-12-01.normal.json service model.
+ */
+using System;
+using System.Collections.Generic;
+using System.Xml.Serialization;
+using System.Text;
+using System.IO;
+
+using Amazon.Runtime;
+using Amazon.Runtime.Internal;
+
+namespace Amazon.SimpleEmail.Model
+{
+    /// <summary>
+    /// Container for the parameters to the GetIdentityDkimAttributes operation.
+    /// Returns the current status of Easy DKIM signing for an entity. For domain name identities,
+    /// this action also returns the DKIM tokens that are required for Easy DKIM signing,
+    /// and whether Amazon SES has successfully verified that these tokens have been published.
+    /// 
+    ///  
+    /// <para>
+    /// This action takes a list of identities as input and returns the following information
+    /// for each:
+    /// </para>
+    ///  <ul> <li>Whether Easy DKIM signing is enabled or disabled.</li> <li>A set of DKIM
+    /// tokens that represent the identity. If the identity is an email address, the tokens
+    /// represent the domain of that address.</li> <li>Whether Amazon SES has successfully
+    /// verified the DKIM tokens published in the domain's DNS. This information is only returned
+    /// for domain name identities, not for email addresses.</li> </ul> 
+    /// <para>
+    /// This action is throttled at one request per second and can only get DKIM attributes
+    /// for up to 100 identities at a time.
+    /// </para>
+    ///  
+    /// <para>
+    /// For more information about creating DNS records using DKIM tokens, go to the <a href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim-dns-records.html">Amazon
+    /// SES Developer Guide</a>.
+    /// </para>
+    /// </summary>
+    public partial class GetIdentityDkimAttributesRequest : AmazonSimpleEmailServiceRequest
+    {
+        private List<string> _identities = new List<string>();
+
+        /// <summary>
+        /// Gets and sets the property Identities. 
+        /// <para>
+        /// A list of one or more verified identities - email addresses, domains, or both.
+        /// </para>
+        /// </summary>
+        public List<string> Identities
+        {
+            get { return this._identities; }
+            set { this._identities = value; }
+        }
+
+        // Check to see if Identities property is set
+        internal bool IsSetIdentities()
+        {
+            return this._identities != null && this._identities.Count > 0; 
+        }
+
+    }
+}

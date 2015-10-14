@@ -16,69 +16,38 @@
 //
 using System;
 using System.Net;
-
-using UnityEngine;
-
-using Amazon.MobileAnalytics;
-using Amazon.Util.Storage.Internal;
-
+using Amazon.Util.Internal.PlatformServices;
+using Amazon.Runtime.Internal.Util;
 
 namespace Amazon.MobileAnalytics.MobileAnalyticsManager.Internal
 {
-    internal class ConnectivityPolicy:IDeliveryPolicy
+    /// <summary>
+    /// An object for determining whether the delivery client should send events
+    /// to mobile analytics service by checking the network status.
+    /// </summary>
+    public partial class ConnectivityPolicy : IDeliveryPolicy
     {
         private readonly bool IsDataAllowed;
-
+        private Logger _logger = Logger.GetLogger(typeof(ConnectivityPolicy));
+		
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="Amazon.MobileAnalytics.MobileAnalyticsManager.Internal.ConnectivityPolicy"/> class.
         /// </summary>
         /// <param name="IsDataAllowed">If set to <c>true</c> polciy will allow the delivery on data network.</param>
-        public ConnectivityPolicy (bool IsDataAllowed)
+        public ConnectivityPolicy(bool IsDataAllowed)
         {
             this.IsDataAllowed = IsDataAllowed;
         }
 
         /// <summary>
-        /// Determines whether this policy allows the delivery of the events or not
+        /// Determines whether this policy allows the delivery of the events or not.
         /// </summary>
         /// <returns>true</returns>
         /// <c>false</c>
-        public bool IsAllowed ()
+        public bool IsAllowed()
         {
-            return this.HasNetworkConnectivity ();
+            return this.HasNetworkConnectivity();
         }
-        
-        /// <summary>
-        /// Call back to policy once the delivery has been completed
-        /// </summary>
-        /// <param name="isSuccessful">If set to <c>true</c> successful.</param>
-        public void HandleDeliveryAttempt (bool isSuccessful)
-        {
-            //do nothing
-        }
-        
-        /// <summary>
-        /// Determines whether this instance has network connectivity.
-        /// </summary>
-        /// <returns><c>true</c> if this instance has network connectivity; otherwise, <c>false</c>.</returns>
-        private bool HasNetworkConnectivity ()
-        {
-            NetworkReachability networkReachability = NetworkInfo.GetReachability();
-            bool networkFlag = false;
-            switch (networkReachability) {
-                case NetworkReachability.NotReachable:
-                    networkFlag = false;
-                    break;
-                case NetworkReachability.ReachableViaLocalAreaNetwork:
-                    networkFlag = true;
-                    break;
-                case NetworkReachability.ReachableViaCarrierDataNetwork:
-                    networkFlag = IsDataAllowed;
-                    break;
-            }
-            return networkFlag;
-        }
-        
-        }
+    }
 }

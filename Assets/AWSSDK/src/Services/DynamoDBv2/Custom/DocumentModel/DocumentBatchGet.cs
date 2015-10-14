@@ -311,7 +311,7 @@ namespace Amazon.DynamoDBv2.DocumentModel
             }
         }
 
-#if (WIN_RT || WINDOWS_PHONE || AWSSDK_UNITY)
+#if PCL|| AWSSDK_UNITY
         private void CallUntilCompletion(AmazonDynamoDBClient client, BatchGetItemRequest request)
 #else
         private void CallUntilCompletion(IAmazonDynamoDB client, BatchGetItemRequest request)

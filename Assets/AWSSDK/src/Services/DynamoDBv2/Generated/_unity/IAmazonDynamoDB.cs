@@ -180,6 +180,7 @@ namespace Amazon.DynamoDBv2
         
         #region  BatchGetItem
 
+
         /// <summary>
         /// The <i>BatchGetItem</i> operation returns the attributes of one or more items from
         /// one or more tables. You identify requested items by primary key.
@@ -193,7 +194,12 @@ namespace Amazon.DynamoDBv2
         /// <i>UnprocessedKeys</i>. You can use this value to retry the operation starting with
         /// the next item to get.
         /// </para>
-        ///  
+        ///  <important>
+        /// <para>
+        /// If you request more than 100 items <i>BatchGetItem</i> will return a <i>ValidationException</i>
+        /// with the message "Too many items requested for the BatchGetItem call".
+        /// </para>
+        /// </important> 
         /// <para>
         /// For example, if you ask to retrieve 100 items, but each individual item is 300 KB
         /// in size, the system returns 52 items (so as not to exceed the 16 MB limit). It also
@@ -246,26 +252,29 @@ namespace Amazon.DynamoDBv2
         /// Units Calculations</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>
-        /// <param name="requestItems">A map of one or more table names and, for each table, a map that describes one or more items to retrieve from that table. Each table name can be used only once per <i>BatchGetItem</i> request. Each element in the map of items to retrieve consists of the following: <ul> <li> <i>ConsistentRead</i> - If <code>true</code>, a strongly consistent read is used; if <code>false</code> (the default), an eventually consistent read is used. </li> <li>  <i>ExpressionAttributeNames</i> - One or more substitution tokens for attribute names in the <i>ProjectionExpression</i> parameter. The following are some use cases for using <i>ExpressionAttributeNames</i>: <ul> <li> To access an attribute whose name conflicts with a DynamoDB reserved word. </li> <li> To create a placeholder for repeating occurrences of an attribute name in an expression. </li> <li> To prevent special characters in an attribute name from being misinterpreted in an expression. </li> </ul> Use the <b>#</b> character in an expression to dereference an attribute name. For example, consider the following attribute name: <ul><li><code>Percentile</code></li></ul> The name of this attribute conflicts with a reserved word, so it cannot be used directly in an expression. (For the complete list of reserved words, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html">Reserved Words</a> in the <i>Amazon DynamoDB Developer Guide</i>). To work around this, you could specify the following for <i>ExpressionAttributeNames</i>: <ul><li><code>{"#P":"Percentile"}</code></li></ul> You could then use this substitution in an expression, as in this example: <ul><li><code>#P = :val</code></li></ul> <note> Tokens that begin with the <b>:</b> character are <i>expression attribute values</i>, which are placeholders for the actual value at runtime.</note> For more information on expression attribute names, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>. </li> <li> <i>Keys</i> - An array of primary key attribute values that define specific items in the table. For each primary key, you must provide <i>all</i> of the key attributes. For example, with a hash type primary key, you only need to provide the hash attribute. For a hash-and-range type primary key, you must provide <i>both</i> the hash attribute and the range attribute. </li> <li> <i>ProjectionExpression</i> - A string that identifies one or more attributes to retrieve from the table. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas. If no attribute names are specified, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result. For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>. </li> <li>  <i>AttributesToGet</i> -  <important> This is a legacy parameter, for backward compatibility. New applications should use <i>ProjectionExpression</i> instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a <i>ValidationException</i> exception. This parameter allows you to retrieve attributes of type List or Map; however, it cannot retrieve individual elements within a List or a Map. </important> The names of one or more attributes to retrieve. If no attribute names are provided, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result. Note that <i>AttributesToGet</i> has no effect on provisioned throughput consumption. DynamoDB determines capacity units consumed based on item size, not on the amount of data that is returned to an application. </li> </ul></param>
+        /// <param name="requestItems">A map of one or more table names and, for each table, a map that describes one or more items to retrieve from that table. Each table name can be used only once per <i>BatchGetItem</i> request. Each element in the map of items to retrieve consists of the following: <ul> <li> <i>ConsistentRead</i> - If <code>true</code>, a strongly consistent read is used; if <code>false</code> (the default), an eventually consistent read is used. </li> <li>  <i>ExpressionAttributeNames</i> - One or more substitution tokens for attribute names in the <i>ProjectionExpression</i> parameter. The following are some use cases for using <i>ExpressionAttributeNames</i>: <ul> <li> To access an attribute whose name conflicts with a DynamoDB reserved word. </li> <li> To create a placeholder for repeating occurrences of an attribute name in an expression. </li> <li> To prevent special characters in an attribute name from being misinterpreted in an expression. </li> </ul> Use the <b>#</b> character in an expression to dereference an attribute name. For example, consider the following attribute name: <ul><li><code>Percentile</code></li></ul> The name of this attribute conflicts with a reserved word, so it cannot be used directly in an expression. (For the complete list of reserved words, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html">Reserved Words</a> in the <i>Amazon DynamoDB Developer Guide</i>). To work around this, you could specify the following for <i>ExpressionAttributeNames</i>: <ul><li><code>{"#P":"Percentile"}</code></li></ul> You could then use this substitution in an expression, as in this example: <ul><li><code>#P = :val</code></li></ul> <note>Tokens that begin with the <b>:</b> character are <i>expression attribute values</i>, which are placeholders for the actual value at runtime.</note> For more information on expression attribute names, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>. </li> <li> <i>Keys</i> - An array of primary key attribute values that define specific items in the table. For each primary key, you must provide <i>all</i> of the key attributes. For example, with a hash type primary key, you only need to provide the hash attribute. For a hash-and-range type primary key, you must provide <i>both</i> the hash attribute and the range attribute. </li> <li> <i>ProjectionExpression</i> - A string that identifies one or more attributes to retrieve from the table. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas. If no attribute names are specified, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result. For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>. </li> <li>  <i>AttributesToGet</i> -  <important> This is a legacy parameter, for backward compatibility. New applications should use <i>ProjectionExpression</i> instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a <i>ValidationException</i> exception. This parameter allows you to retrieve attributes of type List or Map; however, it cannot retrieve individual elements within a List or a Map.</important> The names of one or more attributes to retrieve. If no attribute names are provided, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result. Note that <i>AttributesToGet</i> has no effect on provisioned throughput consumption. DynamoDB determines capacity units consumed based on item size, not on the amount of data that is returned to an application. </li> </ul></param>
         /// <param name="returnConsumedCapacity">A property of BatchGetItemRequest used to execute the BatchGetItem service method.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the BatchGetItem service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
         /// An error occurred on the server side.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ProvisionedThroughputExceededException">
-        /// The request rate is too high, or the request is too large, for the available throughput
-        /// to accommodate. The AWS SDKs automatically retry requests that receive this exception;
-        /// therefore, your request will eventually succeed, unless the request is too large or
-        /// your retry queue is too large to finish. Reduce the frequency of requests by using
-        /// the strategies listed in <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">Error
+        /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
+        /// that receive this exception. Your request is eventually successful, unless your retry
+        /// queue is too large to finish. Reduce the frequency of requests and use exponential
+        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
         /// be specified correctly, or its status might not be <code>ACTIVE</code>.
         /// </exception>
-        void BatchGetItemAsync(Dictionary<string, KeysAndAttributes> requestItems, ReturnConsumedCapacity returnConsumedCapacity, AmazonServiceCallback<BatchGetItemRequest, BatchGetItemResponse> callback, AsyncOptions options = null);
+        void BatchGetItemAsync(Dictionary<string, KeysAndAttributes> requestItems, ReturnConsumedCapacity returnConsumedCapacity,  AmazonServiceCallback<BatchGetItemRequest, BatchGetItemResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// The <i>BatchGetItem</i> operation returns the attributes of one or more items from
@@ -280,7 +289,12 @@ namespace Amazon.DynamoDBv2
         /// <i>UnprocessedKeys</i>. You can use this value to retry the operation starting with
         /// the next item to get.
         /// </para>
-        ///  
+        ///  <important>
+        /// <para>
+        /// If you request more than 100 items <i>BatchGetItem</i> will return a <i>ValidationException</i>
+        /// with the message "Too many items requested for the BatchGetItem call".
+        /// </para>
+        /// </important> 
         /// <para>
         /// For example, if you ask to retrieve 100 items, but each individual item is 300 KB
         /// in size, the system returns 52 items (so as not to exceed the 16 MB limit). It also
@@ -333,26 +347,28 @@ namespace Amazon.DynamoDBv2
         /// Units Calculations</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </para>
         /// </summary>
-        /// <param name="requestItems">A map of one or more table names and, for each table, a map that describes one or more items to retrieve from that table. Each table name can be used only once per <i>BatchGetItem</i> request. Each element in the map of items to retrieve consists of the following: <ul> <li> <i>ConsistentRead</i> - If <code>true</code>, a strongly consistent read is used; if <code>false</code> (the default), an eventually consistent read is used. </li> <li>  <i>ExpressionAttributeNames</i> - One or more substitution tokens for attribute names in the <i>ProjectionExpression</i> parameter. The following are some use cases for using <i>ExpressionAttributeNames</i>: <ul> <li> To access an attribute whose name conflicts with a DynamoDB reserved word. </li> <li> To create a placeholder for repeating occurrences of an attribute name in an expression. </li> <li> To prevent special characters in an attribute name from being misinterpreted in an expression. </li> </ul> Use the <b>#</b> character in an expression to dereference an attribute name. For example, consider the following attribute name: <ul><li><code>Percentile</code></li></ul> The name of this attribute conflicts with a reserved word, so it cannot be used directly in an expression. (For the complete list of reserved words, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html">Reserved Words</a> in the <i>Amazon DynamoDB Developer Guide</i>). To work around this, you could specify the following for <i>ExpressionAttributeNames</i>: <ul><li><code>{"#P":"Percentile"}</code></li></ul> You could then use this substitution in an expression, as in this example: <ul><li><code>#P = :val</code></li></ul> <note> Tokens that begin with the <b>:</b> character are <i>expression attribute values</i>, which are placeholders for the actual value at runtime.</note> For more information on expression attribute names, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>. </li> <li> <i>Keys</i> - An array of primary key attribute values that define specific items in the table. For each primary key, you must provide <i>all</i> of the key attributes. For example, with a hash type primary key, you only need to provide the hash attribute. For a hash-and-range type primary key, you must provide <i>both</i> the hash attribute and the range attribute. </li> <li> <i>ProjectionExpression</i> - A string that identifies one or more attributes to retrieve from the table. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas. If no attribute names are specified, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result. For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>. </li> <li>  <i>AttributesToGet</i> -  <important> This is a legacy parameter, for backward compatibility. New applications should use <i>ProjectionExpression</i> instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a <i>ValidationException</i> exception. This parameter allows you to retrieve attributes of type List or Map; however, it cannot retrieve individual elements within a List or a Map. </important> The names of one or more attributes to retrieve. If no attribute names are provided, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result. Note that <i>AttributesToGet</i> has no effect on provisioned throughput consumption. DynamoDB determines capacity units consumed based on item size, not on the amount of data that is returned to an application. </li> </ul></param>
+        /// <param name="requestItems">A map of one or more table names and, for each table, a map that describes one or more items to retrieve from that table. Each table name can be used only once per <i>BatchGetItem</i> request. Each element in the map of items to retrieve consists of the following: <ul> <li> <i>ConsistentRead</i> - If <code>true</code>, a strongly consistent read is used; if <code>false</code> (the default), an eventually consistent read is used. </li> <li>  <i>ExpressionAttributeNames</i> - One or more substitution tokens for attribute names in the <i>ProjectionExpression</i> parameter. The following are some use cases for using <i>ExpressionAttributeNames</i>: <ul> <li> To access an attribute whose name conflicts with a DynamoDB reserved word. </li> <li> To create a placeholder for repeating occurrences of an attribute name in an expression. </li> <li> To prevent special characters in an attribute name from being misinterpreted in an expression. </li> </ul> Use the <b>#</b> character in an expression to dereference an attribute name. For example, consider the following attribute name: <ul><li><code>Percentile</code></li></ul> The name of this attribute conflicts with a reserved word, so it cannot be used directly in an expression. (For the complete list of reserved words, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ReservedWords.html">Reserved Words</a> in the <i>Amazon DynamoDB Developer Guide</i>). To work around this, you could specify the following for <i>ExpressionAttributeNames</i>: <ul><li><code>{"#P":"Percentile"}</code></li></ul> You could then use this substitution in an expression, as in this example: <ul><li><code>#P = :val</code></li></ul> <note>Tokens that begin with the <b>:</b> character are <i>expression attribute values</i>, which are placeholders for the actual value at runtime.</note> For more information on expression attribute names, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>. </li> <li> <i>Keys</i> - An array of primary key attribute values that define specific items in the table. For each primary key, you must provide <i>all</i> of the key attributes. For example, with a hash type primary key, you only need to provide the hash attribute. For a hash-and-range type primary key, you must provide <i>both</i> the hash attribute and the range attribute. </li> <li> <i>ProjectionExpression</i> - A string that identifies one or more attributes to retrieve from the table. These attributes can include scalars, sets, or elements of a JSON document. The attributes in the expression must be separated by commas. If no attribute names are specified, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result. For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html">Accessing Item Attributes</a> in the <i>Amazon DynamoDB Developer Guide</i>. </li> <li>  <i>AttributesToGet</i> -  <important> This is a legacy parameter, for backward compatibility. New applications should use <i>ProjectionExpression</i> instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a <i>ValidationException</i> exception. This parameter allows you to retrieve attributes of type List or Map; however, it cannot retrieve individual elements within a List or a Map.</important> The names of one or more attributes to retrieve. If no attribute names are provided, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result. Note that <i>AttributesToGet</i> has no effect on provisioned throughput consumption. DynamoDB determines capacity units consumed based on item size, not on the amount of data that is returned to an application. </li> </ul></param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the BatchGetItem service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
         /// An error occurred on the server side.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ProvisionedThroughputExceededException">
-        /// The request rate is too high, or the request is too large, for the available throughput
-        /// to accommodate. The AWS SDKs automatically retry requests that receive this exception;
-        /// therefore, your request will eventually succeed, unless the request is too large or
-        /// your retry queue is too large to finish. Reduce the frequency of requests by using
-        /// the strategies listed in <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">Error
+        /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
+        /// that receive this exception. Your request is eventually successful, unless your retry
+        /// queue is too large to finish. Reduce the frequency of requests and use exponential
+        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
         /// be specified correctly, or its status might not be <code>ACTIVE</code>.
         /// </exception>
-        void BatchGetItemAsync(Dictionary<string, KeysAndAttributes> requestItems, AmazonServiceCallback<BatchGetItemRequest, BatchGetItemResponse> callback, AsyncOptions options = null);
-
+        void BatchGetItemAsync(Dictionary<string, KeysAndAttributes> requestItems,  AmazonServiceCallback<BatchGetItemRequest, BatchGetItemResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the BatchGetItem operation.
@@ -368,6 +384,7 @@ namespace Amazon.DynamoDBv2
         #endregion
         
         #region  BatchWriteItem
+
 
         /// <summary>
         /// The <i>BatchWriteItem</i> operation puts or deletes multiple items in one or more
@@ -422,13 +439,13 @@ namespace Amazon.DynamoDBv2
         /// </para>
         ///  
         /// <para>
-        /// If you use a programming language that supports concurrency, such as Java, you can
-        /// use threads to write items in parallel. Your application must include the necessary
-        /// logic to manage the threads. With languages that don't support threading, such as
-        /// PHP, you must update or delete the specified items one at a time. In both situations,
-        /// <i>BatchWriteItem</i> provides an alternative where the API performs the specified
-        /// put and delete operations in parallel, giving you the power of the thread pool approach
-        /// without having to introduce complexity into your application.
+        /// If you use a programming language that supports concurrency, you can use threads to
+        /// write items in parallel. Your application must include the necessary logic to manage
+        /// the threads. With languages that don't support threading, you must update or delete
+        /// the specified items one at a time. In both situations, <i>BatchWriteItem</i> provides
+        /// an alternative where the API performs the specified put and delete operations in parallel,
+        /// giving you the power of the thread pool approach without having to introduce complexity
+        /// into your application.
         /// </para>
         ///  
         /// <para>
@@ -470,6 +487,10 @@ namespace Amazon.DynamoDBv2
         ///  </li> </ul>
         /// </summary>
         /// <param name="requestItems">A map of one or more table names and, for each table, a list of operations to be performed (<i>DeleteRequest</i> or <i>PutRequest</i>). Each element in the map consists of the following: <ul> <li> <i>DeleteRequest</i> - Perform a <i>DeleteItem</i> operation on the specified item. The item to be deleted is identified by a <i>Key</i> subelement: <ul> <li> <i>Key</i> - A map of primary key attribute values that uniquely identify the ! item. Each entry in this map consists of an attribute name and an attribute value. For each primary key, you must provide <i>all</i> of the key attributes. For example, with a hash type primary key, you only need to provide the hash attribute. For a hash-and-range type primary key, you must provide <i>both</i> the hash attribute and the range attribute. </li> </ul> </li> <li> <i>PutRequest</i> - Perform a <i>PutItem</i> operation on the specified item. The item to be put is identified by an <i>Item</i> subelement: <ul> <li> <i>Item</i> - A map of attributes and their values. Each entry in this map consists of an attribute name and an attribute value. Attribute values must not be null; string and binary type attributes must have lengths greater than zero; and set type attributes must not be empty. Requests that contain empty values will be rejected with a <i>ValidationException</i> exception. If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition. </li> </ul> </li> </ul></param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the BatchWriteItem service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
@@ -480,19 +501,17 @@ namespace Amazon.DynamoDBv2
         /// one or more local secondary indexes.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ProvisionedThroughputExceededException">
-        /// The request rate is too high, or the request is too large, for the available throughput
-        /// to accommodate. The AWS SDKs automatically retry requests that receive this exception;
-        /// therefore, your request will eventually succeed, unless the request is too large or
-        /// your retry queue is too large to finish. Reduce the frequency of requests by using
-        /// the strategies listed in <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">Error
+        /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
+        /// that receive this exception. Your request is eventually successful, unless your retry
+        /// queue is too large to finish. Reduce the frequency of requests and use exponential
+        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
         /// be specified correctly, or its status might not be <code>ACTIVE</code>.
         /// </exception>
-        void BatchWriteItemAsync(Dictionary<string, List<WriteRequest>> requestItems, AmazonServiceCallback<BatchWriteItemRequest, BatchWriteItemResponse> callback, AsyncOptions options = null);
-
+        void BatchWriteItemAsync(Dictionary<string, List<WriteRequest>> requestItems,  AmazonServiceCallback<BatchWriteItemRequest, BatchWriteItemResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the BatchWriteItem operation.
@@ -508,6 +527,7 @@ namespace Amazon.DynamoDBv2
         #endregion
         
         #region  CreateTable
+
 
         /// <summary>
         /// The <i>CreateTable</i> operation adds a new table to your account. In an AWS account,
@@ -537,6 +557,10 @@ namespace Amazon.DynamoDBv2
         /// <param name="keySchema">Specifies the attributes that make up the primary key for a table or an index. The attributes in <i>KeySchema</i> must also be defined in the <i>AttributeDefinitions</i> array. For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DataModel.html">Data Model</a> in the <i>Amazon DynamoDB Developer Guide</i>. Each <i>KeySchemaElement</i> in the array is composed of: <ul> <li> <i>AttributeName</i> - The name of this key attribute. </li> <li> <i>KeyType</i> - Determines whether the key attribute is <code>HASH</code> or <code>RANGE</code>. </li> </ul> For a primary key that consists of a hash attribute, you must provide exactly one element with a <i>KeyType</i> of <code>HASH</code>. For a primary key that consists of hash and range attributes, you must provide exactly two elements, in this order: The first element must have a <i>KeyType</i> of <code>HASH</code>, and the second element must have a <i>KeyType</i> of <code>RANGE</code>. For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithTables.html#WorkingWithTables.primary.key">Specifying the Primary Key</a> in the <i>Amazon DynamoDB Developer Guide</i>.</param>
         /// <param name="attributeDefinitions">An array of attributes that describe the key schema for the table and indexes.</param>
         /// <param name="provisionedThroughput">A property of CreateTableRequest used to execute the CreateTable service method.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the CreateTable service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
@@ -562,8 +586,7 @@ namespace Amazon.DynamoDBv2
         /// to recreate an existing table, or tried to delete a table currently in the <code>CREATING</code>
         /// state.
         /// </exception>
-        void CreateTableAsync(string tableName, List<KeySchemaElement> keySchema, List<AttributeDefinition> attributeDefinitions, ProvisionedThroughput provisionedThroughput, AmazonServiceCallback<CreateTableRequest, CreateTableResponse> callback, AsyncOptions options = null);
-
+        void CreateTableAsync(string tableName, List<KeySchemaElement> keySchema, List<AttributeDefinition> attributeDefinitions, ProvisionedThroughput provisionedThroughput,  AmazonServiceCallback<CreateTableRequest, CreateTableResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the CreateTable operation.
@@ -579,6 +602,7 @@ namespace Amazon.DynamoDBv2
         #endregion
         
         #region  DeleteItem
+
 
         /// <summary>
         /// Deletes a single item in a table by primary key. You can perform a conditional delete
@@ -604,6 +628,10 @@ namespace Amazon.DynamoDBv2
         /// </summary>
         /// <param name="tableName">The name of the table from which to delete the item.</param>
         /// <param name="key">A map of attribute names to <i>AttributeValue</i> objects, representing the primary key of the item to delete. For the primary key, you must provide all of the attributes. For example, with a hash type primary key, you only need to provide the hash attribute. For a hash-and-range type primary key, you must provide both the hash attribute and the range attribute.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the DeleteItem service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.ConditionalCheckFailedException">
@@ -617,18 +645,17 @@ namespace Amazon.DynamoDBv2
         /// one or more local secondary indexes.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ProvisionedThroughputExceededException">
-        /// The request rate is too high, or the request is too large, for the available throughput
-        /// to accommodate. The AWS SDKs automatically retry requests that receive this exception;
-        /// therefore, your request will eventually succeed, unless the request is too large or
-        /// your retry queue is too large to finish. Reduce the frequency of requests by using
-        /// the strategies listed in <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">Error
+        /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
+        /// that receive this exception. Your request is eventually successful, unless your retry
+        /// queue is too large to finish. Reduce the frequency of requests and use exponential
+        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
         /// be specified correctly, or its status might not be <code>ACTIVE</code>.
         /// </exception>
-        void DeleteItemAsync(string tableName, Dictionary<string, AttributeValue> key, AmazonServiceCallback<DeleteItemRequest, DeleteItemResponse> callback, AsyncOptions options = null);
+        void DeleteItemAsync(string tableName, Dictionary<string, AttributeValue> key,  AmazonServiceCallback<DeleteItemRequest, DeleteItemResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Deletes a single item in a table by primary key. You can perform a conditional delete
@@ -655,6 +682,10 @@ namespace Amazon.DynamoDBv2
         /// <param name="tableName">The name of the table from which to delete the item.</param>
         /// <param name="key">A map of attribute names to <i>AttributeValue</i> objects, representing the primary key of the item to delete. For the primary key, you must provide all of the attributes. For example, with a hash type primary key, you only need to provide the hash attribute. For a hash-and-range type primary key, you must provide both the hash attribute and the range attribute.</param>
         /// <param name="returnValues">Use <i>ReturnValues</i> if you want to get the item attributes as they appeared before they were deleted. For <i>DeleteItem</i>, the valid values are: <ul> <li> <code>NONE</code> - If <i>ReturnValues</i> is not specified, or if its value is <code>NONE</code>, then nothing is returned. (This setting is the default for <i>ReturnValues</i>.) </li> <li> <code>ALL_OLD</code> - The content of the old item is returned. </li> </ul></param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the DeleteItem service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.ConditionalCheckFailedException">
@@ -668,19 +699,17 @@ namespace Amazon.DynamoDBv2
         /// one or more local secondary indexes.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ProvisionedThroughputExceededException">
-        /// The request rate is too high, or the request is too large, for the available throughput
-        /// to accommodate. The AWS SDKs automatically retry requests that receive this exception;
-        /// therefore, your request will eventually succeed, unless the request is too large or
-        /// your retry queue is too large to finish. Reduce the frequency of requests by using
-        /// the strategies listed in <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">Error
+        /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
+        /// that receive this exception. Your request is eventually successful, unless your retry
+        /// queue is too large to finish. Reduce the frequency of requests and use exponential
+        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
         /// be specified correctly, or its status might not be <code>ACTIVE</code>.
         /// </exception>
-        void DeleteItemAsync(string tableName, Dictionary<string, AttributeValue> key, ReturnValue returnValues, AmazonServiceCallback<DeleteItemRequest, DeleteItemResponse> callback, AsyncOptions options = null);
-
+        void DeleteItemAsync(string tableName, Dictionary<string, AttributeValue> key, ReturnValue returnValues,  AmazonServiceCallback<DeleteItemRequest, DeleteItemResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the DeleteItem operation.
@@ -696,6 +725,7 @@ namespace Amazon.DynamoDBv2
         #endregion
         
         #region  DeleteTable
+
 
         /// <summary>
         /// The <i>DeleteTable</i> operation deletes a table and all of its items. After a <i>DeleteTable</i>
@@ -718,10 +748,20 @@ namespace Amazon.DynamoDBv2
         /// </para>
         ///  
         /// <para>
+        /// If you have DynamoDB Streams enabled on the table, then the corresponding stream on
+        /// that table goes into the <code>DISABLED</code> state, and the stream is automatically
+        /// deleted after 24 hours.
+        /// </para>
+        ///  
+        /// <para>
         /// Use the <i>DescribeTable</i> API to check the status of the table. 
         /// </para>
         /// </summary>
         /// <param name="tableName"> The name of the table to delete.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the DeleteTable service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
@@ -751,8 +791,7 @@ namespace Amazon.DynamoDBv2
         /// The operation tried to access a nonexistent table or index. The resource might not
         /// be specified correctly, or its status might not be <code>ACTIVE</code>.
         /// </exception>
-        void DeleteTableAsync(string tableName, AmazonServiceCallback<DeleteTableRequest, DeleteTableResponse> callback, AsyncOptions options = null);
-
+        void DeleteTableAsync(string tableName,  AmazonServiceCallback<DeleteTableRequest, DeleteTableResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the DeleteTable operation.
@@ -769,6 +808,7 @@ namespace Amazon.DynamoDBv2
         
         #region  DescribeTable
 
+
         /// <summary>
         /// Returns information about the table, including the current status of the table, when
         /// it was created, the primary key schema, and any indexes on the table.
@@ -783,6 +823,10 @@ namespace Amazon.DynamoDBv2
         ///  </note>
         /// </summary>
         /// <param name="tableName"> The name of the table to describe.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the DescribeTable service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
@@ -792,8 +836,7 @@ namespace Amazon.DynamoDBv2
         /// The operation tried to access a nonexistent table or index. The resource might not
         /// be specified correctly, or its status might not be <code>ACTIVE</code>.
         /// </exception>
-        void DescribeTableAsync(string tableName, AmazonServiceCallback<DescribeTableRequest, DescribeTableResponse> callback, AsyncOptions options = null);
-
+        void DescribeTableAsync(string tableName,  AmazonServiceCallback<DescribeTableRequest, DescribeTableResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the DescribeTable operation.
@@ -810,38 +853,6 @@ namespace Amazon.DynamoDBv2
         
         #region  GetItem
 
-        /// <summary>
-        /// The <i>GetItem</i> operation returns a set of attributes for the item with the given
-        /// primary key. If there is no matching item, <i>GetItem</i> does not return any data.
-        /// 
-        ///  
-        /// <para>
-        /// <i>GetItem</i> provides an eventually consistent read by default. If your application
-        /// requires a strongly consistent read, set <i>ConsistentRead</i> to <code>true</code>.
-        /// Although a strongly consistent read might take more time than an eventually consistent
-        /// read, it always returns the last updated value.
-        /// </para>
-        /// </summary>
-        /// <param name="tableName">The name of the table containing the requested item.</param>
-        /// <param name="key">A map of attribute names to <i>AttributeValue</i> objects, representing the primary key of the item to retrieve. For the primary key, you must provide all of the attributes. For example, with a hash type primary key, you only need to provide the hash attribute. For a hash-and-range type primary key, you must provide both the hash attribute and the range attribute.</param>
-        /// 
-        /// <returns>The response from the GetItem service method, as returned by DynamoDB.</returns>
-        /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
-        /// An error occurred on the server side.
-        /// </exception>
-        /// <exception cref="Amazon.DynamoDBv2.Model.ProvisionedThroughputExceededException">
-        /// The request rate is too high, or the request is too large, for the available throughput
-        /// to accommodate. The AWS SDKs automatically retry requests that receive this exception;
-        /// therefore, your request will eventually succeed, unless the request is too large or
-        /// your retry queue is too large to finish. Reduce the frequency of requests by using
-        /// the strategies listed in <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">Error
-        /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-        /// </exception>
-        /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
-        /// The operation tried to access a nonexistent table or index. The resource might not
-        /// be specified correctly, or its status might not be <code>ACTIVE</code>.
-        /// </exception>
-        void GetItemAsync(string tableName, Dictionary<string, AttributeValue> key, AmazonServiceCallback<GetItemRequest, GetItemResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// The <i>GetItem</i> operation returns a set of attributes for the item with the given
@@ -857,26 +868,64 @@ namespace Amazon.DynamoDBv2
         /// </summary>
         /// <param name="tableName">The name of the table containing the requested item.</param>
         /// <param name="key">A map of attribute names to <i>AttributeValue</i> objects, representing the primary key of the item to retrieve. For the primary key, you must provide all of the attributes. For example, with a hash type primary key, you only need to provide the hash attribute. For a hash-and-range type primary key, you must provide both the hash attribute and the range attribute.</param>
-        /// <param name="consistentRead">A value that if set to <code>true</code>, then the operation uses strongly consistent reads; otherwise, eventually consistent reads are used.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the GetItem service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
         /// An error occurred on the server side.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ProvisionedThroughputExceededException">
-        /// The request rate is too high, or the request is too large, for the available throughput
-        /// to accommodate. The AWS SDKs automatically retry requests that receive this exception;
-        /// therefore, your request will eventually succeed, unless the request is too large or
-        /// your retry queue is too large to finish. Reduce the frequency of requests by using
-        /// the strategies listed in <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">Error
+        /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
+        /// that receive this exception. Your request is eventually successful, unless your retry
+        /// queue is too large to finish. Reduce the frequency of requests and use exponential
+        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
         /// be specified correctly, or its status might not be <code>ACTIVE</code>.
         /// </exception>
-        void GetItemAsync(string tableName, Dictionary<string, AttributeValue> key, bool consistentRead, AmazonServiceCallback<GetItemRequest, GetItemResponse> callback, AsyncOptions options = null);
+        void GetItemAsync(string tableName, Dictionary<string, AttributeValue> key,  AmazonServiceCallback<GetItemRequest, GetItemResponse> callback, AsyncOptions options = null);
 
+        /// <summary>
+        /// The <i>GetItem</i> operation returns a set of attributes for the item with the given
+        /// primary key. If there is no matching item, <i>GetItem</i> does not return any data.
+        /// 
+        ///  
+        /// <para>
+        /// <i>GetItem</i> provides an eventually consistent read by default. If your application
+        /// requires a strongly consistent read, set <i>ConsistentRead</i> to <code>true</code>.
+        /// Although a strongly consistent read might take more time than an eventually consistent
+        /// read, it always returns the last updated value.
+        /// </para>
+        /// </summary>
+        /// <param name="tableName">The name of the table containing the requested item.</param>
+        /// <param name="key">A map of attribute names to <i>AttributeValue</i> objects, representing the primary key of the item to retrieve. For the primary key, you must provide all of the attributes. For example, with a hash type primary key, you only need to provide the hash attribute. For a hash-and-range type primary key, you must provide both the hash attribute and the range attribute.</param>
+        /// <param name="consistentRead">Determines the read consistency model: If set to <code>true</code>, then the operation uses strongly consistent reads; otherwise, the operation uses eventually consistent reads.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
+        /// 
+        /// <returns>The response from the GetItem service method, as returned by DynamoDB.</returns>
+        /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.ProvisionedThroughputExceededException">
+        /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
+        /// that receive this exception. Your request is eventually successful, unless your retry
+        /// queue is too large to finish. Reduce the frequency of requests and use exponential
+        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">Error
+        /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
+        /// The operation tried to access a nonexistent table or index. The resource might not
+        /// be specified correctly, or its status might not be <code>ACTIVE</code>.
+        /// </exception>
+        void GetItemAsync(string tableName, Dictionary<string, AttributeValue> key, bool consistentRead,  AmazonServiceCallback<GetItemRequest, GetItemResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the GetItem operation.
@@ -893,18 +942,39 @@ namespace Amazon.DynamoDBv2
         
         #region  ListTables
 
+
+        /// <summary>
+        /// Returns an array of table names associated with the current account and endpoint.
+        /// The output from <i>ListTables</i> is paginated, with each page returning a maximum
+        /// of 100 table names.
+        /// </summary>
+         /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
+        /// 
+        /// <returns>The response from the ListTables service method, as returned by DynamoDB.</returns>
+        /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        void ListTablesAsync( AmazonServiceCallback<ListTablesRequest, ListTablesResponse> callback, AsyncOptions options = null);
+
         /// <summary>
         /// Returns an array of table names associated with the current account and endpoint.
         /// The output from <i>ListTables</i> is paginated, with each page returning a maximum
         /// of 100 table names.
         /// </summary>
         /// <param name="exclusiveStartTableName">The first table name that this operation will evaluate. Use the value that was returned for <i>LastEvaluatedTableName</i> in a previous operation, so that you can obtain the next page of results.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the ListTables service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
         /// An error occurred on the server side.
         /// </exception>
-        void ListTablesAsync(string exclusiveStartTableName, AmazonServiceCallback<ListTablesRequest, ListTablesResponse> callback, AsyncOptions options = null);
+        void ListTablesAsync(string exclusiveStartTableName,  AmazonServiceCallback<ListTablesRequest, ListTablesResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Returns an array of table names associated with the current account and endpoint.
@@ -913,12 +983,16 @@ namespace Amazon.DynamoDBv2
         /// </summary>
         /// <param name="exclusiveStartTableName">The first table name that this operation will evaluate. Use the value that was returned for <i>LastEvaluatedTableName</i> in a previous operation, so that you can obtain the next page of results.</param>
         /// <param name="limit"> A maximum number of table names to return. If this parameter is not specified, the limit is 100.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the ListTables service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
         /// An error occurred on the server side.
         /// </exception>
-        void ListTablesAsync(string exclusiveStartTableName, int limit, AmazonServiceCallback<ListTablesRequest, ListTablesResponse> callback, AsyncOptions options = null);
+        void ListTablesAsync(string exclusiveStartTableName, int limit,  AmazonServiceCallback<ListTablesRequest, ListTablesResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Returns an array of table names associated with the current account and endpoint.
@@ -926,13 +1000,16 @@ namespace Amazon.DynamoDBv2
         /// of 100 table names.
         /// </summary>
         /// <param name="limit"> A maximum number of table names to return. If this parameter is not specified, the limit is 100.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the ListTables service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
         /// An error occurred on the server side.
         /// </exception>
-        void ListTablesAsync(int limit, AmazonServiceCallback<ListTablesRequest, ListTablesResponse> callback, AsyncOptions options = null);
-
+        void ListTablesAsync(int limit,  AmazonServiceCallback<ListTablesRequest, ListTablesResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the ListTables operation.
@@ -949,70 +1026,6 @@ namespace Amazon.DynamoDBv2
         
         #region  PutItem
 
-        /// <summary>
-        /// Creates a new item, or replaces an old item with a new item. If an item that has the
-        /// same primary key as the new item already exists in the specified table, the new item
-        /// completely replaces the existing item. You can perform a conditional put operation
-        /// (add a new item if one with the specified primary key doesn't exist), or replace an
-        /// existing item if it has certain attribute values. 
-        /// 
-        ///  
-        /// <para>
-        /// In addition to putting an item, you can also return the item's attribute values in
-        /// the same operation, using the <i>ReturnValues</i> parameter.
-        /// </para>
-        ///  
-        /// <para>
-        /// When you add an item, the primary key attribute(s) are the only required attributes.
-        /// Attribute values cannot be null. String and Binary type attributes must have lengths
-        /// greater than zero. Set type attributes cannot be empty. Requests with empty values
-        /// will be rejected with a <i>ValidationException</i> exception.
-        /// </para>
-        ///  
-        /// <para>
-        /// You can request that <i>PutItem</i> return either a copy of the original item (before
-        /// the update) or a copy of the updated item (after the update). For more information,
-        /// see the <i>ReturnValues</i> description below.
-        /// </para>
-        ///  <note> 
-        /// <para>
-        /// To prevent a new item from replacing an existing item, use a conditional put operation
-        /// with <i>ComparisonOperator</i> set to <code>NULL</code> for the primary key attribute,
-        /// or attributes.
-        /// </para>
-        ///  </note> 
-        /// <para>
-        /// For more information about using this API, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithItems.html">Working
-        /// with Items</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-        /// </para>
-        /// </summary>
-        /// <param name="tableName">The name of the table to contain the item.</param>
-        /// <param name="item">A map of attribute name/value pairs, one for each attribute. Only the primary key attributes are required; you can optionally provide other attribute name-value pairs for the item. You must provide all of the attributes for the primary key. For example, with a hash type primary key, you only need to provide the hash attribute. For a hash-and-range type primary key, you must provide both the hash attribute and the range attribute. If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition. For more information about primary keys, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DataModel.html#DataModelPrimaryKey">Primary Key</a> in the <i>Amazon DynamoDB Developer Guide</i>. Each element in the <i>Item</i> map is an <i>AttributeValue</i> object.</param>
-        /// 
-        /// <returns>The response from the PutItem service method, as returned by DynamoDB.</returns>
-        /// <exception cref="Amazon.DynamoDBv2.Model.ConditionalCheckFailedException">
-        /// A condition specified in the operation could not be evaluated.
-        /// </exception>
-        /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
-        /// An error occurred on the server side.
-        /// </exception>
-        /// <exception cref="Amazon.DynamoDBv2.Model.ItemCollectionSizeLimitExceededException">
-        /// An item collection is too large. This exception is only returned for tables that have
-        /// one or more local secondary indexes.
-        /// </exception>
-        /// <exception cref="Amazon.DynamoDBv2.Model.ProvisionedThroughputExceededException">
-        /// The request rate is too high, or the request is too large, for the available throughput
-        /// to accommodate. The AWS SDKs automatically retry requests that receive this exception;
-        /// therefore, your request will eventually succeed, unless the request is too large or
-        /// your retry queue is too large to finish. Reduce the frequency of requests by using
-        /// the strategies listed in <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">Error
-        /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
-        /// </exception>
-        /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
-        /// The operation tried to access a nonexistent table or index. The resource might not
-        /// be specified correctly, or its status might not be <code>ACTIVE</code>.
-        /// </exception>
-        void PutItemAsync(string tableName, Dictionary<string, AttributeValue> item, AmazonServiceCallback<PutItemRequest, PutItemResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Creates a new item, or replaces an old item with a new item. If an item that has the
@@ -1053,7 +1066,10 @@ namespace Amazon.DynamoDBv2
         /// </summary>
         /// <param name="tableName">The name of the table to contain the item.</param>
         /// <param name="item">A map of attribute name/value pairs, one for each attribute. Only the primary key attributes are required; you can optionally provide other attribute name-value pairs for the item. You must provide all of the attributes for the primary key. For example, with a hash type primary key, you only need to provide the hash attribute. For a hash-and-range type primary key, you must provide both the hash attribute and the range attribute. If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition. For more information about primary keys, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DataModel.html#DataModelPrimaryKey">Primary Key</a> in the <i>Amazon DynamoDB Developer Guide</i>. Each element in the <i>Item</i> map is an <i>AttributeValue</i> object.</param>
-        /// <param name="returnValues">Use <i>ReturnValues</i> if you want to get the item attributes as they appeared before they were updated with the <i>PutItem</i> request. For <i>PutItem</i>, the valid values are: <ul> <li> <code>NONE</code> - If <i>ReturnValues</i> is not specified, or if its value is <code>NONE</code>, then nothing is returned. (This setting is the default for <i>ReturnValues</i>.) </li> <li> <code>ALL_OLD</code> - If <i>PutItem</i> overwrote an attribute name-value pair, then the content of the old item is returned. </li> </ul></param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the PutItem service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.ConditionalCheckFailedException">
@@ -1067,19 +1083,86 @@ namespace Amazon.DynamoDBv2
         /// one or more local secondary indexes.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ProvisionedThroughputExceededException">
-        /// The request rate is too high, or the request is too large, for the available throughput
-        /// to accommodate. The AWS SDKs automatically retry requests that receive this exception;
-        /// therefore, your request will eventually succeed, unless the request is too large or
-        /// your retry queue is too large to finish. Reduce the frequency of requests by using
-        /// the strategies listed in <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">Error
+        /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
+        /// that receive this exception. Your request is eventually successful, unless your retry
+        /// queue is too large to finish. Reduce the frequency of requests and use exponential
+        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
         /// be specified correctly, or its status might not be <code>ACTIVE</code>.
         /// </exception>
-        void PutItemAsync(string tableName, Dictionary<string, AttributeValue> item, ReturnValue returnValues, AmazonServiceCallback<PutItemRequest, PutItemResponse> callback, AsyncOptions options = null);
+        void PutItemAsync(string tableName, Dictionary<string, AttributeValue> item,  AmazonServiceCallback<PutItemRequest, PutItemResponse> callback, AsyncOptions options = null);
 
+        /// <summary>
+        /// Creates a new item, or replaces an old item with a new item. If an item that has the
+        /// same primary key as the new item already exists in the specified table, the new item
+        /// completely replaces the existing item. You can perform a conditional put operation
+        /// (add a new item if one with the specified primary key doesn't exist), or replace an
+        /// existing item if it has certain attribute values. 
+        /// 
+        ///  
+        /// <para>
+        /// In addition to putting an item, you can also return the item's attribute values in
+        /// the same operation, using the <i>ReturnValues</i> parameter.
+        /// </para>
+        ///  
+        /// <para>
+        /// When you add an item, the primary key attribute(s) are the only required attributes.
+        /// Attribute values cannot be null. String and Binary type attributes must have lengths
+        /// greater than zero. Set type attributes cannot be empty. Requests with empty values
+        /// will be rejected with a <i>ValidationException</i> exception.
+        /// </para>
+        ///  
+        /// <para>
+        /// You can request that <i>PutItem</i> return either a copy of the original item (before
+        /// the update) or a copy of the updated item (after the update). For more information,
+        /// see the <i>ReturnValues</i> description below.
+        /// </para>
+        ///  <note> 
+        /// <para>
+        /// To prevent a new item from replacing an existing item, use a conditional put operation
+        /// with <i>ComparisonOperator</i> set to <code>NULL</code> for the primary key attribute,
+        /// or attributes.
+        /// </para>
+        ///  </note> 
+        /// <para>
+        /// For more information about using this API, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithItems.html">Working
+        /// with Items</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </para>
+        /// </summary>
+        /// <param name="tableName">The name of the table to contain the item.</param>
+        /// <param name="item">A map of attribute name/value pairs, one for each attribute. Only the primary key attributes are required; you can optionally provide other attribute name-value pairs for the item. You must provide all of the attributes for the primary key. For example, with a hash type primary key, you only need to provide the hash attribute. For a hash-and-range type primary key, you must provide both the hash attribute and the range attribute. If you specify any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition. For more information about primary keys, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DataModel.html#DataModelPrimaryKey">Primary Key</a> in the <i>Amazon DynamoDB Developer Guide</i>. Each element in the <i>Item</i> map is an <i>AttributeValue</i> object.</param>
+        /// <param name="returnValues">Use <i>ReturnValues</i> if you want to get the item attributes as they appeared before they were updated with the <i>PutItem</i> request. For <i>PutItem</i>, the valid values are: <ul> <li> <code>NONE</code> - If <i>ReturnValues</i> is not specified, or if its value is <code>NONE</code>, then nothing is returned. (This setting is the default for <i>ReturnValues</i>.) </li> <li> <code>ALL_OLD</code> - If <i>PutItem</i> overwrote an attribute name-value pair, then the content of the old item is returned. </li> </ul> <note>Other "Valid Values" are not relevant to PutItem.</note></param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
+        /// 
+        /// <returns>The response from the PutItem service method, as returned by DynamoDB.</returns>
+        /// <exception cref="Amazon.DynamoDBv2.Model.ConditionalCheckFailedException">
+        /// A condition specified in the operation could not be evaluated.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
+        /// An error occurred on the server side.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.ItemCollectionSizeLimitExceededException">
+        /// An item collection is too large. This exception is only returned for tables that have
+        /// one or more local secondary indexes.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.ProvisionedThroughputExceededException">
+        /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
+        /// that receive this exception. Your request is eventually successful, unless your retry
+        /// queue is too large to finish. Reduce the frequency of requests and use exponential
+        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">Error
+        /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </exception>
+        /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
+        /// The operation tried to access a nonexistent table or index. The resource might not
+        /// be specified correctly, or its status might not be <code>ACTIVE</code>.
+        /// </exception>
+        void PutItemAsync(string tableName, Dictionary<string, AttributeValue> item, ReturnValue returnValues,  AmazonServiceCallback<PutItemRequest, PutItemResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the PutItem operation.
@@ -1112,6 +1195,7 @@ namespace Amazon.DynamoDBv2
         
         #region  Scan
 
+
         /// <summary>
         /// The <i>Scan</i> operation returns one or more items and item attributes by accessing
         /// every item in a table or a secondary index. To have DynamoDB return fewer items, you
@@ -1127,37 +1211,42 @@ namespace Amazon.DynamoDBv2
         /// </para>
         ///  
         /// <para>
-        /// The result set is eventually consistent. 
-        /// </para>
-        ///  
-        /// <para>
         /// By default, <i>Scan</i> operations proceed sequentially; however, for faster performance
         /// on a large table or secondary index, applications can request a parallel <i>Scan</i>
         /// operation by providing the <i>Segment</i> and <i>TotalSegments</i> parameters. For
         /// more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#QueryAndScanParallelScan">Parallel
         /// Scan</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// By default, <i>Scan</i> uses eventually consistent reads when acessing the data in
+        /// the table or local secondary index. However, you can use strongly consistent reads
+        /// instead by setting the <i>ConsistentRead</i> parameter to <i>true</i>.
         /// </para>
         /// </summary>
         /// <param name="tableName">The name of the table containing the requested items; or, if you provide <code>IndexName</code>, the name of the table to which that index belongs.</param>
         /// <param name="attributesToGet"><important>This is a legacy parameter, for backward compatibility. New applications should use <i>ProjectionExpression</i> instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a <i>ValidationException</i> exception. This parameter allows you to retrieve attributes of type List or Map; however, it cannot retrieve individual elements within a List or a Map.</important> The names of one or more attributes to retrieve. If no attribute names are provided, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result. Note that <i>AttributesToGet</i> has no effect on provisioned throughput consumption. DynamoDB determines capacity units consumed based on item size, not on the amount of data that is returned to an application.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the Scan service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
         /// An error occurred on the server side.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ProvisionedThroughputExceededException">
-        /// The request rate is too high, or the request is too large, for the available throughput
-        /// to accommodate. The AWS SDKs automatically retry requests that receive this exception;
-        /// therefore, your request will eventually succeed, unless the request is too large or
-        /// your retry queue is too large to finish. Reduce the frequency of requests by using
-        /// the strategies listed in <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">Error
+        /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
+        /// that receive this exception. Your request is eventually successful, unless your retry
+        /// queue is too large to finish. Reduce the frequency of requests and use exponential
+        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
         /// be specified correctly, or its status might not be <code>ACTIVE</code>.
         /// </exception>
-        void ScanAsync(string tableName, List<string> attributesToGet, AmazonServiceCallback<ScanRequest, ScanResponse> callback, AsyncOptions options = null);
+        void ScanAsync(string tableName, List<string> attributesToGet,  AmazonServiceCallback<ScanRequest, ScanResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// The <i>Scan</i> operation returns one or more items and item attributes by accessing
@@ -1174,37 +1263,42 @@ namespace Amazon.DynamoDBv2
         /// </para>
         ///  
         /// <para>
-        /// The result set is eventually consistent. 
-        /// </para>
-        ///  
-        /// <para>
         /// By default, <i>Scan</i> operations proceed sequentially; however, for faster performance
         /// on a large table or secondary index, applications can request a parallel <i>Scan</i>
         /// operation by providing the <i>Segment</i> and <i>TotalSegments</i> parameters. For
         /// more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#QueryAndScanParallelScan">Parallel
         /// Scan</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// By default, <i>Scan</i> uses eventually consistent reads when acessing the data in
+        /// the table or local secondary index. However, you can use strongly consistent reads
+        /// instead by setting the <i>ConsistentRead</i> parameter to <i>true</i>.
         /// </para>
         /// </summary>
         /// <param name="tableName">The name of the table containing the requested items; or, if you provide <code>IndexName</code>, the name of the table to which that index belongs.</param>
         /// <param name="scanFilter"><important> This is a legacy parameter, for backward compatibility. New applications should use <i>FilterExpression</i> instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a <i>ValidationException</i> exception. </important> A condition that evaluates the scan results and returns only the desired values. <note>This parameter does not support attributes of type List or Map.</note> If you specify more than one condition in the <i>ScanFilter</i> map, then by default all of the conditions must evaluate to true. In other words, the conditions are ANDed together. (You can use the <i>ConditionalOperator</i> parameter to OR the conditions instead. If you do this, then at least one of the conditions must evaluate to true, rather than all of them.) Each <i>ScanFilter</i> element consists of an attribute name to compare, along with the following: <ul> <li> <i>AttributeValueList</i> - One or more values to evaluate against the supplied attribute. The number of values in the list depends on the operator specified in <i>ComparisonOperator</i> . For type Number, value comparisons are numeric. String value comparisons for greater than, equals, or less than are based on ASCII character code values. For example, <code>a</code> is greater than <code>A</code>, and <code>a</code> is greater than <code>B</code>. For a list of code values, see <a href="http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters">http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters</a>. For Binary, DynamoDB treats each byte of the binary data as unsigned when it compares binary values. For information on specifying data types in JSON, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DataFormat.html">JSON Data Format</a> in the <i>Amazon DynamoDB Developer Guide</i>. </li> <li> <i>ComparisonOperator</i> - A comparator for evaluating attributes. For example, equals, greater than, less than, etc. The following comparison operators are available: <code>EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS | NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN</code> For complete descriptions of all comparison operators, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Condition.html">Condition</a>. </li> </ul></param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the Scan service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
         /// An error occurred on the server side.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ProvisionedThroughputExceededException">
-        /// The request rate is too high, or the request is too large, for the available throughput
-        /// to accommodate. The AWS SDKs automatically retry requests that receive this exception;
-        /// therefore, your request will eventually succeed, unless the request is too large or
-        /// your retry queue is too large to finish. Reduce the frequency of requests by using
-        /// the strategies listed in <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">Error
+        /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
+        /// that receive this exception. Your request is eventually successful, unless your retry
+        /// queue is too large to finish. Reduce the frequency of requests and use exponential
+        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
         /// be specified correctly, or its status might not be <code>ACTIVE</code>.
         /// </exception>
-        void ScanAsync(string tableName, Dictionary<string, Condition> scanFilter, AmazonServiceCallback<ScanRequest, ScanResponse> callback, AsyncOptions options = null);
+        void ScanAsync(string tableName, Dictionary<string, Condition> scanFilter,  AmazonServiceCallback<ScanRequest, ScanResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// The <i>Scan</i> operation returns one or more items and item attributes by accessing
@@ -1221,39 +1315,43 @@ namespace Amazon.DynamoDBv2
         /// </para>
         ///  
         /// <para>
-        /// The result set is eventually consistent. 
-        /// </para>
-        ///  
-        /// <para>
         /// By default, <i>Scan</i> operations proceed sequentially; however, for faster performance
         /// on a large table or secondary index, applications can request a parallel <i>Scan</i>
         /// operation by providing the <i>Segment</i> and <i>TotalSegments</i> parameters. For
         /// more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#QueryAndScanParallelScan">Parallel
         /// Scan</a> in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// </para>
+        ///  
+        /// <para>
+        /// By default, <i>Scan</i> uses eventually consistent reads when acessing the data in
+        /// the table or local secondary index. However, you can use strongly consistent reads
+        /// instead by setting the <i>ConsistentRead</i> parameter to <i>true</i>.
         /// </para>
         /// </summary>
         /// <param name="tableName">The name of the table containing the requested items; or, if you provide <code>IndexName</code>, the name of the table to which that index belongs.</param>
         /// <param name="attributesToGet"><important>This is a legacy parameter, for backward compatibility. New applications should use <i>ProjectionExpression</i> instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a <i>ValidationException</i> exception. This parameter allows you to retrieve attributes of type List or Map; however, it cannot retrieve individual elements within a List or a Map.</important> The names of one or more attributes to retrieve. If no attribute names are provided, then all attributes will be returned. If any of the requested attributes are not found, they will not appear in the result. Note that <i>AttributesToGet</i> has no effect on provisioned throughput consumption. DynamoDB determines capacity units consumed based on item size, not on the amount of data that is returned to an application.</param>
         /// <param name="scanFilter"><important> This is a legacy parameter, for backward compatibility. New applications should use <i>FilterExpression</i> instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a <i>ValidationException</i> exception. </important> A condition that evaluates the scan results and returns only the desired values. <note>This parameter does not support attributes of type List or Map.</note> If you specify more than one condition in the <i>ScanFilter</i> map, then by default all of the conditions must evaluate to true. In other words, the conditions are ANDed together. (You can use the <i>ConditionalOperator</i> parameter to OR the conditions instead. If you do this, then at least one of the conditions must evaluate to true, rather than all of them.) Each <i>ScanFilter</i> element consists of an attribute name to compare, along with the following: <ul> <li> <i>AttributeValueList</i> - One or more values to evaluate against the supplied attribute. The number of values in the list depends on the operator specified in <i>ComparisonOperator</i> . For type Number, value comparisons are numeric. String value comparisons for greater than, equals, or less than are based on ASCII character code values. For example, <code>a</code> is greater than <code>A</code>, and <code>a</code> is greater than <code>B</code>. For a list of code values, see <a href="http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters">http://en.wikipedia.org/wiki/ASCII#ASCII_printable_characters</a>. For Binary, DynamoDB treats each byte of the binary data as unsigned when it compares binary values. For information on specifying data types in JSON, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DataFormat.html">JSON Data Format</a> in the <i>Amazon DynamoDB Developer Guide</i>. </li> <li> <i>ComparisonOperator</i> - A comparator for evaluating attributes. For example, equals, greater than, less than, etc. The following comparison operators are available: <code>EQ | NE | LE | LT | GE | GT | NOT_NULL | NULL | CONTAINS | NOT_CONTAINS | BEGINS_WITH | IN | BETWEEN</code> For complete descriptions of all comparison operators, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Condition.html">Condition</a>. </li> </ul></param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the Scan service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
         /// An error occurred on the server side.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ProvisionedThroughputExceededException">
-        /// The request rate is too high, or the request is too large, for the available throughput
-        /// to accommodate. The AWS SDKs automatically retry requests that receive this exception;
-        /// therefore, your request will eventually succeed, unless the request is too large or
-        /// your retry queue is too large to finish. Reduce the frequency of requests by using
-        /// the strategies listed in <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">Error
+        /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
+        /// that receive this exception. Your request is eventually successful, unless your retry
+        /// queue is too large to finish. Reduce the frequency of requests and use exponential
+        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
         /// be specified correctly, or its status might not be <code>ACTIVE</code>.
         /// </exception>
-        void ScanAsync(string tableName, List<string> attributesToGet, Dictionary<string, Condition> scanFilter, AmazonServiceCallback<ScanRequest, ScanResponse> callback, AsyncOptions options = null);
-
+        void ScanAsync(string tableName, List<string> attributesToGet, Dictionary<string, Condition> scanFilter,  AmazonServiceCallback<ScanRequest, ScanResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the Scan operation.
@@ -1269,6 +1367,7 @@ namespace Amazon.DynamoDBv2
         #endregion
         
         #region  UpdateItem
+
 
         /// <summary>
         /// Edits an existing item's attributes, or adds a new item to the table if it does not
@@ -1287,6 +1386,10 @@ namespace Amazon.DynamoDBv2
         /// <param name="tableName">The name of the table containing the item to update. </param>
         /// <param name="key">The primary key of the item to be updated. Each element consists of an attribute name and a value for that attribute. For the primary key, you must provide all of the attributes. For example, with a hash type primary key, you only need to provide the hash attribute. For a hash-and-range type primary key, you must provide both the hash attribute and the range attribute.</param>
         /// <param name="attributeUpdates"><important> This is a legacy parameter, for backward compatibility. New applications should use <i>UpdateExpression</i> instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a <i>ValidationException</i> exception. This parameter can be used for modifying top-level attributes; however, it does not support individual list or map elements. </important> The names of attributes to be modified, the action to perform on each, and the new value for each. If you are updating an attribute that is an index key attribute for any indexes on that table, the attribute type must match the index key type defined in the <i>AttributesDefinition</i> of the table description. You can use <i>UpdateItem</i> to update any nonkey attributes. Attribute values cannot be null. String and Binary type attributes must have lengths greater than zero. Set type attributes must not be empty. Requests with empty values will be rejected with a <i>ValidationException</i> exception. Each <i>AttributeUpdates</i> element consists of an attribute name to modify, along with the following: <ul> <li> <i>Value</i> - The new value, if applicable, for this attribute. </li> <li> <i>Action</i> - A value that specifies how to perform the update. This action is only valid for an existing attribute whose data type is Number or is a set; do not use <code>ADD</code> for other data types.  If an item with the specified primary key is found in the table, the following values perform the following actions: <ul> <li> <code>PUT</code> - Adds the specified attribute to the item. If the attribute already exists, it is replaced by the new value.  </li> <li> <code>DELETE</code> - Removes the attribute and its value, if no value is specified for <code>DELETE</code>. The data type of the specified value must match the existing value's data type. If a set of values is specified, then those values are subtracted from the old set. For example, if the attribute value was the set <code>[a,b,c]</code> and the <code>DELETE</code> action specifies <code>[a,c]</code>, then the final attribute value is <code>[b]</code>. Specifying an empty set is an error. </li> <li> <code>ADD</code> - Adds the specified value to the item, if the attribute does not already exist. If the attribute does exist, then the behavior of <code>ADD</code> depends on the data type of the attribute: <ul> <li> If the existing attribute is a number, and if <i>Value</i> is also a number, then <i>Value</i> is mathematically added to the existing attribute. If <i>Value</i> is a negative number, then it is subtracted from the existing attribute. <note> If you use <code>ADD</code> to increment or decrement a number value for an item that doesn't exist before the update, DynamoDB uses 0 as the initial value. Similarly, if you use <code>ADD</code> for an existing item to increment or decrement an attribute value that doesn't exist before the update, DynamoDB uses <code>0</code> as the initial value. For example, suppose that the item you want to update doesn't have an attribute named <i>itemcount</i>, but you decide to <code>ADD</code> the number <code>3</code> to this attribute anyway. DynamoDB will create the <i>itemcount</i> attribute, set its initial value to <code>0</code>, and finally add <code>3</code> to it. The result will be a new <i>itemcount</i> attribute, with a value of <code>3</code>. </note> </li> <li> If the existing data type is a set, and if <i>Value</i> is also a set, then <i>Value</i> is appended to the existing set. For example, if the attribute value is the set <code>[1,2]</code>, and the <code>ADD</code> action specified <code>[3]</code>, then the final attribute value is <code>[1,2,3]</code>. An error occurs if an <code>ADD</code> action is specified for a set attribute and the attribute type specified does not match the existing set type.  Both sets must have the same primitive data type. For example, if the existing data type is a set of strings, <i>Value</i> must also be a set of strings. </li> </ul> </li> </ul> If no item with the specified key is found in the table, the following values perform the following actions:  <ul> <li> <code>PUT</code> - Causes DynamoDB to create a new item with the specified primary key, and then adds the attribute.  </li> <li> <code>DELETE</code> - Nothing happens, because attributes cannot be deleted from a nonexistent item. The operation succeeds, but DynamoDB does not create a new item. </li> <li> <code>ADD</code> - Causes DynamoDB to create an item with the supplied primary key and number (or set of numbers) for the attribute value. The only data types allowed are Number and Number Set. </li> </ul> </li> </ul> If you provide any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the UpdateItem service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.ConditionalCheckFailedException">
@@ -1300,18 +1403,17 @@ namespace Amazon.DynamoDBv2
         /// one or more local secondary indexes.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ProvisionedThroughputExceededException">
-        /// The request rate is too high, or the request is too large, for the available throughput
-        /// to accommodate. The AWS SDKs automatically retry requests that receive this exception;
-        /// therefore, your request will eventually succeed, unless the request is too large or
-        /// your retry queue is too large to finish. Reduce the frequency of requests by using
-        /// the strategies listed in <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">Error
+        /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
+        /// that receive this exception. Your request is eventually successful, unless your retry
+        /// queue is too large to finish. Reduce the frequency of requests and use exponential
+        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
         /// be specified correctly, or its status might not be <code>ACTIVE</code>.
         /// </exception>
-        void UpdateItemAsync(string tableName, Dictionary<string, AttributeValue> key, Dictionary<string, AttributeValueUpdate> attributeUpdates, AmazonServiceCallback<UpdateItemRequest, UpdateItemResponse> callback, AsyncOptions options = null);
+        void UpdateItemAsync(string tableName, Dictionary<string, AttributeValue> key, Dictionary<string, AttributeValueUpdate> attributeUpdates,  AmazonServiceCallback<UpdateItemRequest, UpdateItemResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Edits an existing item's attributes, or adds a new item to the table if it does not
@@ -1331,6 +1433,10 @@ namespace Amazon.DynamoDBv2
         /// <param name="key">The primary key of the item to be updated. Each element consists of an attribute name and a value for that attribute. For the primary key, you must provide all of the attributes. For example, with a hash type primary key, you only need to provide the hash attribute. For a hash-and-range type primary key, you must provide both the hash attribute and the range attribute.</param>
         /// <param name="attributeUpdates"><important> This is a legacy parameter, for backward compatibility. New applications should use <i>UpdateExpression</i> instead. Do not combine legacy parameters and expression parameters in a single API call; otherwise, DynamoDB will return a <i>ValidationException</i> exception. This parameter can be used for modifying top-level attributes; however, it does not support individual list or map elements. </important> The names of attributes to be modified, the action to perform on each, and the new value for each. If you are updating an attribute that is an index key attribute for any indexes on that table, the attribute type must match the index key type defined in the <i>AttributesDefinition</i> of the table description. You can use <i>UpdateItem</i> to update any nonkey attributes. Attribute values cannot be null. String and Binary type attributes must have lengths greater than zero. Set type attributes must not be empty. Requests with empty values will be rejected with a <i>ValidationException</i> exception. Each <i>AttributeUpdates</i> element consists of an attribute name to modify, along with the following: <ul> <li> <i>Value</i> - The new value, if applicable, for this attribute. </li> <li> <i>Action</i> - A value that specifies how to perform the update. This action is only valid for an existing attribute whose data type is Number or is a set; do not use <code>ADD</code> for other data types.  If an item with the specified primary key is found in the table, the following values perform the following actions: <ul> <li> <code>PUT</code> - Adds the specified attribute to the item. If the attribute already exists, it is replaced by the new value.  </li> <li> <code>DELETE</code> - Removes the attribute and its value, if no value is specified for <code>DELETE</code>. The data type of the specified value must match the existing value's data type. If a set of values is specified, then those values are subtracted from the old set. For example, if the attribute value was the set <code>[a,b,c]</code> and the <code>DELETE</code> action specifies <code>[a,c]</code>, then the final attribute value is <code>[b]</code>. Specifying an empty set is an error. </li> <li> <code>ADD</code> - Adds the specified value to the item, if the attribute does not already exist. If the attribute does exist, then the behavior of <code>ADD</code> depends on the data type of the attribute: <ul> <li> If the existing attribute is a number, and if <i>Value</i> is also a number, then <i>Value</i> is mathematically added to the existing attribute. If <i>Value</i> is a negative number, then it is subtracted from the existing attribute. <note> If you use <code>ADD</code> to increment or decrement a number value for an item that doesn't exist before the update, DynamoDB uses 0 as the initial value. Similarly, if you use <code>ADD</code> for an existing item to increment or decrement an attribute value that doesn't exist before the update, DynamoDB uses <code>0</code> as the initial value. For example, suppose that the item you want to update doesn't have an attribute named <i>itemcount</i>, but you decide to <code>ADD</code> the number <code>3</code> to this attribute anyway. DynamoDB will create the <i>itemcount</i> attribute, set its initial value to <code>0</code>, and finally add <code>3</code> to it. The result will be a new <i>itemcount</i> attribute, with a value of <code>3</code>. </note> </li> <li> If the existing data type is a set, and if <i>Value</i> is also a set, then <i>Value</i> is appended to the existing set. For example, if the attribute value is the set <code>[1,2]</code>, and the <code>ADD</code> action specified <code>[3]</code>, then the final attribute value is <code>[1,2,3]</code>. An error occurs if an <code>ADD</code> action is specified for a set attribute and the attribute type specified does not match the existing set type.  Both sets must have the same primitive data type. For example, if the existing data type is a set of strings, <i>Value</i> must also be a set of strings. </li> </ul> </li> </ul> If no item with the specified key is found in the table, the following values perform the following actions:  <ul> <li> <code>PUT</code> - Causes DynamoDB to create a new item with the specified primary key, and then adds the attribute.  </li> <li> <code>DELETE</code> - Nothing happens, because attributes cannot be deleted from a nonexistent item. The operation succeeds, but DynamoDB does not create a new item. </li> <li> <code>ADD</code> - Causes DynamoDB to create an item with the supplied primary key and number (or set of numbers) for the attribute value. The only data types allowed are Number and Number Set. </li> </ul> </li> </ul> If you provide any attributes that are part of an index key, then the data types for those attributes must match those of the schema in the table's attribute definition.</param>
         /// <param name="returnValues">Use <i>ReturnValues</i> if you want to get the item attributes as they appeared either before or after they were updated. For <i>UpdateItem</i>, the valid values are: <ul> <li> <code>NONE</code> - If <i>ReturnValues</i> is not specified, or if its value is <code>NONE</code>, then nothing is returned. (This setting is the default for <i>ReturnValues</i>.) </li> <li> <code>ALL_OLD</code> - If <i>UpdateItem</i> overwrote an attribute name-value pair, then the content of the old item is returned. </li> <li> <code>UPDATED_OLD</code> - The old versions of only the updated attributes are returned. </li> <li> <code>ALL_NEW</code> - All of the attributes of the new version of the item are returned. </li> <li> <code>UPDATED_NEW</code> - The new versions of only the updated attributes are returned. </li> </ul></param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the UpdateItem service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.ConditionalCheckFailedException">
@@ -1344,19 +1450,17 @@ namespace Amazon.DynamoDBv2
         /// one or more local secondary indexes.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ProvisionedThroughputExceededException">
-        /// The request rate is too high, or the request is too large, for the available throughput
-        /// to accommodate. The AWS SDKs automatically retry requests that receive this exception;
-        /// therefore, your request will eventually succeed, unless the request is too large or
-        /// your retry queue is too large to finish. Reduce the frequency of requests by using
-        /// the strategies listed in <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">Error
+        /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests
+        /// that receive this exception. Your request is eventually successful, unless your retry
+        /// queue is too large to finish. Reduce the frequency of requests and use exponential
+        /// backoff. For more information, go to <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">Error
         /// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer Guide</i>.
         /// </exception>
         /// <exception cref="Amazon.DynamoDBv2.Model.ResourceNotFoundException">
         /// The operation tried to access a nonexistent table or index. The resource might not
         /// be specified correctly, or its status might not be <code>ACTIVE</code>.
         /// </exception>
-        void UpdateItemAsync(string tableName, Dictionary<string, AttributeValue> key, Dictionary<string, AttributeValueUpdate> attributeUpdates, ReturnValue returnValues, AmazonServiceCallback<UpdateItemRequest, UpdateItemResponse> callback, AsyncOptions options = null);
-
+        void UpdateItemAsync(string tableName, Dictionary<string, AttributeValue> key, Dictionary<string, AttributeValueUpdate> attributeUpdates, ReturnValue returnValues,  AmazonServiceCallback<UpdateItemRequest, UpdateItemResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the UpdateItem operation.
@@ -1373,34 +1477,46 @@ namespace Amazon.DynamoDBv2
         
         #region  UpdateTable
 
+
         /// <summary>
-        /// Updates the provisioned throughput for the given table, or manages the global secondary
-        /// indexes on the table.
+        /// Modifies the provisioned throughput settings, global secondary indexes, or DynamoDB
+        /// Streams settings for a given table.
         /// 
         ///  
         /// <para>
-        /// You can increase or decrease the table's provisioned throughput values within the
-        /// maximums and minimums listed in the <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html">Limits</a>
-        /// section in the <i>Amazon DynamoDB Developer Guide</i>.
+        /// You can only perform one of the following operations at once:
         /// </para>
-        ///  
+        ///  <ul> <li>
         /// <para>
-        /// In addition, you can use <i>UpdateTable</i> to add, modify or delete global secondary
-        /// indexes on the table. For more information, see <a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.OnlineOps.html">Managing
-        /// Global Secondary Indexes</a> in the <i>Amazon DynamoDB Developer Guide</i>. 
+        /// Modify the provisioned throughput settings of the table.
         /// </para>
-        ///  
+        /// </li> <li>
         /// <para>
-        /// The table must be in the <code>ACTIVE</code> state for <i>UpdateTable</i> to succeed.
-        /// <i>UpdateTable</i> is an asynchronous operation; while executing the operation, the
-        /// table is in the <code>UPDATING</code> state. While the table is in the <code>UPDATING</code>
-        /// state, the table still has the provisioned throughput from before the call. The table's
-        /// new provisioned throughput settings go into effect when the table returns to the <code>ACTIVE</code>
-        /// state; at that point, the <i>UpdateTable</i> operation is complete. 
+        /// Enable or disable Streams on the table.
+        /// </para>
+        /// </li> <li>
+        /// <para>
+        /// Remove a global secondary index from the table.
+        /// </para>
+        /// </li> <li> 
+        /// <para>
+        /// Create a new global secondary index on the table. Once the index begins backfilling,
+        /// you can use <i>UpdateTable</i> to perform other operations.
+        /// </para>
+        ///  </li> </ul> 
+        /// <para>
+        /// <i>UpdateTable</i> is an asynchronous operation; while it is executing, the table
+        /// status changes from <code>ACTIVE</code> to <code>UPDATING</code>. While it is <code>UPDATING</code>,
+        /// you cannot issue another <i>UpdateTable</i> request. When the table returns to the
+        /// <code>ACTIVE</code> state, the <i>UpdateTable</i> operation is complete.
         /// </para>
         /// </summary>
         /// <param name="tableName">The name of the table to be updated.</param>
         /// <param name="provisionedThroughput">A property of UpdateTableRequest used to execute the UpdateTable service method.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the UpdateTable service method, as returned by DynamoDB.</returns>
         /// <exception cref="Amazon.DynamoDBv2.Model.InternalServerErrorException">
@@ -1430,8 +1546,7 @@ namespace Amazon.DynamoDBv2
         /// The operation tried to access a nonexistent table or index. The resource might not
         /// be specified correctly, or its status might not be <code>ACTIVE</code>.
         /// </exception>
-        void UpdateTableAsync(string tableName, ProvisionedThroughput provisionedThroughput, AmazonServiceCallback<UpdateTableRequest, UpdateTableResponse> callback, AsyncOptions options = null);
-
+        void UpdateTableAsync(string tableName, ProvisionedThroughput provisionedThroughput,  AmazonServiceCallback<UpdateTableRequest, UpdateTableResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the UpdateTable operation.

@@ -38,7 +38,7 @@ namespace Amazon.MobileAnalytics.Model.Internal.MarshallTransformations
     /// <summary>
     /// Response Unmarshaller for PutEvents operation
     /// </summary>  
-    public class PutEventsResponseUnmarshaller : JsonResponseUnmarshaller
+    public class PutEventsResponseUnmarshaller : JsonResponseUnmarshaller, ISimplifiedErrorUnmarshaller 
     {
         /// <summary>
         /// Unmarshaller the response from the service to the response class.
@@ -70,6 +70,15 @@ namespace Amazon.MobileAnalytics.Model.Internal.MarshallTransformations
             return new AmazonMobileAnalyticsException(errorResponse.Message, innerException, errorResponse.Type, errorResponse.Code, errorResponse.RequestId, statusCode);
         }
 
+        public AmazonServiceException UnmarshallException(IWebResponseData response, ErrorResponse errorResponse, Exception innerException)
+        {
+            if (!string.IsNullOrEmpty(errorResponse.Code) && errorResponse.Code.StartsWith("BadRequestException", StringComparison.OrdinalIgnoreCase))
+            {
+                string message = string.IsNullOrEmpty(errorResponse.Message)?GetDefaultErrorMessage<AmazonMobileAnalyticsException>():errorResponse.Message;
+                return new BadRequestException(message, innerException, ErrorType.Unknown, errorResponse.Code, errorResponse.RequestId, response.StatusCode);
+            }
+            return new AmazonMobileAnalyticsException(GetDefaultErrorMessage<AmazonMobileAnalyticsException>(), innerException, ErrorType.Unknown, errorResponse.Code, errorResponse.RequestId, response.StatusCode);
+        }
         private static PutEventsResponseUnmarshaller _instance = new PutEventsResponseUnmarshaller();        
 
         internal static PutEventsResponseUnmarshaller GetInstance()

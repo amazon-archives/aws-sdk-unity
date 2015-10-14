@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
 // 
@@ -61,6 +61,12 @@ namespace Amazon.DynamoDBv2.DataModel
         public SimplePropertyStorage(Type memberType)
         {
             MemberType = memberType;
+        }
+
+        public override string ToString()
+        {
+            return string.Format(CultureInfo.InvariantCulture,
+                "{0} {1}", MemberType.FullName, PropertyName);
         }
     }
 

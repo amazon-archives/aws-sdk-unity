@@ -107,6 +107,7 @@ namespace Amazon.Runtime
                     postUnmarshallHandler,
                     new Signer(),
                     new CredentialsRetriever(this.Credentials),
+                    new RetryHandler(new DefaultRetryPolicy(this.Config.MaxErrorRetry)),
                     postMarshallHandler,
                     new EndpointResolver(),                    
                     new Marshaller(),

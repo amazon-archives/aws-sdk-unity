@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
 // 
@@ -122,7 +122,7 @@ namespace Amazon.Runtime.Internal.Util
             throw new NotImplementedException();
         }
 
-#if !(WIN_RT || PCL)
+#if !PCL
         public override IAsyncResult BeginRead(byte[] buffer, int offset, int count, AsyncCallback callback, Object state)
         {
             var result = new AsyncResult()
@@ -165,6 +165,8 @@ namespace Amazon.Runtime.Internal.Util
         public override int EndRead(IAsyncResult asyncResult)
         {
             var result = asyncResult as AsyncResult;
+            if (result == null)
+                throw new ArgumentException("Parameter asyncResult was not of type Amazon.Runtime.Internal.Util.AsyncResult", "asyncResult");
             if (result.Return is Exception)
                 throw (Exception)result.Return;
 

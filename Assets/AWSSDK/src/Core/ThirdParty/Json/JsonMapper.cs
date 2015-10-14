@@ -328,9 +328,10 @@ namespace ThirdParty.Json.LitJson
             Type underlying_type = Nullable.GetUnderlyingType(inst_type);
             Type value_type = underlying_type ?? inst_type;
             
-            if (reader.Token == JsonToken.Null) {
-                
-                if (inst_type.IsClass || underlying_type != null) {
+            if (reader.Token == JsonToken.Null) 
+            {    
+                if (underlying_type != null) 
+				{
                     return null;
                 }
                 
@@ -842,7 +843,7 @@ namespace ThirdParty.Json.LitJson
 
                     if (p_info.CanRead) {
                         writer.WritePropertyName (p_data.Info.Name);
-                        WriteValue (p_info.GetValue (obj, null),
+                        WriteValue(p_info.GetGetMethod().Invoke(obj, null),
                                     writer, writer_is_private, depth + 1);
                     }
                 }

@@ -48,25 +48,34 @@ namespace Amazon.Runtime.Internal.Transform
         {
             _logger= Logger.GetLogger(this.GetType());
             _headers = wwwRequest.responseHeaders;
-            
+            try
+            {
+                _responseBody = wwwRequest.bytes;
+            }
+            catch (Exception)
+            {
+                _logger.DebugFormat(@"setting response body to null");
+                _responseBody = null;
+            }
+
             if (wwwRequest.error == null)
             {
                 _logger.DebugFormat(@"recieved successful response");
-                _responseBody = wwwRequest.bytes;
             }
             else
             {
                 _logger.DebugFormat(@"recieved error response");
+                _logger.DebugFormat(@"recieved = {0}", wwwRequest.error);
             }
 
-            if (_responseBody != null)
+            if ((_responseBody != null && _responseBody.Length > 0) || (_responseBody.Length == 0 && wwwRequest.error == null))
             {
-                _logger.DebugFormat(@"{0}",System.Text.UTF8Encoding.UTF8.GetString(_responseBody));
-                _responseStream = new MemoryStream(wwwRequest.bytes);
+                _logger.DebugFormat(@"{0}", System.Text.UTF8Encoding.UTF8.GetString(_responseBody));
+                _responseStream = new MemoryStream(_responseBody);
             }
-            
+
             this.ContentLength = wwwRequest.bytesDownloaded;
-            
+
             string contentType = null;
             this._headers.TryGetValue(
                 HeaderKeys.ContentTypeHeader.ToUpperInvariant(), out contentType);
@@ -77,7 +86,6 @@ namespace Amazon.Runtime.Internal.Transform
                 {
                     string statusHeader = string.Empty;
                     this._headers.TryGetValue(HeaderKeys.StatusHeader.ToUpperInvariant(),out statusHeader);
-                    _logger.DebugFormat(@"Status = {0}",statusHeader );
                     if(!string.IsNullOrEmpty(statusHeader))
                     {
                         this.StatusCode = (HttpStatusCode)Enum.Parse(
@@ -103,6 +111,7 @@ namespace Amazon.Runtime.Internal.Transform
             {
                 this.StatusCode = 0;
             }
+            _logger.DebugFormat(@"Status = {0}", StatusCode);
             this.IsSuccessStatusCode = wwwRequest.error == null?true:false;
         }
 
@@ -167,6 +176,17 @@ namespace Amazon.Runtime.Internal.Transform
             get { return this; }
         }
 
+        /// <summary>
+        /// Bool value which is returned if there is response body present
+        /// </summary>
+        public bool IsResponseBodyPresent
+        {
+            get
+            {
+                return _responseBody != null && _responseBody.Length > 0;
+            }
+        }
+
         #region IHttpResponseBody implementation
 
         /// <summary>
@@ -174,7 +194,7 @@ namespace Amazon.Runtime.Internal.Transform
         /// </summary>
         /// <returns>A stream representing the response body.</returns>
         public Stream OpenResponse()
-        {            
+        {
             return _responseStream;
         }
 

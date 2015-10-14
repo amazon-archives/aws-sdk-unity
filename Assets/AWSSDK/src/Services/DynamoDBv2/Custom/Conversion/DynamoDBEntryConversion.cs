@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
 // 
@@ -22,7 +22,7 @@ using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.Util.Internal;
 
-#if (WIN_RT || WINDOWS_PHONE)
+#if PCL
 using Amazon.MissingTypes;
 using Amazon.Runtime.Internal.Util;
 #endif
@@ -256,6 +256,7 @@ namespace Amazon.DynamoDBv2
 
         #region Internal members
 
+        internal bool IsImmutable { get; private set; }
         internal DynamoDBEntryConversion Clone()
         {
             return new DynamoDBEntryConversion(this.OriginalConversion, isImmutable: false);
@@ -263,19 +264,7 @@ namespace Amazon.DynamoDBv2
 
         internal bool HasConverter(Type type)
         {
-            return ConverterCache.ContainsKey(type);
-        }
-        internal void AddConverter(Converter converter)
-        {
-            if (IsImmutable)
-                throw new InvalidOperationException("Adding converters to immutable conversion is not supported. The conversion must be cloned first.");
-
-            converter.Conversion = this;
-            var types = converter.GetTargetTypes();
-            foreach (var type in types)
-            {
-                ConverterCache[type] = converter;
-            }
+            return ConverterCache.HasConverter(type);
         }
 
         internal bool TryConvertToEntry(Type inputType, object value, out DynamoDBEntry entry)
@@ -283,7 +272,7 @@ namespace Amazon.DynamoDBv2
             if (inputType == null) throw new ArgumentNullException("inputType");
             if (value == null) throw new ArgumentNullException("value");
 
-            var converter = GetConverter(inputType);
+            var converter = ConverterCache.GetConverter(inputType);
             return converter.TryToEntry(value, out entry);
         }
         internal bool TryConvertFromEntry(Type outputType, DynamoDBEntry entry, out object value)
@@ -291,7 +280,7 @@ namespace Amazon.DynamoDBv2
             if (outputType == null) throw new ArgumentNullException("outputType");
             if (entry == null) throw new ArgumentNullException("entry");
 
-            var converter = GetConverter(outputType);
+            var converter = ConverterCache.GetConverter(outputType);
             return converter.TryFromEntry(entry, outputType, out value);
         }
 
@@ -300,7 +289,7 @@ namespace Amazon.DynamoDBv2
             if (inputType == null) throw new ArgumentNullException("inputType");
             if (value == null) throw new ArgumentNullException("value");
 
-            var converter = GetConverter(inputType);
+            var converter = ConverterCache.GetConverter(inputType);
             DynamoDBEntry output = converter.ToEntry(value);
 
             return output;
@@ -310,7 +299,7 @@ namespace Amazon.DynamoDBv2
             if (outputType == null) throw new ArgumentNullException("outputType");
             if (entry == null) throw new ArgumentNullException("entry");
 
-            var converter = GetConverter(outputType);
+            var converter = ConverterCache.GetConverter(outputType);
             object output = converter.FromEntry(entry, outputType);
 
             return output;
@@ -355,18 +344,18 @@ namespace Amazon.DynamoDBv2
 
         #region Private members
 
-        private Dictionary<Type, Converter> ConverterCache = new Dictionary<Type, Converter>();
+        private ConverterCache ConverterCache = new ConverterCache();
         private ConversionSchema OriginalConversion;
-        private bool IsImmutable;
 
         private void AddConverters(string suffix)
         {
             var typedConverterTypeInfo = TypeFactory.GetTypeInfo(typeof(Converter));
             var assembly = TypeFactory.GetTypeInfo(typeof(DynamoDBEntryConversion)).Assembly;
-            var types = assembly.GetTypes();
-            foreach (var type in types)
+            var allTypes = assembly.GetTypes();
+
+            foreach (var type in allTypes)
             {
-                //string fullName = type.FullName;
+                string fullName = type.FullName;
 
                 //if (type.Namespace != typedConverterType.Namespace)
                 //    continue;
@@ -384,7 +373,11 @@ namespace Amazon.DynamoDBv2
                 AddConverter(type);
             }
         }
-        private void AddConverter(Type type)
+        internal void AddConverter(Converter converter)
+        {
+            ConverterCache.AddConverter(converter, this);
+        }
+        internal void AddConverter(Type type)
         {
             var converter = Activator.CreateInstance(type) as Converter;
             AddConverter(converter);
@@ -397,19 +390,6 @@ namespace Amazon.DynamoDBv2
         private void SetV2Converters()
         {
             AddConverters("ConverterV2");
-        }
-
-        private Converter GetConverter(Type type)
-        {
-            Converter converter;
-            if (!TryGetConverter(type, out converter))
-                throw new InvalidOperationException("No converter configured for type " + type.FullName);
-
-            return converter;
-        }
-        private bool TryGetConverter(Type type, out Converter converter)
-        {
-            return ConverterCache.TryGetValue(type, out converter);
         }
 
         // Converts items to Primitives.
@@ -741,6 +721,56 @@ namespace Amazon.DynamoDBv2
         {
             result = default(T);
             return false;
+        }
+    }
+
+    internal class ConverterCache
+    {
+        private static Type EnumType = typeof(Enum);
+        private Dictionary<Type, Converter> Cache = new Dictionary<Type, Converter>();
+
+        public bool HasConverter(Type type)
+        {
+            Converter converter;
+            return TryGetConverter(type, out converter);
+        }
+        public void AddConverter(Converter converter, DynamoDBEntryConversion conversion)
+        {
+            if (converter == null)
+                throw new ArgumentNullException("converter");
+            if (conversion == null)
+                throw new ArgumentNullException("conversion");
+
+            if (conversion.IsImmutable)
+                throw new InvalidOperationException("Adding converters to immutable conversion is not supported. The conversion must be cloned first.");
+
+            converter.Conversion = conversion;
+            var types = converter.GetTargetTypes();
+            foreach (var type in types)
+            {
+                Cache[type] = converter;
+            }
+        }
+
+        public Converter GetConverter(Type type)
+        {
+            Converter converter;
+            if (!TryGetConverter(type, out converter))
+                throw new InvalidOperationException("No converter configured for type " + type.FullName);
+
+            return converter;
+        }
+        public bool TryGetConverter(Type type, out Converter converter)
+        {
+            if (type == null)
+                throw new ArgumentNullException("type");
+
+            // all enums use the same converter, one for Enum
+            var ti = TypeFactory.GetTypeInfo(type);
+            if (ti.IsEnum)
+                type = EnumType;
+
+            return Cache.TryGetValue(type, out converter);
         }
     }
 }

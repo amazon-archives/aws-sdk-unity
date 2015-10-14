@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
 // 
@@ -87,6 +87,10 @@ namespace Amazon.S3.Model.Internal.MarshallTransformations
                             if (rule.Destination.IsSetBucketArn())
                             {
                                 xmlWriter.WriteElementString("Bucket", "", rule.Destination.BucketArn);
+                            }
+                            if (rule.Destination.IsSetStorageClass())
+                            {
+                                xmlWriter.WriteElementString("StorageClass", "", rule.Destination.StorageClass);
                             }
                             xmlWriter.WriteEndElement();
                         }

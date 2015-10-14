@@ -38,7 +38,7 @@ namespace Amazon.MobileAnalytics.Model
         private string _eventType;
         private Dictionary<string, double> _metrics = new Dictionary<string, double>();
         private Session _session;
-        private string _timestamp;
+        private DateTime? _timestamp;
         private string _version;
 
         /// <summary>
@@ -130,16 +130,16 @@ namespace Amazon.MobileAnalytics.Model
         /// The time the event occurred in ISO 8601 standard date time format. For example, 2014-06-30T19:07:47.885Z
         /// </para>
         /// </summary>
-        public string Timestamp
+        public DateTime Timestamp
         {
-            get { return this._timestamp; }
+            get { return this._timestamp.GetValueOrDefault(); }
             set { this._timestamp = value; }
         }
 
         // Check to see if Timestamp property is set
         internal bool IsSetTimestamp()
         {
-            return this._timestamp != null;
+            return this._timestamp.HasValue; 
         }
 
         /// <summary>

@@ -53,14 +53,18 @@ namespace Amazon.S3
         
         #region  GetACL
 
+
         /// <summary>
         /// Gets the access control policy for the bucket.
         /// </summary>
         /// <param name="bucketName">A property of GetACLRequest used to execute the GetACL service method.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the GetACL service method, as returned by S3.</returns>
-        void GetACLAsync(string bucketName, AmazonServiceCallback<GetACLRequest, GetACLResponse> callback, AsyncOptions options = null);
-
+        void GetACLAsync(string bucketName,  AmazonServiceCallback<GetACLRequest, GetACLResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the GetACL operation.
@@ -77,14 +81,18 @@ namespace Amazon.S3
         
         #region  GetBucketLocation
 
+
         /// <summary>
         /// Returns the region the bucket resides in.
         /// </summary>
         /// <param name="bucketName">A property of GetBucketLocationRequest used to execute the GetBucketLocation service method.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the GetBucketLocation service method, as returned by S3.</returns>
-        void GetBucketLocationAsync(string bucketName, AmazonServiceCallback<GetBucketLocationRequest, GetBucketLocationResponse> callback, AsyncOptions options = null);
-
+        void GetBucketLocationAsync(string bucketName,  AmazonServiceCallback<GetBucketLocationRequest, GetBucketLocationResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the GetBucketLocation operation.
@@ -101,15 +109,19 @@ namespace Amazon.S3
         
         #region  GetBucketLogging
 
+
         /// <summary>
         /// Returns the logging status of a bucket and the permissions users have to view and
         /// modify that status. To use GET, you must be the bucket owner.
         /// </summary>
         /// <param name="bucketName">A property of GetBucketLoggingRequest used to execute the GetBucketLogging service method.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the GetBucketLogging service method, as returned by S3.</returns>
-        void GetBucketLoggingAsync(string bucketName, AmazonServiceCallback<GetBucketLoggingRequest, GetBucketLoggingResponse> callback, AsyncOptions options = null);
-
+        void GetBucketLoggingAsync(string bucketName,  AmazonServiceCallback<GetBucketLoggingRequest, GetBucketLoggingResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the GetBucketLogging operation.
@@ -126,14 +138,18 @@ namespace Amazon.S3
         
         #region  GetBucketNotification
 
+
         /// <summary>
         /// Return the notification configuration of a bucket.
         /// </summary>
         /// <param name="bucketName">A property of GetBucketNotificationRequest used to execute the GetBucketNotification service method.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the GetBucketNotification service method, as returned by S3.</returns>
-        void GetBucketNotificationAsync(string bucketName, AmazonServiceCallback<GetBucketNotificationRequest, GetBucketNotificationResponse> callback, AsyncOptions options = null);
-
+        void GetBucketNotificationAsync(string bucketName,  AmazonServiceCallback<GetBucketNotificationRequest, GetBucketNotificationResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the GetBucketNotification operation.
@@ -150,14 +166,18 @@ namespace Amazon.S3
         
         #region  GetBucketPolicy
 
+
         /// <summary>
         /// Returns the policy of a specified bucket.
         /// </summary>
         /// <param name="bucketName">A property of GetBucketPolicyRequest used to execute the GetBucketPolicy service method.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the GetBucketPolicy service method, as returned by S3.</returns>
-        void GetBucketPolicyAsync(string bucketName, AmazonServiceCallback<GetBucketPolicyRequest, GetBucketPolicyResponse> callback, AsyncOptions options = null);
-
+        void GetBucketPolicyAsync(string bucketName,  AmazonServiceCallback<GetBucketPolicyRequest, GetBucketPolicyResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the GetBucketPolicy operation.
@@ -174,14 +194,18 @@ namespace Amazon.S3
         
         #region  GetBucketRequestPayment
 
+
         /// <summary>
         /// Returns the request payment configuration of a bucket.
         /// </summary>
         /// <param name="bucketName">A property of GetBucketRequestPaymentRequest used to execute the GetBucketRequestPayment service method.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the GetBucketRequestPayment service method, as returned by S3.</returns>
-        void GetBucketRequestPaymentAsync(string bucketName, AmazonServiceCallback<GetBucketRequestPaymentRequest, GetBucketRequestPaymentResponse> callback, AsyncOptions options = null);
-
+        void GetBucketRequestPaymentAsync(string bucketName,  AmazonServiceCallback<GetBucketRequestPaymentRequest, GetBucketRequestPaymentResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the GetBucketRequestPayment operation.
@@ -214,14 +238,18 @@ namespace Amazon.S3
         
         #region  GetBucketVersioning
 
+
         /// <summary>
         /// Returns the versioning state of a bucket.
         /// </summary>
         /// <param name="bucketName">A property of GetBucketVersioningRequest used to execute the GetBucketVersioning service method.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the GetBucketVersioning service method, as returned by S3.</returns>
-        void GetBucketVersioningAsync(string bucketName, AmazonServiceCallback<GetBucketVersioningRequest, GetBucketVersioningResponse> callback, AsyncOptions options = null);
-
+        void GetBucketVersioningAsync(string bucketName,  AmazonServiceCallback<GetBucketVersioningRequest, GetBucketVersioningResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the GetBucketVersioning operation.
@@ -238,14 +266,18 @@ namespace Amazon.S3
         
         #region  GetBucketWebsite
 
+
         /// <summary>
         /// Returns the website configuration for a bucket.
         /// </summary>
         /// <param name="bucketName">A property of GetBucketWebsiteRequest used to execute the GetBucketWebsite service method.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the GetBucketWebsite service method, as returned by S3.</returns>
-        void GetBucketWebsiteAsync(string bucketName, AmazonServiceCallback<GetBucketWebsiteRequest, GetBucketWebsiteResponse> callback, AsyncOptions options = null);
-
+        void GetBucketWebsiteAsync(string bucketName,  AmazonServiceCallback<GetBucketWebsiteRequest, GetBucketWebsiteResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the GetBucketWebsite operation.
@@ -262,14 +294,18 @@ namespace Amazon.S3
         
         #region  GetCORSConfiguration
 
+
         /// <summary>
         /// Returns the cors configuration for the bucket.
         /// </summary>
         /// <param name="bucketName">A property of GetCORSConfigurationRequest used to execute the GetCORSConfiguration service method.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the GetCORSConfiguration service method, as returned by S3.</returns>
-        void GetCORSConfigurationAsync(string bucketName, AmazonServiceCallback<GetCORSConfigurationRequest, GetCORSConfigurationResponse> callback, AsyncOptions options = null);
-
+        void GetCORSConfigurationAsync(string bucketName,  AmazonServiceCallback<GetCORSConfigurationRequest, GetCORSConfigurationResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the GetCORSConfiguration operation.
@@ -286,14 +322,18 @@ namespace Amazon.S3
         
         #region  GetLifecycleConfiguration
 
+
         /// <summary>
         /// Returns the lifecycle configuration information set on the bucket.
         /// </summary>
         /// <param name="bucketName">A property of GetLifecycleConfigurationRequest used to execute the GetLifecycleConfiguration service method.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the GetLifecycleConfiguration service method, as returned by S3.</returns>
-        void GetLifecycleConfigurationAsync(string bucketName, AmazonServiceCallback<GetLifecycleConfigurationRequest, GetLifecycleConfigurationResponse> callback, AsyncOptions options = null);
-
+        void GetLifecycleConfigurationAsync(string bucketName,  AmazonServiceCallback<GetLifecycleConfigurationRequest, GetLifecycleConfigurationResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the GetLifecycleConfiguration operation.
@@ -310,14 +350,19 @@ namespace Amazon.S3
         
         #region  GetObject
 
+
         /// <summary>
         /// Retrieves objects from Amazon S3.
         /// </summary>
         /// <param name="bucketName">A property of GetObjectRequest used to execute the GetObject service method.</param>
         /// <param name="key">A property of GetObjectRequest used to execute the GetObject service method.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the GetObject service method, as returned by S3.</returns>
-        void GetObjectAsync(string bucketName, string key, AmazonServiceCallback<GetObjectRequest, GetObjectResponse> callback, AsyncOptions options = null);
+        void GetObjectAsync(string bucketName, string key,  AmazonServiceCallback<GetObjectRequest, GetObjectResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Retrieves objects from Amazon S3.
@@ -325,10 +370,13 @@ namespace Amazon.S3
         /// <param name="bucketName">A property of GetObjectRequest used to execute the GetObject service method.</param>
         /// <param name="key">A property of GetObjectRequest used to execute the GetObject service method.</param>
         /// <param name="versionId">VersionId used to reference a specific version of the object.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the GetObject service method, as returned by S3.</returns>
-        void GetObjectAsync(string bucketName, string key, string versionId, AmazonServiceCallback<GetObjectRequest, GetObjectResponse> callback, AsyncOptions options = null);
-
+        void GetObjectAsync(string bucketName, string key, string versionId,  AmazonServiceCallback<GetObjectRequest, GetObjectResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the GetObject operation.
@@ -345,15 +393,19 @@ namespace Amazon.S3
         
         #region  GetObjectTorrent
 
+
         /// <summary>
         /// Return torrent files from a bucket.
         /// </summary>
         /// <param name="bucketName">A property of GetObjectTorrentRequest used to execute the GetObjectTorrent service method.</param>
         /// <param name="key">A property of GetObjectTorrentRequest used to execute the GetObjectTorrent service method.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the GetObjectTorrent service method, as returned by S3.</returns>
-        void GetObjectTorrentAsync(string bucketName, string key, AmazonServiceCallback<GetObjectTorrentRequest, GetObjectTorrentResponse> callback, AsyncOptions options = null);
-
+        void GetObjectTorrentAsync(string bucketName, string key,  AmazonServiceCallback<GetObjectTorrentRequest, GetObjectTorrentResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the GetObjectTorrent operation.
@@ -372,6 +424,17 @@ namespace Amazon.S3
 
 
         /// <summary>
+        /// Returns a list of all buckets owned by the authenticated sender of the request.
+        /// </summary>
+         /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
+        /// 
+        /// <returns>The response from the ListBuckets service method, as returned by S3.</returns>
+        void ListBucketsAsync( AmazonServiceCallback<ListBucketsRequest, ListBucketsResponse> callback, AsyncOptions options = null);
+
+        /// <summary>
         /// Initiates the asynchronous execution of the ListBuckets operation.
         /// </summary>
         /// 
@@ -386,14 +449,19 @@ namespace Amazon.S3
         
         #region  ListObjects
 
+
         /// <summary>
         /// Returns some or all (up to 1000) of the objects in a bucket. You can use the request
         /// parameters as selection criteria to return a subset of the objects in a bucket.
         /// </summary>
         /// <param name="bucketName">A property of ListObjectsRequest used to execute the ListObjects service method.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the ListObjects service method, as returned by S3.</returns>
-        void ListObjectsAsync(string bucketName, AmazonServiceCallback<ListObjectsRequest, ListObjectsResponse> callback, AsyncOptions options = null);
+        void ListObjectsAsync(string bucketName,  AmazonServiceCallback<ListObjectsRequest, ListObjectsResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Returns some or all (up to 1000) of the objects in a bucket. You can use the request
@@ -401,10 +469,13 @@ namespace Amazon.S3
         /// </summary>
         /// <param name="bucketName">A property of ListObjectsRequest used to execute the ListObjects service method.</param>
         /// <param name="prefix">Limits the response to keys that begin with the specified prefix.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the ListObjects service method, as returned by S3.</returns>
-        void ListObjectsAsync(string bucketName, string prefix, AmazonServiceCallback<ListObjectsRequest, ListObjectsResponse> callback, AsyncOptions options = null);
-
+        void ListObjectsAsync(string bucketName, string prefix,  AmazonServiceCallback<ListObjectsRequest, ListObjectsResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the ListObjects operation.
@@ -421,23 +492,31 @@ namespace Amazon.S3
         
         #region  ListVersions
 
+
         /// <summary>
         /// Returns metadata about all of the versions of objects in a bucket.
         /// </summary>
         /// <param name="bucketName">A property of ListVersionsRequest used to execute the ListVersions service method.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the ListVersions service method, as returned by S3.</returns>
-        void ListVersionsAsync(string bucketName, AmazonServiceCallback<ListVersionsRequest, ListVersionsResponse> callback, AsyncOptions options = null);
+        void ListVersionsAsync(string bucketName,  AmazonServiceCallback<ListVersionsRequest, ListVersionsResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Returns metadata about all of the versions of objects in a bucket.
         /// </summary>
         /// <param name="bucketName">A property of ListVersionsRequest used to execute the ListVersions service method.</param>
         /// <param name="prefix">Limits the response to keys that begin with the specified prefix.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the ListVersions service method, as returned by S3.</returns>
-        void ListVersionsAsync(string bucketName, string prefix, AmazonServiceCallback<ListVersionsRequest, ListVersionsResponse> callback, AsyncOptions options = null);
-
+        void ListVersionsAsync(string bucketName, string prefix,  AmazonServiceCallback<ListVersionsRequest, ListVersionsResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the ListVersions operation.
@@ -454,14 +533,19 @@ namespace Amazon.S3
         
         #region  RestoreObject
 
+
         /// <summary>
         /// Restores an archived copy of an object back into Amazon S3
         /// </summary>
         /// <param name="bucketName">A property of RestoreObjectRequest used to execute the RestoreObject service method.</param>
         /// <param name="key">A property of RestoreObjectRequest used to execute the RestoreObject service method.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the RestoreObject service method, as returned by S3.</returns>
-        void RestoreObjectAsync(string bucketName, string key, AmazonServiceCallback<RestoreObjectRequest, RestoreObjectResponse> callback, AsyncOptions options = null);
+        void RestoreObjectAsync(string bucketName, string key,  AmazonServiceCallback<RestoreObjectRequest, RestoreObjectResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Restores an archived copy of an object back into Amazon S3
@@ -469,9 +553,13 @@ namespace Amazon.S3
         /// <param name="bucketName">A property of RestoreObjectRequest used to execute the RestoreObject service method.</param>
         /// <param name="key">A property of RestoreObjectRequest used to execute the RestoreObject service method.</param>
         /// <param name="days">A property of RestoreObjectRequest used to execute the RestoreObject service method.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the RestoreObject service method, as returned by S3.</returns>
-        void RestoreObjectAsync(string bucketName, string key, int days, AmazonServiceCallback<RestoreObjectRequest, RestoreObjectResponse> callback, AsyncOptions options = null);
+        void RestoreObjectAsync(string bucketName, string key, int days,  AmazonServiceCallback<RestoreObjectRequest, RestoreObjectResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Restores an archived copy of an object back into Amazon S3
@@ -479,9 +567,13 @@ namespace Amazon.S3
         /// <param name="bucketName">A property of RestoreObjectRequest used to execute the RestoreObject service method.</param>
         /// <param name="key">A property of RestoreObjectRequest used to execute the RestoreObject service method.</param>
         /// <param name="versionId">A property of RestoreObjectRequest used to execute the RestoreObject service method.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the RestoreObject service method, as returned by S3.</returns>
-        void RestoreObjectAsync(string bucketName, string key, string versionId, AmazonServiceCallback<RestoreObjectRequest, RestoreObjectResponse> callback, AsyncOptions options = null);
+        void RestoreObjectAsync(string bucketName, string key, string versionId,  AmazonServiceCallback<RestoreObjectRequest, RestoreObjectResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Restores an archived copy of an object back into Amazon S3
@@ -490,10 +582,13 @@ namespace Amazon.S3
         /// <param name="key">A property of RestoreObjectRequest used to execute the RestoreObject service method.</param>
         /// <param name="versionId">A property of RestoreObjectRequest used to execute the RestoreObject service method.</param>
         /// <param name="days">A property of RestoreObjectRequest used to execute the RestoreObject service method.</param>
+        /// <param name="options">
+         ///     A user-defined state object that is passed to the callback procedure. Retrieve this object from within the callback
+         ///     procedure using the AsyncState property.
+         /// </param>
         /// 
         /// <returns>The response from the RestoreObject service method, as returned by S3.</returns>
-        void RestoreObjectAsync(string bucketName, string key, string versionId, int days, AmazonServiceCallback<RestoreObjectRequest, RestoreObjectResponse> callback, AsyncOptions options = null);
-
+        void RestoreObjectAsync(string bucketName, string key, string versionId, int days,  AmazonServiceCallback<RestoreObjectRequest, RestoreObjectResponse> callback, AsyncOptions options = null);
 
         /// <summary>
         /// Initiates the asynchronous execution of the RestoreObject operation.

@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
 // 
@@ -377,9 +377,25 @@ namespace Amazon.Runtime
             }
             else
             {
-                return Path.Combine(
+                if (!string.IsNullOrEmpty(System.Environment.GetEnvironmentVariable("HOME")))
+                {
+                    var envPath = Path.Combine(
+                        System.Environment.GetEnvironmentVariable("HOME"),
+                        ".aws/credentials");
+                    if (File.Exists(envPath))
+                        return envPath;
+                }
+#if !BCL35
+                var path = Path.Combine(
+                    System.Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile),
+                    ".aws/credentials");
+#else
+                var     path = Path.Combine(
                     Directory.GetParent(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal)).FullName,
                     ".aws/credentials");
+#endif
+
+                return path;
             }
         }
 
@@ -1073,7 +1089,6 @@ namespace Amazon.Runtime
 
         #endregion
     }
-
 
     // Credentials fallback mechanism
     public static class FallbackCredentialsFactory

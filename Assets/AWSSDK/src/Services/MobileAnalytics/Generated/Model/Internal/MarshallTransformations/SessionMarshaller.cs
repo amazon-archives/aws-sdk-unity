@@ -62,13 +62,13 @@ namespace Amazon.MobileAnalytics.Model.Internal.MarshallTransformations
             if(requestObject.IsSetStartTimestamp())
             {
                 context.Writer.WritePropertyName("startTimestamp");
-                context.Writer.Write(requestObject.StartTimestamp);
+                context.Writer.Write(Amazon.Runtime.Internal.Util.StringUtils.FromDateTime(requestObject.StartTimestamp));
             }
 
             if(requestObject.IsSetStopTimestamp())
             {
                 context.Writer.WritePropertyName("stopTimestamp");
-                context.Writer.Write(requestObject.StopTimestamp);
+                context.Writer.Write(Amazon.Runtime.Internal.Util.StringUtils.FromDateTime(requestObject.StopTimestamp));
             }
 
         }

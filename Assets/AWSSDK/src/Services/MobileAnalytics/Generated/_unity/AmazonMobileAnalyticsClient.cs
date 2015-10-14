@@ -169,7 +169,6 @@ namespace Amazon.MobileAnalytics
         
         #region  PutEvents
 
-
         /// <summary>
         /// Initiates the asynchronous execution of the PutEvents operation.
         /// </summary>

@@ -1,4 +1,4 @@
-//
+﻿//
 // Copyright 2014-2015 Amazon.com, 
 // Inc. or its affiliates. All Rights Reserved.
 // 
@@ -51,7 +51,10 @@ namespace Amazon.Util.Internal
             }
         }
         public bool UseSdkCache { get; set; }
+
         public bool CorrectForClockSkew { get; set; }
+
+        public string ApplicationName { get; set; }
 
         private const string _rootAwsSectionName = "aws";
         public RootConfig()
@@ -66,7 +69,7 @@ namespace Amazon.Util.Internal
             UseSdkCache = AWSConfigs._useSdkCache;
             CorrectForClockSkew = true;
 
-#if !WIN_RT && !WINDOWS_PHONE
+#if !PCL
             var root = AWSConfigs.GetSection<AWSSection>(_rootAwsSectionName);
 
             Logging.Configure(root.Logging);
@@ -82,6 +85,8 @@ namespace Amazon.Util.Internal
             ProfilesLocation = Choose(ProfilesLocation, root.ProfilesLocation);
             if (root.CorrectForClockSkew.HasValue)
                 CorrectForClockSkew = root.CorrectForClockSkew.Value;
+						
+			ApplicationName = Choose(ApplicationName, root.ApplicationName);
 #endif
         }
 
