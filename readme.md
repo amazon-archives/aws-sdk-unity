@@ -9,7 +9,7 @@ The [AWS Mobile SDK for Unity](http://aws.amazon.com/mobile/sdk/) contains a set
 * **[Code Sample](https://github.com/awslabs/aws-sdk-unity-samples)** - Repository of example projects using the SDK.
 * **[AWS Mobile Forum](https://forums.aws.amazon.com/forum.jspa?forumID=88)** – Ask questions, get help, and give feedback
 * **[Developer Guide](http://docs.aws.amazon.com/mobile/sdkforunity/developerguide/)** - For in-depth getting started and usage information
-* **[API Reference](http://docs.aws.amazon.com/AWSUnitySDK/latest/APIReference/)** - For operations, parameters, responses, and examples
+* **[API Reference](http://docs.aws.amazon.com/awssdkunity/latest/apireference/)** - For operations, parameters, responses, and examples
 * **[AWS Mobile Developer Blog](http://mobile.awsblog.com/)** - For updates and guidance on using the AWS SDK for Android
 * **[Release Notes](https://aws.amazon.com/releasenotes/Unity)** - To see the latest features, bug fixes, and changes in the SDK
 * **[Issues](https://github.com/aws/aws-sdk-unity/issues)** - Report issues and submit pull requests
@@ -20,9 +20,13 @@ The AWS SDK for Unity supports the following AWS services:
 
 * [Amazon Cognito](http://aws.amazon.com/cognito/)
 * [Amazon DynamoDB](http://aws.amazon.com/dynamodb/)
+* [Amazon Kinesis Streams](https://aws.amazon.com/kinesis/streams/)
+* [AWS Lambda](https://aws.amazon.com/lambda/)
 * [Amazon Mobile Analytics](http://aws.amazon.com/mobileanalytics/)
-* [Amazon SNS](http://aws.amazon.com/sns/)
-* [Amazon S3](http://aws.amazon.com/s3/)
+* [Amazon Simple Email Service](https://aws.amazon.com/ses/)
+* [Amazon Simple Notification Service](http://aws.amazon.com/sns/)
+* [Amazon Simple Queue Service](https://aws.amazon.com/sqs/)
+* [Amazon Simple Storage Service](http://aws.amazon.com/s3/)
 
 
 ## SDK Fundametals

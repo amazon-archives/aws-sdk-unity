@@ -1,3 +1,23 @@
+Version 2.1.0.0
+New features:
+- Added Support for Amazon Simple Email Service.
+- Added Support for AWS Lambda.
+- Added Support for Amazon Kinesis Streams service client.
+Improvements:
+- Error Handling Support for Versions of Unity which return response body on status other than 2xx.
+- Added Retry Support for SDK.
+- Fixed a bug in mobile analytics which caused an error when sending events with metric named "Count".
+- General documentation and service updates.
+
+Version 2.0.0.5
+New Features:
+- Added Support for SQS
+- Updated the WipeData api in Sync Manager to optionally wipe the identity id as well.
+Improvements:
+- Fixed a bug which caused multiple identities to be created.
+- Fixed a reflection API which was failing on iOS.
+- Fixed a bug which caused the response unmarshalling to fail due to crc32 check.
+
 Version 2.0.0.4
 New Features:
 - Added a Amazon Cognito Identity public method that can query whether or not a particular credentials provider is used.
@@ -14,7 +34,6 @@ Bugs:
 Version 2.0.0.2
 Bugs:
 - Fixed a bug where we would clear the user's identity ID when adding a new login provider.
-
 
 Version 2.0.0.1
 New Features:
