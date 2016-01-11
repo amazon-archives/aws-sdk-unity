@@ -21,6 +21,7 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using Amazon.Runtime.Internal.Util;
 
+using Logger = Amazon.Runtime.Internal.Util.Logger;
 
 namespace Amazon.Util.Internal
 {

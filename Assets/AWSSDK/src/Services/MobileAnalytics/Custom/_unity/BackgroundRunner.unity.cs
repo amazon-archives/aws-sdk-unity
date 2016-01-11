@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System;
 using Amazon.Runtime.Internal.Util;
-
+using Logger = Amazon.Runtime.Internal.Util.Logger;
 
 namespace Amazon.MobileAnalytics.MobileAnalyticsManager.Internal
 {

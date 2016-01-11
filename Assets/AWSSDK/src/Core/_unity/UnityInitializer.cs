@@ -27,6 +27,7 @@ using Amazon.Runtime.Internal;
 using Amazon.Util;
 using System.Threading;
 using Amazon.Util.Internal;
+using Logger = Amazon.Runtime.Internal.Util.Logger;
 
 #if UNITY_EDITOR
 using UnityEditor;

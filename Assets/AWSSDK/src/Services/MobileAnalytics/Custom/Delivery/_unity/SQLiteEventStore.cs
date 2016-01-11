@@ -30,6 +30,7 @@ using Amazon.Util.Storage.Internal;
 using Amazon.Util;
 using Amazon.Runtime.Internal.Util;
 using Amazon.Util.Internal;
+using Logger = Amazon.Runtime.Internal.Util.Logger;
 
 namespace Amazon.MobileAnalytics.MobileAnalyticsManager.Internal
 {
