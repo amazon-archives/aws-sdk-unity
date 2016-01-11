@@ -1,3 +1,10 @@
+Version 2.1.0.1
+New features:
+- Adds support for Seoul region
+Improvements:
+- Fixed issues with namespace conflicts with ILogger on Unity 5.3
+- changed scheduling for HTTP Calls on Unity to make it independent of Scaled time
+
 Version 2.1.0.0
 New features:
 - Added Support for Amazon Simple Email Service.
