@@ -1,7 +1,7 @@
 # AWS Mobile SDK for Unity
 The [AWS Mobile SDK for Unity](http://aws.amazon.com/mobile/sdk/) contains a set of .NET classes that enables games written with Unity to utilize AWS services. 
 
-If you are new to AWS SDK for Unity , we recomend that you try our [Unity V3 SDK](https://github.com/aws/aws-sdk-net/tree/unityv3)
+**If you are new to AWS SDK for Unity , we recomend that you try our [Unity V3 SDK](https://github.com/aws/aws-sdk-net/tree/unityv3)**
 
 ## Requirements
 
